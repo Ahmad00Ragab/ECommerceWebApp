@@ -1,0 +1,15 @@
+# Ignore Maven build directory
+target/
+
+# Ignore IntelliJ IDEA project files
+.idea/
+
+# Ignore VSCode workspace settings
+.vscode/
+
+# Ignore logs and temporary files
+*.log
+*.tmp
+
+# Ignore OS-specific files
+.DS_Store
