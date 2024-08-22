@@ -1,0 +1,54 @@
+src/
+├── main/
+│   ├── java/
+│   │   └── com/example/ecommerce/
+│   │       ├── auth/
+│   │       │   ├── AuthFilter.java                   // Filter for authentication and authorization
+│   │       ├── common/
+│   │       │   ├── HibernateUtil.java                // Hibernate SessionFactory utility
+│   │       │   ├── Role.java                         // Enum for roles (ADMIN, USER)
+│   │       ├── user/
+│   │       │   ├── UserController.java               // Controller for user-related operations
+│   │       │   ├── UserService.java                  // Service for user-related business logic
+│   │       │   ├── UserRepository.java               // Repository for database operations
+│   │       │   ├── User.java                         // Entity class for User
+│   │       └── admin/
+│   │           ├── AdminController.java              // Controller for admin-related operations
+│   │           ├── AdminService.java                 // Service for admin-related business logic
+│   │           ├── AdminRepository.java              // Repository for admin database operations
+│   │       ├── product/
+│   │       │   ├── ProductController.java            // Controller for product-related operations
+│   │       │   ├── ProductService.java               // Service for product-related business logic
+│   │       │   ├── ProductRepository.java            // Repository for database operations
+│   │       │   ├── Product.java                      // Entity class for Product
+│   │       ├── cart/
+│   │       │   ├── CartController.java               // Controller for cart-related operations
+│   │       │   ├── CartService.java                  // Service for cart-related business logic
+│   │       │   ├── CartRepository.java               // Repository for database operations
+│   │       │   ├── Cart.java                         // Entity class for Cart
+│   │       ├── order/
+│   │       │   ├── OrderController.java              // Controller for order-related operations
+│   │       │   ├── OrderService.java                 // Service for order-related business logic
+│   │       │   ├── OrderRepository.java              // Repository for database operations
+│   │       │   ├── Order.java                        // Entity class for Order
+│   │       ├── category/
+│   │       │   ├── CategoryController.java           // Controller for category-related operations
+│   │       │   ├── CategoryService.java              // Service for category-related business logic
+│   │       │   ├── CategoryRepository.java           // Repository for database operations
+│   │       │   ├── Category.java                     // Entity class for Category
+│   ├── resources/
+│   │   ├── hibernate.cfg.xml                         // Hibernate configuration file
+│   │   ├── log4j.properties                          // Logging configuration (optional)
+│   │   ├── ehcache.xml                               // Ehcache configuration (if caching is needed)
+│   │   └── db/
+│   │       ├── schema.sql                            // SQL schema for database
+│   │       └── data.sql                              // Initial data for the database
+└── test/
+    └── java/
+        └── com/example/ecommerce/
+            ├── user/                                 // Test cases for User feature
+            ├── admin/                                // Test cases for Admin feature
+            ├── product/                              // Test cases for Product feature
+            ├── cart/                                 // Test cases for Cart feature
+            ├── order/                                // Test cases for Order feature
+            ├── category/                             // Test cases for Category feature

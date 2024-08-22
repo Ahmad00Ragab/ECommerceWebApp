@@ -1,3 +1,6 @@
+package gov.iti.jets.Product;
+
+import java.util.Objects;
 // package gov.iti.jets;
 // import java.util.Objects;
 
