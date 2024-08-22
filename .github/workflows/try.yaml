@@ -1,19 +1,15 @@
-# Hello GitHub Actions
 name: ECommerceWebApp CI with Maven
 
-# Events that based on it, this workflow runs
 on:
-  push: # when push happen from any collaborator, this workflow run
+  push:
     branches:
       - master
-  pull_request: # when pull_request happen from any collaborator, this workflow run
+  pull_request:
     branches:
       - master
 
-# Actions that are taken
 jobs:
   build:
-    # Environment that the build happen on it
     runs-on: ubuntu-latest
 
     steps:
@@ -24,6 +20,7 @@ jobs:
       uses: actions/setup-java@v3
       with:
         java-version: '22'  # Change this to the version you need
+        distribution: 'temurin'  # Specify the JDK distribution (e.g., 'temurin', 'zulu', etc.)
 
     - name: Build with Maven
       run: mvn clean install
