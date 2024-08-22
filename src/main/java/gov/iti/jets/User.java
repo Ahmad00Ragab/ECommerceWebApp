@@ -1,5 +1,5 @@
-package gov.iti.jets;
+// package gov.iti.jets;
 
-public class User {
+// public class User {
     
-}
+// }
