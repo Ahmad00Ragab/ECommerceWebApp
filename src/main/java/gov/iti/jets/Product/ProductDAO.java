@@ -1,4 +1,4 @@
-package gov.iti.jets;
+package gov.iti.jets.Product;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

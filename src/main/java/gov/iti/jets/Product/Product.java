@@ -1,4 +1,6 @@
-package gov.iti.jets;
+package gov.iti.jets.Product;
+import gov.iti.jets.Category.CategoryDAO;
+
 import java.util.Objects;
 
 public class Product {
