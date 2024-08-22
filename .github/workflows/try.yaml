@@ -1,1 +1,32 @@
-# Hello GitHub Actions
+name: ECommerceWebApp CI with Maven
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up JDK
+      uses: actions/setup-java@v3
+      with:
+        java-version: '22'  # Change this to the version you need
+        distribution: 'temurin'  # Specify the JDK distribution (e.g., 'temurin', 'zulu', etc.)
+
+    - name: Build with Maven
+      run: mvn clean install
+
+    - name: Run tests with Maven
+      run: mvn test
+
+    - name: Package application
+      run: mvn package

@@ -1,8 +1,7 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
+<project> xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-
 
   <!--  ========================================= App info ===============================================  -->
   <groupId>gov.iti.jets</groupId>
@@ -12,17 +11,23 @@
 
 
 
+=======
+>>>>>>> master
   <!-- ========================================== Properties ============================================  -->
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>22</maven.compiler.source>
+    <maven.compiler.target>22</maven.compiler.target>
   </properties>
 
 
 
+=======
+>>>>>>> master
   <!--  ========================================== Build ===============================================  -->
   <build>
-    
     <plugins>
+      <!-- Compiler Plugin -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -32,6 +37,7 @@
         </configuration>
       </plugin>
 
+      <!-- Exec Plugin -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
@@ -40,7 +46,16 @@
           <mainClass>gov.iti.jets.App</mainClass>
         </configuration>
       </plugin>
-    
+
+      <!-- WAR Plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.3.1</version> <!-- Updated version -->
+        <configuration>
+          <failOnMissingWebXml>false</failOnMissingWebXml> <!-- Optional, if you're not using web.xml -->
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 
@@ -49,6 +64,9 @@
   </build> -->
 
   <!--  ========================================== Build ===============================================  -->
+=======
+  <!--  ========================================== Dependencies ===============================================  -->
+>>>>>>> master
   <dependencies>
 
     <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
@@ -117,8 +135,5 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-
-
-
 
 </project>
