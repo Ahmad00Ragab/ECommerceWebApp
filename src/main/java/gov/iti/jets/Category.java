@@ -1,3 +1,4 @@
+/*
 package gov.iti.jets;
 
 import java.util.List;
@@ -84,4 +85,4 @@ public class Category {
     public int hashCode() {
         return Objects.hash(id, name, description, parentCategoryId);
     }
-}
+} */
