@@ -1,12 +1,8 @@
-<<<<<<< HEAD:src/main/java/gov/iti/jets/Product/Product.java
 package gov.iti.jets.Product;
-import gov.iti.jets.Category.CategoryDAO;
 
 import java.util.Objects;
-=======
 // package gov.iti.jets;
 // import java.util.Objects;
->>>>>>> master:src/main/java/gov/iti/jets/Product.java
 
 // public class Product {
 //     private int id;

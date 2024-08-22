@@ -1,8 +1,5 @@
-<<<<<<< HEAD:src/main/java/gov/iti/jets/Category/CategoryDAO.java
 package gov.iti.jets.Category;
-=======
-// package gov.iti.jets;
->>>>>>> master:src/main/java/gov/iti/jets/CategoryDAO.java
+
 
 // import java.sql.Connection;
 // import java.sql.PreparedStatement;

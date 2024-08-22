@@ -1,8 +1,6 @@
-<<<<<<< HEAD:src/main/java/gov/iti/jets/Product/ProductDAO.java
 package gov.iti.jets.Product;
-=======
 // package gov.iti.jets;
->>>>>>> master:src/main/java/gov/iti/jets/ProductDAO.java
+
 
 // import java.sql.Connection;
 // import java.sql.PreparedStatement;
