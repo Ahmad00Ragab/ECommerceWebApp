@@ -25,10 +25,15 @@ public class User {
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 
+    @Column(name = "interests")
+    private String interests;
+
     @Column(name = "is_admin", nullable = false)
     private boolean isAdmin;
 
-    @OneToOne(mappedBy = "user", orphanRemoval = true)
-    private Cart cart;
+    @Column(name = "creditCardLimit")
+    private Float creditCardLimit;
 
+//    @OneToOne(mappedBy = "user", orphanRemoval = true)
+//    private Cart cart;
 }
