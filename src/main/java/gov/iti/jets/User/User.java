@@ -1,6 +1,5 @@
 package gov.iti.jets.User;
 
-import gov.iti.jets.Cart.Cart;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
