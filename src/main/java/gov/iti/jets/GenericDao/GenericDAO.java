@@ -4,7 +4,7 @@ import java.util.Set;
 
 public interface GenericDAO<T> {
     T save(T entity);
-
+  
     Set<T> findAll();
 
     default T findById(T id) {
