@@ -7,13 +7,6 @@ public interface GenericDAO<T> {
   
     Set<T> findAll();
 
-    default T findById(T id) {
-        return null;
-    }
-
-    default void delete(T id) {
-    }
-
     T findById(java.lang.Integer id);
 
     void delete(Integer id);
