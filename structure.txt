@@ -1,7 +1,8 @@
+ECommerceWebApp/
 src/
 ├── main/
 │   ├── java/
-│   │   └── com/example/ecommerce/
+│   │   └── gov/iti/jets/
 │   │       ├── auth/
 │   │       │   ├── AuthFilter.java                   // Filter for authentication and authorization
 │   │       ├── common/
@@ -12,10 +13,12 @@ src/
 │   │       │   ├── UserService.java                  // Service for user-related business logic
 │   │       │   ├── UserRepository.java               // Repository for database operations
 │   │       │   ├── User.java                         // Entity class for User
-│   │       └── admin/
-│   │           ├── AdminController.java              // Controller for admin-related operations
-│   │           ├── AdminService.java                 // Service for admin-related business logic
-│   │           ├── AdminRepository.java              // Repository for admin database operations
+│   │       │   ├── UserValidation.java               // Client-side validation for user input
+│   │       ├── admin/
+│   │       │   ├── AdminController.java              // Controller for admin-related operations
+│   │       │   ├── AdminService.java                 // Service for admin-related business logic
+│   │       │   ├── AdminRepository.java              // Repository for admin database operations
+│   │       │   ├── ProductManagement.java            // Manage product prices and quantities
 │   │       ├── product/
 │   │       │   ├── ProductController.java            // Controller for product-related operations
 │   │       │   ├── ProductService.java               // Service for product-related business logic
@@ -36,16 +39,20 @@ src/
 │   │       │   ├── CategoryService.java              // Service for category-related business logic
 │   │       │   ├── CategoryRepository.java           // Repository for database operations
 │   │       │   ├── Category.java                     // Entity class for Category
-│   ├── resources/
-│   │   ├── hibernate.cfg.xml                         // Hibernate configuration file
-│   │   ├── log4j.properties                          // Logging configuration (optional)
-│   │   ├── ehcache.xml                               // Ehcache configuration (if caching is needed)
-│   │   └── db/
-│   │       ├── schema.sql                            // SQL schema for database
-│   │       └── data.sql                              // Initial data for the database
+│   │   ├── resources/
+│   │   │   ├── hibernate.cfg.xml                     // Hibernate configuration file
+│   │   │   ├── log4j.properties                      // Logging configuration (optional)
+│   │   │   ├── ehcache.xml                           // Ehcache configuration (if caching is needed)
+│   │   │   └── db/
+│   │   │       ├── schema.sql                        // SQL schema for database
+│   │   │       └── data.sql                          // Initial data for the database
+│   │   ├── webapp/
+│   │       ├── index.jsp                             // Main JSP file
+│   │       └── WEB-INF/
+│   │           └── web.xml                           // Web application configuration
 └── test/
     └── java/
-        └── com/example/ecommerce/
+        └── gov/iti/jets/
             ├── user/                                 // Test cases for User feature
             ├── admin/                                // Test cases for Admin feature
             ├── product/                              // Test cases for Product feature
