@@ -1,123 +1,39 @@
 package gov.iti.jets.Product;
 
-import java.util.Objects;
-// package gov.iti.jets;
-// import java.util.Objects;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-// public class Product {
-//     private int id;
-//     private String name;
-//     private double price; // Added attribute for product price
-//     private int categoryId;
-//     private int quantity; // Added attribute for product quantity
-//     private String description; // Added attribute for product description
+import java.math.BigDecimal;
 
-//     // Default constructor
-//     public Product() {}
+@Getter
+@Setter
+@NoArgsConstructor
+@Entity
+@Table(name = "products")
+public class Product {
 
-//     // Parameterized constructor
-//     public Product(int id, String name, double price, int categoryId, int quantity, String description) {
-//         this.id = id;
-//         this.name = name;
-//         this.price = price;
-//         this.categoryId = categoryId;
-//         this.quantity = quantity;
-//         this.description = description;
-//     }
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-//     // Getters and setters
-//     public int getId() {
-//         return id;
-//     }
+    @Column(nullable = false, unique = true)
+    private String name;
 
-//     public void setId(int id) {
-//         this.id = id;
-//     }
+    @Column(nullable = false)
+    private String description;
 
-//     public String getName() {
-//         return name;
-//     }
+    @Column(nullable = false)
+    private BigDecimal price;
 
-//     public void setName(String name) {
-//         this.name = name;
-//     }
+    @Column(nullable = false)
+    private int quantity;
 
-//     public double getPrice() {
-//         return price;
-//     }
+    @Column(name = "image_url")
+    private String imageUrl;
 
-//     public void setPrice(double price) {
-//         this.price = price;
-//     }
-
-//     public int getCategoryId() {
-//         return categoryId;
-//     }
-
-//     public void setCategoryId(int categoryId) {
-//         this.categoryId = categoryId;
-//     }
-
-//     public int getQuantity() {
-//         return quantity;
-//     }
-
-//     public void setQuantity(int quantity) {
-//         this.quantity = quantity;
-//     }
-
-//     public String getDescription() {
-//         return description;
-//     }
-
-//     public void setDescription(String description) {
-//         this.description = description;
-//     }
-
-//     // Method to get category
-//     public Category getCategory() {
-//         return CategoryDAO.getCategoryById(this.categoryId);
-//     }
-
-//     // Method to check if product is in stock
-//     public boolean isInStock() {
-//         return this.quantity > 0;
-//     }
-
-//     // Method to update quantity
-//     public void updateQuantity(int newQuantity) {
-//         this.quantity = newQuantity;
-//     }
-
-//     // Override toString() method for better readability
-//     @Override
-//     public String toString() {
-//         return "Product{" +
-//                 "id=" + id +
-//                 ", name='" + name + '\'' +
-//                 ", price=" + price +
-//                 ", categoryId=" + categoryId +
-//                 ", quantity=" + quantity +
-//                 ", description='" + description + '\'' +
-//                 '}';
-//     }
-
-//     // Override equals() and hashCode() for proper comparison and hashing
-//     @Override
-//     public boolean equals(Object o) {
-//         if (this == o) return true;
-//         if (o == null || getClass() != o.getClass()) return false;
-//         Product product = (Product) o;
-//         return id == product.id &&
-//                 Double.compare(product.price, price) == 0 &&
-//                 categoryId == product.categoryId &&
-//                 quantity == product.quantity &&
-//                 Objects.equals(name, product.name) &&
-//                 Objects.equals(description, product.description);
-//     }
-
-//     @Override
-//     public int hashCode() {
-//         return Objects.hash(id, name, price, categoryId, quantity, description);
-//     }
-// }
+//    @ManyToOne
+//    @JoinColumn(name = "category_id", nullable = false)
+//    private Category category;
+}

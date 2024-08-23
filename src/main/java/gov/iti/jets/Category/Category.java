@@ -1,88 +1,36 @@
-/*
-package gov.iti.jets;
+package gov.iti.jets.Category;
 
-import java.util.List;
+import gov.iti.jets.Product.Product;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.util.Set;
+
+@Entity
+@Table(name = "Category")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Category {
-    private int id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "categ_id")
+    private Long id;
+
+    @Column(name = "categ_name", nullable = false)
     private String name;
+
+    @Column(name = "categ_descr")
     private String description;
-    private Integer parentCategoryId; // Optional for hierarchical categories
 
-    // Default constructor
-    public Category() {}
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Product> products;
 
-    // Parameterized constructor
-    public Category(int id, String name, String description, Integer parentCategoryId) {
-        this.id = id;
+    public Category(String name, String description) {
         this.name = name;
         this.description = description;
-        //this.parentCategoryId = parentCategoryId;
     }
-
-    // Getters and Setters
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Integer getParentCategoryId() {
-        return parentCategoryId;
-    }
-
-    public void setParentCategoryId(Integer parentCategoryId) {
-        this.parentCategoryId = parentCategoryId;
-    }
-
-    // Method to get products in this category
-    public List<Product> getProducts() {
-        return ProductDAO.getProductsByCategoryId(this.id);
-    }
-
-    // Override toString() method for better readability
-    @Override
-    public String toString() {
-        return "Category{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", parentCategoryId=" + parentCategoryId +
-                '}';
-    }
-
-    // Override equals() and hashCode() for proper comparison and hashing
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Category category = (Category) o;
-        return id == category.id &&
-                Objects.equals(name, category.name) &&
-                Objects.equals(description, category.description) &&
-                Objects.equals(parentCategoryId, category.parentCategoryId);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, description, parentCategoryId);
-    }
-} */
+}
