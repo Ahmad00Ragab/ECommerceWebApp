@@ -141,6 +141,26 @@
       <version>5.12.0</version>
       <scope>test</scope>
     </dependency>
+
+
+    <dependency>
+      <groupId>com.zaxxer</groupId>
+      <artifactId>HikariCP</artifactId>
+      <version>5.0.1</version>
+    </dependency>
+
+
+    <!--email validator-->
+    <dependency>
+      <groupId>org.hibernate.validator</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>6.2.5.Final</version>
+    </dependency>
+
+
+
+
   </dependencies>
+
 
 </project>
