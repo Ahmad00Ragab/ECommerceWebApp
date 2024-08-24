@@ -6,23 +6,26 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.Root;
 
 import java.util.List;
 
 public class CategoryRepository extends GenericDaoImpl {
 
-    public CategoryRepository(Class entityClass, EntityManager entityManager, EntityTransaction transaction) {
+    public CategoryRepository(Class entityClass) {
         super(entityClass);
     }
 
     public List<Product> getProductsByCategory(String category) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Category> query = cb.createQuery(Category.class);
-        query.from(Category.class);
+        CriteriaQuery<Product> q = cb.createQuery(Product.class);
 
-        query.where(cb.equal(query.get("name"), category));
+        Root<Category> categoryRoot = q.from(Category.class);
+        Join<Category, Product> products = categoryRoot.join("products");
+        q.where(cb.equal(categoryRoot.get("name"), category));
+        q.select(products);
 
-
-        return em.createQuery(query).getResultList();
+        return em.createQuery(q).getResultList();
     }
 }
