@@ -6,29 +6,27 @@ import gov.iti.jets.common.UserRole;
 import gov.iti.jets.order.Order;
 import gov.iti.jets.product.Product;
 import jakarta.persistence.*;
+
 import gov.iti.jets.cart.Cart;
+import gov.iti.jets.order.Order;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.beans.ConstructorProperties;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
-@Setter
-@Getter
-@NoArgsConstructor
-@Table(name = "users")
+@Table(name = "user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     @Column(name = "username", nullable = false, unique = true)
     private String username;
@@ -38,6 +36,16 @@ public class User {
 
     @Column(name = "last_name", nullable = false)
     private String lastName;
+
+    @Column(nullable = false)
+    private String username;
+
+    @Column(nullable = false)
+    private String firstname;
+
+    @Column(nullable = false)
+    private String lastname;
+
 
     @Column(name = "email", unique = true, nullable = false)
     @Email

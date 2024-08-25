@@ -6,6 +6,7 @@ import jakarta.persistence.ValidationMode;
 import jakarta.persistence.spi.ClassTransformer;
 import jakarta.persistence.spi.PersistenceUnitInfo;
 import jakarta.persistence.spi.PersistenceUnitTransactionType;
+import org.hibernate.cfg.AvailableSettings;
 
 import javax.sql.DataSource;
 import java.net.URL;
@@ -15,7 +16,7 @@ import java.util.Properties;
 public class CustomPersistenceUnit implements PersistenceUnitInfo {
     @Override
     public String getPersistenceUnitName() {
-        return "mysql";
+        return "Mysql";
     }
 
     @Override
@@ -30,28 +31,21 @@ public class CustomPersistenceUnit implements PersistenceUnitInfo {
 
     @Override
     public DataSource getJtaDataSource() {
-
-
-        try {
-            HikariDataSource dataSource = new HikariDataSource();
-            dataSource.setJdbcUrl("jdbc:mysql://localhost:3306/hibernate_jpa");
-            dataSource.setUsername("ghandy");
-            dataSource.setPassword("ghandy");
-            return dataSource;
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        } finally {
-
-        }
         return null;
     }
 
     @Override
     public DataSource getNonJtaDataSource() {
-       return null;
+        try {
+            HikariDataSource dataSource = new HikariDataSource();
+            dataSource.setJdbcUrl("jdbc:mysql://localhost:3306/test");
+            dataSource.setUsername("root");
+            return dataSource;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
-
-
 
     @Override
     public List<String> getMappingFileNames() {
@@ -70,7 +64,15 @@ public class CustomPersistenceUnit implements PersistenceUnitInfo {
 
     @Override
     public List<String> getManagedClassNames() {
-        return List.of();
+        return List.of(
+                "gov.iti.jets.user.User",
+                "gov.iti.jets.product.Product",
+                "gov.iti.jets.category.Category",
+                "gov.iti.jets.order.Order",
+                "gov.iti.jets.cart.Cart"
+
+                // Add more classes as needed
+        );
     }
 
     @Override
@@ -80,36 +82,40 @@ public class CustomPersistenceUnit implements PersistenceUnitInfo {
 
     @Override
     public SharedCacheMode getSharedCacheMode() {
-        return null;
+        return SharedCacheMode.ENABLE_SELECTIVE;
     }
 
     @Override
     public ValidationMode getValidationMode() {
-        return null;
+        return ValidationMode.NONE;
     }
 
     @Override
     public Properties getProperties() {
-        return null;
+        Properties properties = new Properties();
+        properties.setProperty(AvailableSettings.DIALECT, "org.hibernate.dialect.MySQLDialect");
+        properties.setProperty(AvailableSettings.HBM2DDL_AUTO, "create-drop"); // This will drop and create the schema each time
+        properties.setProperty(AvailableSettings.SHOW_SQL, "true");
+        properties.setProperty(AvailableSettings.FORMAT_SQL, "true");
+        return properties;
     }
 
     @Override
     public String getPersistenceXMLSchemaVersion() {
-        return "";
+        return "2.2";
     }
 
     @Override
     public ClassLoader getClassLoader() {
-        return null;
+        return Thread.currentThread().getContextClassLoader();
     }
 
     @Override
     public void addTransformer(ClassTransformer classTransformer) {
-
     }
 
     @Override
     public ClassLoader getNewTempClassLoader() {
-        return null;
+        return Thread.currentThread().getContextClassLoader();
     }
 }

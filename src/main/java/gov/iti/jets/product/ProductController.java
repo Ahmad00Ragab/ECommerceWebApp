@@ -1,4 +1,4 @@
-package gov.iti.jets.Product;
+package gov.iti.jets.product;
 
 public class ProductController {
     

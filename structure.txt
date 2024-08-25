@@ -1,61 +1,111 @@
 ECommerceWebApp/
-src/
-├── main/
-│   ├── java/
-│   │   └── gov/iti/jets/
-│   │       ├── auth/
-│   │       │   ├── AuthFilter.java                   // Filter for authentication and authorization
-│   │       ├── common/
-│   │       │   ├── HibernateUtil.java                // Hibernate SessionFactory utility
-│   │       │   ├── Role.java                         // Enum for roles (ADMIN, USER)
-│   │       ├── user/
-│   │       │   ├── UserController.java               // Controller for user-related operations
-│   │       │   ├── UserService.java                  // Service for user-related business logic
-│   │       │   ├── UserRepository.java               // Repository for database operations
-│   │       │   ├── User.java                         // Entity class for User
-│   │       │   ├── UserValidation.java               // Client-side validation for user input
-│   │       ├── admin/
-│   │       │   ├── AdminController.java              // Controller for admin-related operations
-│   │       │   ├── AdminService.java                 // Service for admin-related business logic
-│   │       │   ├── AdminRepository.java              // Repository for admin database operations
-│   │       │   ├── ProductManagement.java            // Manage product prices and quantities
-│   │       ├── product/
-│   │       │   ├── ProductController.java            // Controller for product-related operations
-│   │       │   ├── ProductService.java               // Service for product-related business logic
-│   │       │   ├── ProductRepository.java            // Repository for database operations
-│   │       │   ├── Product.java                      // Entity class for Product
-│   │       ├── cart/
-│   │       │   ├── CartController.java               // Controller for cart-related operations
-│   │       │   ├── CartService.java                  // Service for cart-related business logic
-│   │       │   ├── CartRepository.java               // Repository for database operations
-│   │       │   ├── Cart.java                         // Entity class for Cart
-│   │       ├── order/
-│   │       │   ├── OrderController.java              // Controller for order-related operations
-│   │       │   ├── OrderService.java                 // Service for order-related business logic
-│   │       │   ├── OrderRepository.java              // Repository for database operations
-│   │       │   ├── Order.java                        // Entity class for Order
-│   │       ├── category/
-│   │       │   ├── CategoryController.java           // Controller for category-related operations
-│   │       │   ├── CategoryService.java              // Service for category-related business logic
-│   │       │   ├── CategoryRepository.java           // Repository for database operations
-│   │       │   ├── Category.java                     // Entity class for Category
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   ├── gov/iti/jets/
+│   │   │   │   ├── user/
+│   │   │   │   │   ├── controller/
+│   │   │   │   │   │   ├── UserController.java
+│   │   │   │   │   ├── model/
+│   │   │   │   │   │   ├── User.java
+│   │   │   │   │   ├── service/
+│   │   │   │   │   │   ├── UserService.java
+│   │   │   │   │   ├── repository/
+│   │   │   │   │       ├── UserRepository.java
+│   │   │   │   ├── admin/
+│   │   │   │   │   ├── controller/
+│   │   │   │   │   │   ├── AdminController.java
+│   │   │   │   │   ├── model/
+│   │   │   │   │   │   ├── Admin.java
+│   │   │   │   │   ├── service/
+│   │   │   │   │   │   ├── AdminService.java
+│   │   │   │   │   ├── repository/
+│   │   │   │   │       ├── AdminRepository.java
+│   │   │   │   ├── product/
+│   │   │   │   │   ├── controller/
+│   │   │   │   │   │   ├── ProductController.java
+│   │   │   │   │   ├── model/
+│   │   │   │   │   │   ├── Product.java
+│   │   │   │   │   ├── service/
+│   │   │   │   │   │   ├── ProductService.java
+│   │   │   │   │   ├── repository/
+│   │   │   │   │       ├── ProductRepository.java
+│   │   │   │   ├── category/
+│   │   │   │   │   ├── controller/
+│   │   │   │   │   │   ├── CategoryController.java
+│   │   │   │   │   ├── model/
+│   │   │   │   │   │   ├── Category.java
+│   │   │   │   │   ├── service/
+│   │   │   │   │   │   ├── CategoryService.java
+│   │   │   │   │   ├── repository/
+│   │   │   │   │       ├── CategoryRepository.java
+│   │   │   │   ├── interest/
+│   │   │   │   │   ├── controller/
+│   │   │   │   │   │   ├── InterestController.java
+│   │   │   │   │   ├── model/
+│   │   │   │   │   │   ├── Interest.java
+│   │   │   │   │   ├── service/
+│   │   │   │   │   │   ├── InterestService.java
+│   │   │   │   │   ├── repository/
+│   │   │   │   │       ├── InterestRepository.java
+│   │   │   │   ├── order/
+│   │   │   │   │   ├── controller/
+│   │   │   │   │   │   ├── OrderController.java
+│   │   │   │   │   ├── model/
+│   │   │   │   │   │   ├── Order.java
+│   │   │   │   │   ├── service/
+│   │   │   │   │   │   ├── OrderService.java
+│   │   │   │   │   ├── repository/
+│   │   │   │   │       ├── OrderRepository.java
+│   │   │   │   ├── cart/
+│   │   │   │   │   ├── controller/
+│   │   │   │   │   │   ├── CartController.java
+│   │   │   │   │   ├── model/
+│   │   │   │   │   │   ├── Cart.java
+│   │   │   │   │   ├── service/
+│   │   │   │   │   │   ├── CartService.java
+│   │   │   │   │   ├── repository/
+│   │   │   │   │       ├── CartRepository.java
+│   │   │   │   ├── wishlist/
+│   │   │   │   │   ├── controller/
+│   │   │   │   │   │   ├── WishlistController.java
+│   │   │   │   │   ├── model/
+│   │   │   │   │   │   ├── Wishlist.java
+│   │   │   │   │   ├── service/
+│   │   │   │   │   │   ├── WishlistService.java
+│   │   │   │   │   ├── repository/
+│   │   │   │   │       ├── WishlistRepository.java
 │   │   ├── resources/
-│   │   │   ├── hibernate.cfg.xml                     // Hibernate configuration file
-│   │   │   ├── log4j.properties                      // Logging configuration (optional)
-│   │   │   ├── ehcache.xml                           // Ehcache configuration (if caching is needed)
-│   │   │   └── db/
-│   │   │       ├── schema.sql                        // SQL schema for database
-│   │   │       └── data.sql                          // Initial data for the database
+│   │   │   ├── application.properties
+│   │   │   ├── log4j2.xml
 │   │   ├── webapp/
-│   │       ├── index.jsp                             // Main JSP file
-│   │       └── WEB-INF/
-│   │           └── web.xml                           // Web application configuration
-└── test/
-    └── java/
-        └── gov/iti/jets/
-            ├── user/                                 // Test cases for User feature
-            ├── admin/                                // Test cases for Admin feature
-            ├── product/                              // Test cases for Product feature
-            ├── cart/                                 // Test cases for Cart feature
-            ├── order/                                // Test cases for Order feature
-            ├── category/                             // Test cases for Category feature
+│   │   │   ├── WEB-INF/
+│   │   │   │   ├── views/
+│   │   │   │   │   ├── user/
+│   │   │   │   │   │   ├── user.jsp
+│   │   │   │   │   ├── admin/
+│   │   │   │   │   │   ├── admin.jsp
+│   │   │   │   │   ├── product/
+│   │   │   │   │   │   ├── product.jsp
+│   │   │   │   │   ├── category/
+│   │   │   │   │   │   ├── category.jsp
+│   │   │   │   │   ├── interest/
+│   │   │   │   │   │   ├── interest.jsp
+│   │   │   │   │   ├── order/
+│   │   │   │   │   │   ├── order.jsp
+│   │   │   │   │   ├── cart/
+│   │   │   │   │   │   ├── cart.jsp
+│   │   │   │   │   ├── wishlist/
+│   │   │   │   │   │   ├── wishlist.jsp
+│   ├── test/
+│   │   ├── java/
+│   │   │   ├── gov/iti/jets/
+│   │   │   │   ├── user/
+│   │   │   │   ├── admin/
+│   │   │   │   ├── product/
+│   │   │   │   ├── category/
+│   │   │   │   ├── interest/
+│   │   │   │   ├── order/
+│   │   │   │   ├── cart/
+│   │   │   │   ├── wishlist/
+│   ├── pom.xml
