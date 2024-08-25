@@ -19,7 +19,6 @@ public class Cart {
     @Column(name = "cart_id")
     private Integer cartId;
 
-    @ManyToMany(mappedBy = "cart",cascade = CascadeType.PERSIST)
-    private User user;
+
     
 }

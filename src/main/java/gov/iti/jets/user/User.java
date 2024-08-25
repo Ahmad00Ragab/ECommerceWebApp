@@ -131,6 +131,5 @@ public class User {
         this.categories = new HashSet<>();
         this.orders = new ArrayList<>();
         this.wishlist= new HashSet<>();
-
     }
 }
