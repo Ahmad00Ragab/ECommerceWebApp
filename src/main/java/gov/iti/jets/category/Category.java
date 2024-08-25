@@ -1,11 +1,11 @@
 package gov.iti.jets.category;
 
-import gov.iti.jets.*;
 import gov.iti.jets.product.Product;
 import gov.iti.jets.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
@@ -38,11 +38,18 @@ public class Category {
     private String createdBy;
 
     // should be mapped by the user as many to many and inverseJoin on the cat-id
-    @ManyToMany(mappedBy = "interests", fetch = FetchType.LAZY)
-    private Set<User> users;
+//    @ManyToMany(mappedBy = "interests", fetch = FetchType.LAZY)
+//    private Set<User> users;
 
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     private Set<Product> products;
+
+    public Category(String name, Date dateCreated, Date lastUpdated, String createdBy) {
+        this.name = name;
+        this.dateCreated = dateCreated;
+        this.lastUpdated = lastUpdated;
+        this.createdBy = createdBy;
+    }
 
     // Getters and Setters
     // ...

@@ -1,10 +1,7 @@
 package gov.iti.jets.product;
 
 import gov.iti.jets.category.Category;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import jakarta.persistence.*;
 import java.util.Date;
@@ -14,7 +11,6 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,4 +43,14 @@ public class Product {
     @Column(name = "created_by", nullable = false)
     private String createdBy;
 
+    public Product(String name, double price, String description, int stock, Category category, Date dateCreated, Date lastUpdated, String createdBy) {
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.stock = stock;
+        this.category = category;
+        this.dateCreated = dateCreated;
+        this.lastUpdated = lastUpdated;
+        this.createdBy = createdBy;
+    }
 }

@@ -1,42 +1,29 @@
 package gov.iti.jets.user;
 
-
-import gov.iti.jets.common.UserRole;
-import jakarta.persistence.*;
 import gov.iti.jets.cart.Cart;
+import gov.iti.jets.order.Order;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-import java.time.LocalDate;
+import java.util.Date;
+import java.util.Set;
 
 @Entity
-@Setter
-@Getter
-@NoArgsConstructor
-@Table(name = "users")
+@Table(name = "user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
-    @Column(name = "username", nullable = false)
+    @Column(nullable = false)
     private String username;
-    @Column(name = "password", nullable = false)
-    private String password;
 
-    @Column(name = "user_role")
-    private UserRole userRole;
+    @Column(nullable = false)
+    private String firstname;
 
-    @Column(name = "street")
-    private String userStreet;
-
-    @Column(name = "city")
-    private String userCity;
-
-
+    @Column(nullable = false)
+    private String lastname;
 
     @Column(name = "email", unique = true, nullable = false)
     @Email
@@ -44,22 +31,37 @@ public class User {
             message = "Email must be from gmail.com or outlook.com")
     private String email;
 
-    @Column(name = "interests")
-    private String interests;
+    @Column(nullable = false)
+    private String password;
 
-    @Column(name = "birthdate")
-    private LocalDate birthdate;
+    private String country;
+    private String city;
+    private String street;
+    private Double creditLimit;
+    private Date birthdate;
+    private String phone;
 
-    @Column(name = "job")
-    private String job;
+    @Column(name = "date_created", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateCreated;
 
-    @Column(name = "credit_card")
-    private Float creditCardLimit;
+    @Column(name = "last_updated", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date lastUpdated;
 
-    @OneToOne(mappedBy = "user")
-    private Cart cart;
+    // Relationships
+//    @OneToMany(mappedBy = "user")
+//    private Set<UserInterest> interests;
 
+    @OneToMany(mappedBy = "user")
+    private Set<Cart> cart;
 
+//    @OneToMany(mappedBy = "user")
+//    private Set<Wishlist> wishlist;
 
+//    @OneToMany(mappedBy = "user")
+//    private Set<Order> orders;
 
+    // Getters and Setters
+    // ...
 }

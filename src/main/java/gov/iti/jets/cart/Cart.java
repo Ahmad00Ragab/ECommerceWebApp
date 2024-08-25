@@ -1,26 +1,25 @@
 package gov.iti.jets.cart;
 
-
-import gov.iti.jets.user.*;
+import gov.iti.jets.product.Product;
+import gov.iti.jets.user.User;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Setter
-@Getter
-@NoArgsConstructor
 @Entity
 @Table(name = "cart")
 public class Cart {
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cart_id")
-    private Integer cartId;
+    @ManyToOne
+    @JoinColumn(name = "product_id", nullable = false)
+    private Product product;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "user_id")
-    private User user;
-    
+    @Column(nullable = false)
+    private int quantity;
+
+    // Getters and Setters
+    // ...
 }
