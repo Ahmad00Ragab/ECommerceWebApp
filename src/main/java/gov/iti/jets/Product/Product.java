@@ -1,39 +1,50 @@
 package gov.iti.jets.Product;
 
-import jakarta.persistence.*;
+import gov.iti.jets.Category.Category;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
+import jakarta.persistence.*;
+import java.util.Date;
 
+@Entity
+@Table(name = "product")
 @Getter
 @Setter
 @NoArgsConstructor
-@Entity
-@Table(name = "products")
+@AllArgsConstructor
 public class Product {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
+    private Double price;
 
     @Column(nullable = false)
     private String description;
 
     @Column(nullable = false)
-    private BigDecimal price;
+    private int stock;
 
-    @Column(nullable = false)
-    private int quantity;
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 
-    @Column(name = "image_url")
-    private String imageUrl;
+    @Column(name = "date_created", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateCreated;
 
-//    @ManyToOne
-//    @JoinColumn(name = "category_id", nullable = false)
-//    private Category category;
+    @Column(name = "last_updated", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date lastUpdated;
+
+    @Column(name = "created_by", nullable = false)
+    private String createdBy;
+
 }
