@@ -4,11 +4,12 @@ package gov.iti.jets.user;
 import gov.iti.jets.common.UserRole;
 import jakarta.persistence.*;
 import gov.iti.jets.cart.Cart;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Pattern;
+
 import java.time.LocalDate;
 
 @Entity

@@ -1,6 +1,6 @@
 package gov.iti.jets.product;
 
-import gov.iti.jets.GenericDao.GenericDaoImpl;
+import gov.iti.jets.genericDao.GenericDaoImpl;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;

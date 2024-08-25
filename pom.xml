@@ -154,9 +154,8 @@
     <dependency>
       <groupId>org.hibernate.validator</groupId>
       <artifactId>hibernate-validator</artifactId>
-      <version>6.2.5.Final</version>
+      <version>9.0.0.Beta2</version>
     </dependency>
-
 
 
 
