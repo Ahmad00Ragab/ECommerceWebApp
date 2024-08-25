@@ -1,5 +1,0 @@
-package gov.iti.jets.Admin;
-
-public class AdminService {
-    
-}
