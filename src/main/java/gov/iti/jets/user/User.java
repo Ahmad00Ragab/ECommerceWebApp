@@ -6,10 +6,7 @@ import gov.iti.jets.common.UserRole;
 import gov.iti.jets.order.Order;
 import gov.iti.jets.product.Product;
 import jakarta.persistence.*;
-
 import gov.iti.jets.cart.Cart;
-import gov.iti.jets.order.Order;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
@@ -21,7 +18,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -32,7 +28,7 @@ import java.util.Set;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(name = "username", nullable = false, unique = true)
     private String username;
