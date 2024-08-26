@@ -1,5 +1,7 @@
 package gov.iti.jets.admin;
 
-public class AdminController {
+import gov.iti.jets.genericDao.GenericDAO;
+
+public class AdminController  {
 
 }
