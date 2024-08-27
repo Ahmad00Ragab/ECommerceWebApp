@@ -1,10 +1,12 @@
 package gov.iti.jets.product;
 
+import gov.iti.jets.cart.Cart;
 import gov.iti.jets.category.Category;
 import lombok.*;
 
 import jakarta.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "product")
@@ -16,7 +18,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
     @Column(nullable = false)
@@ -31,6 +33,9 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
+
+    @OneToMany(mappedBy = "product")
+    private Set<Cart> carts;
 
     @Column(name = "date_created", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)

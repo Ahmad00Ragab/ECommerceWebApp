@@ -26,10 +26,10 @@ public class App {
 
             // Perform ORM operations (example)
             // e.g., Creating and persisting a new User
-            Category c = new Category("Antony", new Date(), new Date(), "Antony");
+            Category c = new Category("Antony2", new Date(), new Date(), "Antony");
             em.persist(c);
 
-            Product p = new Product("Antony", 100, "Antony description", 100, c, new Date(), new Date(), "Antony");
+            Product p = new Product("Antony2", 100, "Antony description", 100, c, new Date(), new Date(), "Antony");
             em.persist(p);
 
             // Commit transaction
