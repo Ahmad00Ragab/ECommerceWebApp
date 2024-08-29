@@ -1,20 +1,24 @@
 package gov.iti.jets.product;
 
+import gov.iti.jets.cart.Cart;
 import gov.iti.jets.category.Category;
 import lombok.*;
 
 import jakarta.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "product")
 @Getter
 @Setter
 @NoArgsConstructor
+@EqualsAndHashCode
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long productId;
 
     @Column(nullable = false)
     private String name;
@@ -27,6 +31,9 @@ public class Product {
 
     @Column(nullable = false)
     private int stock;
+
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    private Set<Cart> cart;
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
@@ -52,5 +59,6 @@ public class Product {
         this.dateCreated = dateCreated;
         this.lastUpdated = lastUpdated;
         this.createdBy = createdBy;
+        cart=new HashSet<>();
     }
 }

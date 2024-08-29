@@ -3,12 +3,10 @@ package gov.iti.jets.category;
 import gov.iti.jets.product.Product;
 import gov.iti.jets.user.User;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -16,6 +14,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@EqualsAndHashCode
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +23,7 @@ public class Category {
     @Column(nullable = false)
     private String name;
 
+    @Column(name = "description")
     private String description;
 
     @Column(name = "date_created", nullable = false)
@@ -37,9 +37,8 @@ public class Category {
     @Column(name = "created_by", nullable = false)
     private String createdBy;
 
-    // should be mapped by the user as many to many and inverseJoin on the cat-id
-//    @ManyToMany(mappedBy = "interests", fetch = FetchType.LAZY)
-//    private Set<User> users;
+    @ManyToMany(mappedBy = "categories", fetch = FetchType.LAZY)
+    private Set<User> users;
 
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     private Set<Product> products;
@@ -49,8 +48,8 @@ public class Category {
         this.dateCreated = dateCreated;
         this.lastUpdated = lastUpdated;
         this.createdBy = createdBy;
+        this.users=new HashSet<>();
+        this.products= new HashSet<>();
     }
 
-    // Getters and Setters
-    // ...
 }

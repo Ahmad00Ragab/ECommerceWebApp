@@ -1,6 +1,5 @@
 package gov.iti.jets.user;
 
-
 import gov.iti.jets.category.Category;
 import gov.iti.jets.common.UserRole;
 import gov.iti.jets.order.Order;
@@ -9,11 +8,12 @@ import jakarta.persistence.*;
 import gov.iti.jets.cart.Cart;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.beans.ConstructorProperties;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -25,10 +25,11 @@ import java.util.Set;
 @Setter
 @Getter
 @NoArgsConstructor
+@EqualsAndHashCode
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long userId;
 
     @Column(name = "username", nullable = false, unique = true)
     private String username;
@@ -76,14 +77,8 @@ public class User {
     private LocalDate lastUpdate;
 
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "cart",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
-    private Set<Product> cart;
-
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
+    private Set<Cart> cart;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
