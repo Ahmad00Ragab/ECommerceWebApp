@@ -40,11 +40,9 @@ public class Category {
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     private Set<Product> products = new HashSet<>();  // Initialized directly
 
-    public Category(String name, LocalDateTime dateCreated, LocalDateTime lastUpdated, Set<User> users, Set<Product> products) {
+    public Category(String name, LocalDateTime dateCreated, LocalDateTime lastUpdated) {
         this.name = name;
         this.dateCreated = dateCreated;
         this.lastUpdated = lastUpdated;
-        this.users = users;
-        this.products = products;
     }
 }

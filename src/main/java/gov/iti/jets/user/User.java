@@ -30,10 +30,10 @@ public class User {
     @Column(name = "username", nullable = false, unique = true)
     private String username;
 
-    @Column(name = "first_name")
+    @Column(name = "firstname")
     private String firstName;
 
-    @Column(name = "last_name")
+    @Column(name = "lastname")
     private String lastName;
 
     @Column(name = "email", unique = true, nullable = false)
@@ -59,9 +59,6 @@ public class User {
 
     @Column(name = "birthdate")
     private LocalDate birthdate;
-
-    @Column(name = "job")
-    private String job;
 
     @Column(name="phone")
     private String phone;
@@ -114,7 +111,7 @@ public class User {
     }
     public User(String username, String firstName, String lastName, String email, String password,
                 String country, String city, String street, BigDecimal creditCardLimit,
-                LocalDate birthdate, String job, String phone, LocalDate dateCreated,
+                LocalDate birthdate, String phone, LocalDate dateCreated,
                 LocalDate lastUpdated) {
         this.username = username;
         this.firstName = firstName;
@@ -126,7 +123,6 @@ public class User {
         this.street = street;
         this.creditLimit = creditCardLimit;
         this.birthdate = birthdate;
-        this.job = job;
         this.phone = phone;
         this.dateCreated = dateCreated;
         this.lastUpdated = lastUpdated;

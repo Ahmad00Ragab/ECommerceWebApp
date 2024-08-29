@@ -25,12 +25,20 @@ public class Cart {
     @Column(nullable = false)
     private int quantity;
 
+    @MapsId("userId")
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private User user;
 
+    @MapsId("productId")
     @ManyToOne
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "product_id", insertable = false, updatable = false)
     private Product product;
 
+
+    public Cart(User user, Product product, int quantity) {
+        this.user = user;
+        this.product = product;
+        this.quantity = quantity;
+    }
 }

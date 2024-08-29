@@ -5,7 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "orders")
@@ -26,8 +27,14 @@ public class Order {
     private BigDecimal totalPrice;
 
     @Column(name = "date_created")
-    private java.time.LocalDateTime dateCreated;
+    private LocalDateTime dateCreated;
 
-    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<OrderItem> orderItems;
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
+    private Set<OrderItem> orderItems;
+
+    public Order(User user, BigDecimal totalPrice, LocalDateTime dateCreated) {
+        this.user = user;
+        this.totalPrice = totalPrice;
+        this.dateCreated = dateCreated;
+    }
 }
