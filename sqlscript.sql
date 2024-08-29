@@ -1,100 +1,110 @@
-create  database ecommerce_web_app;
-use ecommerce_web_app;
-CREATE TABLE user (
-    user_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(100) NOT NULL,
-    user_role VARCHAR(50) NOT NULL,
-    street_address VARCHAR(255),
-    city VARCHAR(100),
-    state VARCHAR(50) ,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    user_job VARCHAR(100),
-    password VARCHAR(100) NOT NULL,
-    credit_card double,
-    birthdate DATE
+CREATE TABLE `user` (
+                        `id` int PRIMARY KEY AUTO_INCREMENT,
+                        `username` varchar(255) NOT NULL,
+                        `firstname` varchar(255) NULL,
+                        `lastname` varchar(255) NULL,
+                        `email` varchar(320) NOT NULL,
+                        `password` varchar(255) NOT NULL,
+                        `country` varchar(255) NULL,
+                        `city` varchar(255) NULL,
+                        `street` varchar(255) NULL,
+                        `credit_limit` decimal(10,2) DEFAULT 0.00,
+                        `birthdate` datetime NULL,
+                        `phone` varchar(15) NULL,
+                        `date_created` timestamp DEFAULT CURRENT_TIMESTAMP,
+                        `last_updated` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- User_interests Table (Multivalued attribute for interests)
-CREATE TABLE user_interests (
-    user_id BIGINT NOT NULL,
-    interest VARCHAR(100) NOT NULL,
-    PRIMARY KEY (user_id, interest),
-    FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE
+CREATE TABLE `admin` (
+                         `id` int PRIMARY KEY AUTO_INCREMENT,
+                         `name` varchar(255) NOT NULL,
+                         `email` varchar(320) NOT NULL,
+                         `password` varchar(255) NOT NULL,
+                         `date_created` timestamp DEFAULT CURRENT_TIMESTAMP,
+                         `last_updated` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- Order Table
-CREATE TABLE `order` (
-    order_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    order_status VARCHAR(50),
-    pay_method VARCHAR(50),
-    order_date DATE NOT NULL,
-    street_address VARCHAR(255) NOT NULL,
-    city VARCHAR(100) NOT NULL,
-    user_id BIGINT NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES user(user_id) 
+CREATE TABLE `product` (
+                           `id` int PRIMARY KEY AUTO_INCREMENT,
+                           `name` varchar(255) NOT NULL,
+                           `price` decimal(10,2) NOT NULL,
+                           `description` text NULL,
+                           `stock` int NOT NULL DEFAULT 0,
+                           `category_id` int,
+                           `date_created` timestamp DEFAULT CURRENT_TIMESTAMP,
+                           `last_updated` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                           INDEX (`category_id`)
 );
 
--- Cart Table
-CREATE TABLE cart (
-    cart_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    cart_total DECIMAL(10, 2) NOT NULL,
-    user_id BIGINT NOT NULL UNIQUE,
-    FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE
+CREATE TABLE `category` (
+                            `id` int PRIMARY KEY AUTO_INCREMENT,
+                            `name` varchar(255) NOT NULL,
+                            `description` varchar(255) NULL,
+                            `date_created` timestamp DEFAULT CURRENT_TIMESTAMP,
+                            `last_updated` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- Wishlist Table
-CREATE TABLE wishlist (
-    wishlist_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT NOT NULL UNIQUE,
-    FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE
+CREATE TABLE `user_interest` (
+                                 `user_id` int,
+                                 `category_id` int,
+                                 PRIMARY KEY (`user_id`, `category_id`),
+                                 INDEX (`user_id`),
+                                 INDEX (`category_id`)
 );
 
--- Category Table
-CREATE TABLE category (
-    category_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    category_name VARCHAR(100) NOT NULL,
-    category_description TEXT
+CREATE TABLE `orders` (  -- Renamed from `order` to avoid reserved word conflicts
+                          `id` int PRIMARY KEY AUTO_INCREMENT,
+                          `user_id` int,
+                          `total_price` decimal(10,2) NOT NULL,
+                          `date_created` timestamp DEFAULT CURRENT_TIMESTAMP,
+                          INDEX (`user_id`)
 );
 
--- Product Table
-CREATE TABLE product (
-    product_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    product_description TEXT,
-    price DECIMAL(10, 2) NOT NULL,
-    stock int NOT NULL,
-    category_id BIGINT NOT NULL,
-    FOREIGN KEY (category_id) REFERENCES category(category_id) 
+CREATE TABLE `cart` (
+                        `user_id` int,
+                        `product_id` int,
+                        `quantity` int NOT NULL DEFAULT 1,
+                        PRIMARY KEY (`user_id`, `product_id`),
+                        INDEX (`user_id`),
+                        INDEX (`product_id`)
 );
 
--- Cart_products Table (Many-to-Many between Cart and Product)
-CREATE TABLE cart_products(
-    cart_id BIGINT NOT NULL,
-    product_id BIGINT NOT NULL,
-    quantity INT NOT NULL,
-    price DECIMAL(10, 2) NOT NULL,
-    PRIMARY KEY (cart_id, product_id),
-    FOREIGN KEY (cart_id) REFERENCES cart(cart_id),
-    FOREIGN KEY (product_id) REFERENCES product(product_id)
+CREATE TABLE `wishlist` (
+                            `user_id` int,
+                            `product_id` int,
+                            PRIMARY KEY (`user_id`, `product_id`),
+                            INDEX (`user_id`),
+                            INDEX (`product_id`)
 );
 
--- Wishlist_products Table (Many-to-Many between Wishlist and Product)
-CREATE TABLE wishlist_products (
-    wishlist_id BIGINT NOT NULL,
-    product_id BIGINT NOT NULL,
-    PRIMARY KEY (wishlist_id, product_id),
-    FOREIGN KEY (wishlist_id) REFERENCES wishlist(wishlist_id),
-    FOREIGN KEY (product_id) REFERENCES product(product_id) 
+CREATE TABLE `order_items` (
+                               `id` int PRIMARY KEY AUTO_INCREMENT,
+                               `order_id` int,
+                               `product_id` int,
+                               `quantity` int NOT NULL DEFAULT 1,
+                               `price` decimal(10,2) NOT NULL,
+                               INDEX (`order_id`),
+                               INDEX (`product_id`)
 );
 
--- Ordered_Product Table (Many-to-Many between Order and Product)
-CREATE TABLE ordered_product (
-    order_id BIGINT NOT NULL,
-    product_id BIGINT NOT NULL,
-    order_description TEXT,
-    PRIMARY KEY (order_id, product_id),
-    FOREIGN KEY (order_id) REFERENCES `order`(order_id),
-    FOREIGN KEY (product_id) REFERENCES product(product_id) 
-);
+ALTER TABLE `product`
+    ADD FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE SET NULL;
 
+ALTER TABLE `user_interest`
+    ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
+  ADD FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE CASCADE;
 
+ALTER TABLE `orders`
+    ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE SET NULL;
+
+ALTER TABLE `cart`
+    ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
+  ADD FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `wishlist`
+    ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
+  ADD FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `order_items`
+    ADD FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE SET NULL,
+  ADD FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE SET NULL;

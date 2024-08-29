@@ -2,33 +2,33 @@ package gov.iti.jets.order;
 
 import gov.iti.jets.user.User;
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import java.time.LocalDate;
+import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
-@Table(name = "user_order")
-@Setter
+@Table(name = "orders")
 @Getter
-@EqualsAndHashCode
+@Setter
 @NoArgsConstructor
-public class Order{
-
+@EqualsAndHashCode
+@AllArgsConstructor
+public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int orderId;
+    private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Column(name = "total_price", nullable = false)
-    private Double totalPrice;
+    private BigDecimal totalPrice;
 
-    @Column(name = "date_created", nullable = false)
-    private LocalDate orderDate;
+    @Column(name = "date_created")
+    private java.time.LocalDateTime dateCreated;
 
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<OrderItem> orderItems;
 }
