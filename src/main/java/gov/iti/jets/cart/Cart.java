@@ -13,7 +13,6 @@ import lombok.Setter;
 @Table(name = "cart")
 @Setter
 @Getter
-@EqualsAndHashCode
 @NoArgsConstructor
 public class Cart {
 

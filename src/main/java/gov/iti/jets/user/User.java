@@ -21,7 +21,6 @@ import java.util.Set;
 @Setter
 @Getter
 @NoArgsConstructor
-@EqualsAndHashCode
 @AllArgsConstructor
 public class User {
     @Id
