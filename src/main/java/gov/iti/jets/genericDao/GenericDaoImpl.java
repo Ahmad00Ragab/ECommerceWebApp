@@ -48,14 +48,31 @@ public abstract class GenericDaoImpl<T> implements GenericDAO<T> {
             em.persist(entity);
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null) transaction.rollback();
+            if (transaction != null)
+                transaction.rollback();
             e.printStackTrace();
         }
         return entity;
     }
 
+    public T update(T entity) {
+
+        try (EntityManager em = emf.createEntityManager()){
+            transaction = em.getTransaction();
+            transaction.begin();
+            T updatedEntity = em.merge(entity);
+            transaction.commit();
+            return updatedEntity;
+        } catch (Exception e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            throw e;
+        }
+    }
+
     @Override
-    public void delete(Integer id) {
+    public boolean delete(Integer id) {
         try (EntityManager em = emf.createEntityManager()) {
             transaction = em.getTransaction();
             transaction.begin();
@@ -65,7 +82,24 @@ public abstract class GenericDaoImpl<T> implements GenericDAO<T> {
         } catch (Exception e) {
             if (transaction != null) transaction.rollback();
             e.printStackTrace();
+            return false;
         }
+        return true;
+    }
+
+    @Override
+    public boolean delete(T entity) {
+        try (EntityManager em = emf.createEntityManager()) {
+            transaction = em.getTransaction();
+            transaction.begin();
+            em.remove(entity);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) transaction.rollback();
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     // TODO Implement more methods here

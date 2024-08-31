@@ -19,9 +19,10 @@ import java.util.*;
 
 public class App {
     private static final CustomPersistenceUnit cpu = new CustomPersistenceUnit();
+
     public static void main(String[] args) {
 
-        try (EntityManagerFactory emf = new HibernatePersistenceProvider().createContainerEntityManagerFactory(cpu, cpu.getProperties())){
+        try (EntityManagerFactory emf = new HibernatePersistenceProvider().createContainerEntityManagerFactory(cpu, cpu.getProperties())) {
             EntityManager em = emf.createEntityManager();
             em.getTransaction().begin();
 
@@ -37,12 +38,7 @@ public class App {
             Set<Product> products = new HashSet<>();
             products.add(product);
             category.setProducts(products);
-
             em.merge(category); // Ensure updates to category are persisted
-
-            // Create and persist Admin
-            Admin admin = new Admin("Ali", "ali@gmail.com", "743819fa", LocalDateTime.now(), LocalDateTime.now(), "Ali");
-            em.persist(admin);
 
             // Create and persist User
             User user = new User("JohnDoe", "john.doe@gmail.com", "password123", LocalDate.now(), LocalDate.now());
@@ -56,7 +52,6 @@ public class App {
             Set<Cart> carts = new HashSet<>();
             carts.add(cart);
             user.setCart(carts);
-
             em.merge(user); // Ensure updates to user are persisted
 
             // Create and persist Order
@@ -71,11 +66,12 @@ public class App {
             Set<OrderItem> orderItems = new HashSet<>();
             orderItems.add(orderItem);
             order.setOrderItems(orderItems);
-
             em.merge(order); // Ensure updates to order are persisted
 
             em.getTransaction().commit();
-        } catch (Exception _) {
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

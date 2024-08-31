@@ -96,7 +96,7 @@ public class CustomPersistenceUnit implements PersistenceUnitInfo {
     public  Properties getProperties() {
         Properties properties = new Properties();
         properties.setProperty(AvailableSettings.DIALECT, "org.hibernate.dialect.MySQLDialect");
-        properties.setProperty(AvailableSettings.HBM2DDL_AUTO, "update");
+        properties.setProperty(AvailableSettings.HBM2DDL_AUTO, "create");
         properties.setProperty(AvailableSettings.SHOW_SQL, "true");
         properties.setProperty(AvailableSettings.FORMAT_SQL, "true");
         return properties;

@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Objects;
+
 
 @Entity
 @Table(name = "cart")
@@ -40,5 +42,22 @@ public class Cart {
         this.user = user;
         this.product = product;
         this.quantity = quantity;
+        this.cartId = new CartKey();
+        this.cartId.setUserId(user.getId());
+        this.cartId.setProductId(product.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(cartId, quantity);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Cart cart = (Cart) obj;
+        return quantity == cart.quantity &&
+                Objects.equals(cartId, cart.cartId);
     }
 }

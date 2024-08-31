@@ -9,5 +9,9 @@ public interface GenericDAO<T> {
 
     T findById(java.lang.Integer id);
 
-    void delete(Integer id);
+    boolean delete(Integer id);
+
+    boolean delete(T entity);
+
+    T update (T entity);
 }
