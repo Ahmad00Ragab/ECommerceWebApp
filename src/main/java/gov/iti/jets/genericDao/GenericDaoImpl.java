@@ -1,10 +1,10 @@
 package gov.iti.jets.genericDao;
 
-import gov.iti.jets.persistence.CustomPersistenceUnit;
+import gov.iti.jets.system.persistence.CustomPersistenceUnit;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.Persistence;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import org.hibernate.jpa.HibernatePersistenceProvider;
@@ -34,9 +34,17 @@ public abstract class GenericDaoImpl<T> implements GenericDAO<T> {
     }
 
     @Override
-    public T findById(Integer id) {
+    public T findById(Long id) {
         try (EntityManager em = emf.createEntityManager()) {
-            return em.find(entityClass, id);
+            T entity = em.find(entityClass, id);
+            if(entity == null){
+                throw new EntityNotFoundException();
+            }else {
+                return entity;
+            }
+        }catch (EntityNotFoundException e){
+            e.printStackTrace();
+            return null;
         }
     }
 
@@ -70,7 +78,7 @@ public abstract class GenericDaoImpl<T> implements GenericDAO<T> {
     }
 
     @Override
-    public boolean delete(Integer id) {
+    public boolean delete(Long id) {
         try (EntityManager em = emf.createEntityManager()) {
             transaction = em.getTransaction();
             transaction.begin();
@@ -80,7 +88,6 @@ public abstract class GenericDaoImpl<T> implements GenericDAO<T> {
         } catch (Exception e) {
             if (transaction != null) transaction.rollback();
             e.printStackTrace();
-            return false;
         }
         return true;
     }

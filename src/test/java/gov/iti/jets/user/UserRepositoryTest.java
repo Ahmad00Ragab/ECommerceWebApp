@@ -1,12 +1,21 @@
 package gov.iti.jets.user;
 
+import gov.iti.jets.cart.CartItem;
+import gov.iti.jets.category.Category;
+import gov.iti.jets.product.Product;
+import gov.iti.jets.system.exception.ObjectNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -33,17 +42,49 @@ class UserRepositoryTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        user1 = new User("john_doe", "john@example.com", "password123", LocalDate.now(), LocalDate.now());
-        user2 = new User("jane_doe", "jane@example.com", "password456", LocalDate.now(), LocalDate.now());
+        // Create User instances
+        user1 = new User("jane_doe", "jane@example.com", "password456", LocalDate.now(), LocalDate.now());
         user3 = new User("alice_smith", "alice@example.com", "password789", LocalDate.now(), LocalDate.now());
+
+        // Create Product and Category instances
+        Category category1 = new Category("Electronics", LocalDateTime.now(), LocalDateTime.now());
+        Category category2 = new Category("Books", LocalDateTime.now(), LocalDateTime.now());
+
+        // Create Product instances with the non-null constructor
+        Product product1 = new Product("Smartphone", BigDecimal.valueOf(699.99), 50, category1, LocalDateTime.now(), LocalDateTime.now());
+        Product product2 = new Product("Laptop", BigDecimal.valueOf(999.99), 30, category1, LocalDateTime.now(), LocalDateTime.now());
+
+        // Create Wishlist (Set<Product>) for user1
+        Set<Product> wishlist = new HashSet<>();
+        wishlist.add(product1);
+        wishlist.add(product2);
+
+        // Create User Interest (Set<Category>) for user1
+        Set<Category> userInterests = new HashSet<>();
+        userInterests.add(category1);
+        userInterests.add(category2);
+
+        // Assign cartItems, wishlist, and userInterests to user1
+        user1.setWishlist(wishlist);
+        user1.setCategories(userInterests);
+
+        // Create CartItem instances
+        CartItem cartItem1 = new CartItem(user1, product1, 2); // 2 units of product1 in user1's cart
+        CartItem cartItem2 = new CartItem(user1, product2, 1); // 1 unit of product2 in user1's cart
+
+        Set<CartItem> cartItems = new HashSet<>();
+        cartItems.add(cartItem1);
+        cartItems.add(cartItem2);
+
+        user1.setCartItems(cartItems);
 
         Set<User> users = new HashSet<>();
         users.add(user1);
-        users.add(user2);
         users.add(user3);
 
+        // Mock the repository methods
         when(userRepository.findAll()).thenReturn(users);
-        when(userRepository.findById(1)).thenReturn(user1);
+        when(userRepository.findById(1L)).thenReturn(user1);
         when(userRepository.save(any(User.class))).thenReturn(user1);
         when(userRepository.findByUsername("john_doe")).thenReturn(user1);
     }
@@ -64,9 +105,25 @@ class UserRepositoryTest {
 
     @Test
     void findById() {
-        User foundUser = userRepository.findById(1);
+        User foundUser = userRepository.findById(1L);
         assertNotNull(foundUser);
         assertEquals("john_doe", foundUser.getUsername());
+    }
+
+    @Test
+    void findByIdNotFound() {
+        // Given
+        given(userRepository.findById(Mockito.any(Long.class))).willThrow(EntityNotFoundException.class);
+
+        // When
+        Throwable thrown = Assertions.catchThrowable(()->{
+            User foundUser = userRepository.findById(1L);
+        });
+
+        // Then
+        Assertions.assertThat(thrown).isInstanceOf(EntityNotFoundException.class);
+
+        verify(userRepository, times(1)).findById(1L);
     }
 
     @Test

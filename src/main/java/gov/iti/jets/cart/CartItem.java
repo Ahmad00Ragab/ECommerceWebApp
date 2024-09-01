@@ -3,7 +3,6 @@ package gov.iti.jets.cart;
 import gov.iti.jets.product.Product;
 import gov.iti.jets.user.User;
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,7 +15,7 @@ import java.util.Objects;
 @Setter
 @Getter
 @NoArgsConstructor
-public class Cart {
+public class CartItem {
 
     @EmbeddedId
     @AttributeOverrides( {
@@ -38,7 +37,7 @@ public class Cart {
     private Product product;
 
 
-    public Cart(User user, Product product, int quantity) {
+    public CartItem(User user, Product product, int quantity) {
         this.user = user;
         this.product = product;
         this.quantity = quantity;
@@ -56,7 +55,7 @@ public class Cart {
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
-        Cart cart = (Cart) obj;
+        CartItem cart = (CartItem) obj;
         return quantity == cart.quantity &&
                 Objects.equals(cartId, cart.cartId);
     }

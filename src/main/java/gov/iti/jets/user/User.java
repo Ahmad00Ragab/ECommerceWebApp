@@ -4,7 +4,7 @@ import gov.iti.jets.category.Category;
 import gov.iti.jets.order.Order;
 import gov.iti.jets.product.Product;
 import jakarta.persistence.*;
-import gov.iti.jets.cart.Cart;
+import gov.iti.jets.cart.CartItem;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
@@ -70,7 +70,7 @@ public class User {
     private LocalDate lastUpdated;
 
     @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
-    private Set<Cart> cart;
+    private Set<CartItem> cartItems;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -126,6 +126,6 @@ public class User {
         this.phone = phone;
         this.dateCreated = dateCreated;
         this.lastUpdated = lastUpdated;
-        this.cart = new HashSet<>();
+        this.cartItems = new HashSet<>();
     }
 }

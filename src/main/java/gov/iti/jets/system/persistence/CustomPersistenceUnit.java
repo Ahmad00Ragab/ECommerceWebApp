@@ -1,4 +1,4 @@
-package gov.iti.jets.persistence;
+package gov.iti.jets.system.persistence;
 
 import com.zaxxer.hikari.HikariDataSource;
 import jakarta.persistence.SharedCacheMode;

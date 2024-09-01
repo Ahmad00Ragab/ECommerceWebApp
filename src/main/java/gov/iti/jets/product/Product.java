@@ -1,6 +1,6 @@
 package gov.iti.jets.product;
 
-import gov.iti.jets.cart.Cart;
+import gov.iti.jets.cart.CartItem;
 import gov.iti.jets.category.Category;
 import lombok.*;
 
@@ -34,7 +34,7 @@ public class Product {
     private int stock;
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
-    private Set<Cart> cart;
+    private Set<CartItem> cart;
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
@@ -58,5 +58,14 @@ public class Product {
         this.dateCreated = dateCreated;
         this.lastUpdated = lastUpdated;
         cart=new HashSet<>();
+    }
+
+    public Product(String name, BigDecimal price, int stock, Category category, LocalDateTime dateCreated, LocalDateTime lastUpdated) {
+        this.name = name;
+        this.price = price;
+        this.stock = stock;
+        this.category = category;
+        this.dateCreated = dateCreated;
+        this.lastUpdated = lastUpdated;
     }
 }

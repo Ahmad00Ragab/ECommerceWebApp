@@ -1,11 +1,10 @@
 package gov.iti.jets.app;
 
-import gov.iti.jets.admin.Admin;
-import gov.iti.jets.cart.Cart;
+import gov.iti.jets.cart.CartItem;
 import gov.iti.jets.category.Category;
 import gov.iti.jets.order.Order;
 import gov.iti.jets.order.OrderItem;
-import gov.iti.jets.persistence.CustomPersistenceUnit;
+import gov.iti.jets.system.persistence.CustomPersistenceUnit;
 import gov.iti.jets.product.Product;
 import gov.iti.jets.user.User;
 import jakarta.persistence.EntityManager;
@@ -45,13 +44,13 @@ public class App {
             em.persist(user);
 
             // Create and persist Cart
-            Cart cart = new Cart(user, product, 1);
+            CartItem cart = new CartItem(user, product, 1);
             em.persist(cart);
 
             // Update User with Cart
-            Set<Cart> carts = new HashSet<>();
+            Set<CartItem> carts = new HashSet<>();
             carts.add(cart);
-            user.setCart(carts);
+            user.setCartItems(carts);
             em.merge(user); // Ensure updates to user are persisted
 
             // Create and persist Order
