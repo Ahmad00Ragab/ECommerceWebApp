@@ -48,8 +48,6 @@ public abstract class GenericDaoImpl<T> implements GenericDAO<T> {
             em.persist(entity);
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null)
-                transaction.rollback();
             e.printStackTrace();
         }
         return entity;

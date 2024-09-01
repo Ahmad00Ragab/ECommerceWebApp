@@ -8,9 +8,16 @@ import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.*;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.BDDAssertions.catchThrowable;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 class UserRepositoryTest {
@@ -38,7 +45,7 @@ class UserRepositoryTest {
         when(userRepository.findAll()).thenReturn(users);
         when(userRepository.findById(1)).thenReturn(user1);
         when(userRepository.save(any(User.class))).thenReturn(user1);
-        when(userRepository.getUserByUsername("john_doe")).thenReturn(user1);
+        when(userRepository.findByUsername("john_doe")).thenReturn(user1);
     }
 
     @AfterEach
@@ -64,10 +71,20 @@ class UserRepositoryTest {
 
     @Test
     void save() {
-        User newUser = new User("new_user", "new@example.com", "password000", LocalDate.now(), LocalDate.now());
-        User savedUser = userRepository.save(newUser);
+        User newUser = new User("new_kid3", "john.doe@gmail.com", "password123", LocalDate.now(), LocalDate.now());
+
+        given(this.userRepository.save(newUser)).willReturn(newUser);
+        given(this.userRepository.findByUsername("new_kid3")).willReturn(newUser);
+
+        this.userRepository.save(newUser);
+
+        User savedUser = userRepository.findByUsername("new_kid3");
         assertNotNull(savedUser);
-        assertEquals("new_user", savedUser.getUsername());
+
+        assertThat(savedUser.getUsername()).isEqualTo(newUser.getUsername());
+        assertThat(savedUser.getPassword()).isEqualTo(newUser.getPassword());
+
+        verify(this.userRepository, times(1)).save(newUser);
     }
 
     @Test
@@ -87,7 +104,7 @@ class UserRepositoryTest {
 
     @Test
     void getUserByUsername() {
-        User foundUser = userRepository.getUserByUsername("john_doe");
+        User foundUser = userRepository.findByUsername("john_doe");
         assertNotNull(foundUser);
         assertEquals("john_doe", foundUser.getUsername());
     }
