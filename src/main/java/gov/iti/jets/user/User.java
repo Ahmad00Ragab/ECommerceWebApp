@@ -1,43 +1,39 @@
 package gov.iti.jets.user;
 
 import gov.iti.jets.category.Category;
-import gov.iti.jets.common.UserRole;
 import gov.iti.jets.order.Order;
 import gov.iti.jets.product.Product;
 import jakarta.persistence.*;
-import gov.iti.jets.cart.Cart;
+import gov.iti.jets.cart.CartItem;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "users")
+@Table(name = "user")
 @Setter
 @Getter
 @NoArgsConstructor
-@EqualsAndHashCode
+@AllArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    private Long id;
 
     @Column(name = "username", nullable = false, unique = true)
     private String username;
 
-    @Column(name = "first_name")
+    @Column(name = "firstname")
     private String firstName;
 
-    @Column(name = "last_name")
+    @Column(name = "lastname")
     private String lastName;
 
     @Column(name = "email", unique = true, nullable = false)
@@ -53,32 +49,28 @@ public class User {
     private String country;
 
     @Column(name = "city")
-    private String userCity;
+    private String city;
 
     @Column(name = "street")
-    private String userStreet;
+    private String street;
 
     @Column(name = "credit_limit")
-    private Float creditCardLimit;
+    private BigDecimal creditLimit;
 
     @Column(name = "birthdate")
     private LocalDate birthdate;
 
-    @Column(name = "job")
-    private String job;
-
     @Column(name="phone")
-    private String userPhone;
+    private String phone;
 
     @Column(name= "date_created", nullable = false)
     private LocalDate dateCreated;
 
-    @Column(name="last_update", nullable = false)
-    private LocalDate lastUpdate;
-
+    @Column(name="last_updated", nullable = false)
+    private LocalDate lastUpdated;
 
     @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
-    private Set<Cart> cart;
+    private Set<CartItem> cartItems;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -88,7 +80,7 @@ public class User {
     )
     private Set<Product> wishlist;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_interest",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -96,35 +88,45 @@ public class User {
     )
     private Set<Category> categories;
 
-
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Order> orders;
 
+    @PrePersist
+    protected void onCreate() {
+        this.dateCreated = LocalDate.now();
+        this.lastUpdated = LocalDate.now();
+    }
 
+    @PreUpdate
+    protected void onUpdate() {
+        this.lastUpdated = LocalDate.now();
+    }
 
-    public User(String username, String firstName, String lastName,
-                String email, String password,
-                String country, String userCity,
-                String userStreet, Float creditCardLimit,
-                LocalDate birthdate, String job, String userPhone,
-                LocalDate dateCreated, LocalDate lastUpdate) {
+    public User(String username, String email, String password, LocalDate dateCreated, LocalDate lastUpdated) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.dateCreated = dateCreated;
+        this.lastUpdated = lastUpdated;
+    }
+
+    public User(String username, String firstName, String lastName, String email, String password,
+                String country, String city, String street, BigDecimal creditCardLimit,
+                LocalDate birthdate, String phone, LocalDate dateCreated,
+                LocalDate lastUpdated) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.country = country;
-        this.userCity = userCity;
-        this.userStreet = userStreet;
-        this.creditCardLimit = creditCardLimit;
+        this.city = city;
+        this.street = street;
+        this.creditLimit = creditCardLimit;
         this.birthdate = birthdate;
-        this.job = job;
-        this.userPhone = userPhone;
+        this.phone = phone;
         this.dateCreated = dateCreated;
-        this.lastUpdate = lastUpdate;
-        this.cart = new HashSet<>();
-        this.categories = new HashSet<>();
-        this.orders = new ArrayList<>();
-        this.wishlist= new HashSet<>();
+        this.lastUpdated = lastUpdated;
+        this.cartItems = new HashSet<>();
     }
 }

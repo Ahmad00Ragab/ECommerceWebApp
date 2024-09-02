@@ -12,7 +12,7 @@ public class UserRepository extends GenericDaoImpl<User> {
         super(User.class);
     }
 
-    public User getUserByUsername(String username) {
+    public User findByUsername(String username) {
         try (EntityManager em = emf.createEntityManager()) {
             CriteriaBuilder cb = em.getCriteriaBuilder();
 

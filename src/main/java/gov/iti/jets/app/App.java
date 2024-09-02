@@ -1,66 +1,76 @@
 package gov.iti.jets.app;
 
-import gov.iti.jets.admin.Admin;
+import gov.iti.jets.cart.CartItem;
 import gov.iti.jets.category.Category;
-import gov.iti.jets.persistence.CustomPersistenceUnit;
+import gov.iti.jets.order.Order;
+import gov.iti.jets.order.OrderItem;
+import gov.iti.jets.system.persistence.CustomPersistenceUnit;
 import gov.iti.jets.product.Product;
-import gov.iti.jets.product.ProductRepository;
 import gov.iti.jets.user.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.time.LocalDateTime;
+import java.util.*;
 
 public class App {
+    private static final CustomPersistenceUnit cpu = new CustomPersistenceUnit();
 
-
-     private static CustomPersistenceUnit cpu=new CustomPersistenceUnit();
-    public static void main( String[] args )
-    {
-
+    public static void main(String[] args) {
 
         try (EntityManagerFactory emf = new HibernatePersistenceProvider().createContainerEntityManagerFactory(cpu, cpu.getProperties())) {
             EntityManager em = emf.createEntityManager();
             em.getTransaction().begin();
-            Admin admin=new Admin("Ali","","743819fa", LocalDate.now(),LocalDate.now(),"Ali");
-            em.persist(admin);
+
+            // Create and persist Category
+            Category category = new Category("Electronics", LocalDateTime.now(), LocalDateTime.now());
+            em.persist(category);
+
+            // Create and persist Product
+            Product product = new Product("Smartphone", BigDecimal.valueOf(699.99), "Latest model", 50, category, LocalDateTime.now(), LocalDateTime.now());
+            em.persist(product);
+
+            // Update Category with Products
+            Set<Product> products = new HashSet<>();
+            products.add(product);
+            category.setProducts(products);
+            em.merge(category); // Ensure updates to category are persisted
+
+            // Create and persist User
+            User user = new User("JohnDoe", "john.doe@gmail.com", "password123", LocalDate.now(), LocalDate.now());
+            em.persist(user);
+
+            // Create and persist Cart
+            CartItem cart = new CartItem(user, product, 1);
+            em.persist(cart);
+
+            // Update User with Cart
+            Set<CartItem> carts = new HashSet<>();
+            carts.add(cart);
+            user.setCartItems(carts);
+            em.merge(user); // Ensure updates to user are persisted
+
+            // Create and persist Order
+            Order order = new Order(user, BigDecimal.valueOf(699.99), LocalDateTime.now());
+            em.persist(order);
+
+            // Create and persist OrderItem
+            OrderItem orderItem = new OrderItem(order, product, 1, BigDecimal.valueOf(699.99));
+            em.persist(orderItem);
+
+            // Update Order with OrderItems
+            Set<OrderItem> orderItems = new HashSet<>();
+            orderItems.add(orderItem);
+            order.setOrderItems(orderItems);
+            em.merge(order); // Ensure updates to order are persisted
+
             em.getTransaction().commit();
-            em.close();
-
-
-
-        }
-/*
-        try {
-            // Start transaction
-            em.getTransaction().begin();
-
-            // Perform ORM operations (example)
-            // e.g., Creating and persisting a new User
-            Category c = new Category("Antony", new Date(), new Date(), "Antony");
-            em.persist(c);
-
-            Product p = new Product("Antony", 100, "Antony description", 100, c, new Date(), new Date(), "Antony");
-            em.persist(p);
-
-            // Commit transaction
-            em.getTransaction().commit();
-
-            // Fetch and print the persisted user
-            Product foundProduct = productRepository.getProductByName("Antony");
-            System.out.println("Fetched User: " + foundProduct.getName());
 
         } catch (Exception e) {
-            em.getTransaction().rollback();
             e.printStackTrace();
-        } finally {
-            // Close EntityManager
-            em.close();
-            emf.close();
-        }*/
+        }
     }
 }

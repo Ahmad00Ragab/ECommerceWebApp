@@ -5,16 +5,15 @@ import gov.iti.jets.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "Category")
+@Table(name = "category")  // Adjusted table name to lowercase
 @Getter
 @Setter
 @NoArgsConstructor
-@EqualsAndHashCode
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,29 +26,23 @@ public class Category {
     private String description;
 
     @Column(name = "date_created", nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dateCreated;
+    private LocalDateTime dateCreated;
 
     @Column(name = "last_updated", nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date lastUpdated;
+    private LocalDateTime lastUpdated;
 
-    @Column(name = "created_by", nullable = false)
+    @Column(name = "created_by")
     private String createdBy;
 
     @ManyToMany(mappedBy = "categories", fetch = FetchType.LAZY)
-    private Set<User> users;
+    private Set<User> users = new HashSet<>();  // Initialized directly
 
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
-    private Set<Product> products;
+    private Set<Product> products = new HashSet<>();  // Initialized directly
 
-    public Category(String name, Date dateCreated, Date lastUpdated, String createdBy) {
+    public Category(String name, LocalDateTime dateCreated, LocalDateTime lastUpdated) {
         this.name = name;
         this.dateCreated = dateCreated;
         this.lastUpdated = lastUpdated;
-        this.createdBy = createdBy;
-        this.users=new HashSet<>();
-        this.products= new HashSet<>();
     }
-
 }
