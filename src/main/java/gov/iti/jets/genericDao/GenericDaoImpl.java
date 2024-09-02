@@ -7,6 +7,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 
 import java.util.Set;
@@ -105,6 +106,29 @@ public abstract class GenericDaoImpl<T> implements GenericDAO<T> {
             return false;
         }
         return true;
+    }
+
+    public long countWithNamedQuery() {
+        try (EntityManager em = emf.createEntityManager()) {
+            CriteriaBuilder cb = emf.getCriteriaBuilder();
+            CriteriaQuery<Long> query = cb.createQuery(Long.class);
+            Root<T> root = query.from(entityClass);
+
+            query.select(cb.count(root));
+
+            return (long) em.createQuery(query).getSingleResult();
+        }
+    }
+
+    public long countWithNamedQuery(String paramNam, Object paramValue) {
+        try (EntityManager em = emf.createEntityManager()) {
+            CriteriaBuilder cb = emf.getCriteriaBuilder();
+            CriteriaQuery<Long> query = cb.createQuery(Long.class);
+            Root<T> root = query.from(entityClass);
+            query.where(cb.equal(root.get(paramNam), paramValue));
+            query.select(cb.count(root));
+            return (long) em.createQuery(query).getSingleResult();
+        }
     }
 
     // TODO Implement more methods here

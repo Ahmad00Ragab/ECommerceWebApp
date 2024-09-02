@@ -43,7 +43,7 @@ class UserRepositoryTest {
         MockitoAnnotations.openMocks(this);
 
         // Create User instances
-        user1 = new User("jane_doe", "jane@example.com", "password456", LocalDate.now(), LocalDate.now());
+        user1 = new User("ok", "jane@example.com", "password456", LocalDate.now(), LocalDate.now());
         user3 = new User("alice_smith", "alice@example.com", "password789", LocalDate.now(), LocalDate.now());
 
         // Create Product and Category instances
@@ -86,7 +86,7 @@ class UserRepositoryTest {
         when(userRepository.findAll()).thenReturn(users);
         when(userRepository.findById(1L)).thenReturn(user1);
         when(userRepository.save(any(User.class))).thenReturn(user1);
-        when(userRepository.findByUsername("john_doe")).thenReturn(user1);
+        when(userRepository.findByUsername("ok")).thenReturn(user1);
     }
 
     @AfterEach
@@ -97,7 +97,7 @@ class UserRepositoryTest {
     @Test
     void findAll() {
         Set<User> users = userRepository.findAll();
-        assertEquals(3, users.size());
+        assertEquals(2, users.size());
         assertTrue(users.contains(user1));
 
         verify(userRepository, times(1)).findAll();
@@ -107,7 +107,7 @@ class UserRepositoryTest {
     void findById() {
         User foundUser = userRepository.findById(1L);
         assertNotNull(foundUser);
-        assertEquals("john_doe", foundUser.getUsername());
+        assertEquals("ok", foundUser.getUsername());
     }
 
     @Test
@@ -161,8 +161,8 @@ class UserRepositoryTest {
 
     @Test
     void getUserByUsername() {
-        User foundUser = userRepository.findByUsername("john_doe");
+        User foundUser = userRepository.findByUsername("ok");
         assertNotNull(foundUser);
-        assertEquals("john_doe", foundUser.getUsername());
+        assertEquals("ok", foundUser.getUsername());
     }
 }
