@@ -95,6 +95,7 @@
     </dependency>
 
     <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+
     <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
@@ -142,6 +143,13 @@
       <scope>test</scope>
     </dependency>
 
+    <!-- https://mvnrepository.com/artifact/org.assertj/assertj-core -->
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>3.26.3</version>
+      <scope>test</scope>
+    </dependency>
 
     <dependency>
       <groupId>com.zaxxer</groupId>
@@ -151,11 +159,19 @@
 
 
     <!--email validator-->
+    <!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator -->
     <dependency>
       <groupId>org.hibernate.validator</groupId>
       <artifactId>hibernate-validator</artifactId>
-      <version>9.0.0.Beta2</version>
+      <version>8.0.1.Final</version>
     </dependency>
+
+    <dependency>
+      <groupId>org.glassfish.expressly</groupId>
+      <artifactId>expressly</artifactId>
+      <version>5.0.0</version>
+    </dependency>
+
 
 
 

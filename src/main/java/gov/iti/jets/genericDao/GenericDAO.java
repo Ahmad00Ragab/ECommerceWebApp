@@ -7,7 +7,12 @@ public interface GenericDAO<T> {
   
     Set<T> findAll();
 
-    T findById(java.lang.Integer id);
+    T findById(Long id);
 
-    void delete(Integer id);
+    boolean delete(Long id);
+
+    boolean delete(T entity);
+
+    T update (T entity);
+
 }

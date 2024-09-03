@@ -1,11 +1,14 @@
 package gov.iti.jets.product;
+import gov.iti.jets.cart.CartItem;
 
-import gov.iti.jets.cart.Cart;
 import gov.iti.jets.category.Category;
 import lombok.*;
 
 import jakarta.persistence.*;
-import java.util.Date;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -16,19 +19,22 @@ import java.util.Set;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(nullable = false, unique = true)
     private String name;
 
     @Column(nullable = false)
-    private Double price;
+    private BigDecimal price;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String description;
 
     @Column(nullable = false)
     private int stock;
+
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    private Set<CartItem> cart;
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
@@ -38,17 +44,15 @@ public class Product {
     private Set<Cart> carts;
 
     @Column(name = "date_created", nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dateCreated;
+    private LocalDateTime dateCreated;
 
     @Column(name = "last_updated", nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date lastUpdated;
+    private LocalDateTime lastUpdated;
 
-    @Column(name = "created_by", nullable = false)
+    @Column(name = "created_by")
     private String createdBy;
 
-    public Product(String name, double price, String description, int stock, Category category, Date dateCreated, Date lastUpdated, String createdBy) {
+    public Product(String name, BigDecimal price, String description, int stock, Category category, LocalDateTime dateCreated, LocalDateTime lastUpdated) {
         this.name = name;
         this.price = price;
         this.description = description;
@@ -56,6 +60,15 @@ public class Product {
         this.category = category;
         this.dateCreated = dateCreated;
         this.lastUpdated = lastUpdated;
-        this.createdBy = createdBy;
+        cart=new HashSet<>();
+    }
+
+    public Product(String name, BigDecimal price, int stock, Category category, LocalDateTime dateCreated, LocalDateTime lastUpdated) {
+        this.name = name;
+        this.price = price;
+        this.stock = stock;
+        this.category = category;
+        this.dateCreated = dateCreated;
+        this.lastUpdated = lastUpdated;
     }
 }

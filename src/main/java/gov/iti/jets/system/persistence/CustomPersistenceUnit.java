@@ -1,4 +1,4 @@
-package gov.iti.jets.persistence;
+package gov.iti.jets.system.persistence;
 
 import com.zaxxer.hikari.HikariDataSource;
 import jakarta.persistence.SharedCacheMode;
@@ -38,7 +38,7 @@ public class CustomPersistenceUnit implements PersistenceUnitInfo {
     public DataSource getNonJtaDataSource() {
         try {
             HikariDataSource dataSource = new HikariDataSource();
-            dataSource.setJdbcUrl("jdbc:mysql://localhost:3306/test");
+            dataSource.setJdbcUrl("jdbc:mysql://localhost:3306/ecommerce");
             dataSource.setUsername("root");
             return dataSource;
         } catch (Exception e) {
@@ -65,11 +65,13 @@ public class CustomPersistenceUnit implements PersistenceUnitInfo {
     @Override
     public List<String> getManagedClassNames() {
         return List.of(
-                "gov.iti.jets.user.User",
-                "gov.iti.jets.product.Product",
-                "gov.iti.jets.category.Category",
-                "gov.iti.jets.order.Order",
-                "gov.iti.jets.cart.Cart"
+                 "gov.iti.jets.user.User",
+                 "gov.iti.jets.admin.Admin",
+                 "gov.iti.jets.category.Category",
+                 "gov.iti.jets.product.Product",
+                 "gov.iti.jets.order.Order",
+                 "gov.iti.jets.order.OrderItem",
+                 "gov.iti.jets.cart.Cart"
 
                 // Add more classes as needed
         );
@@ -91,10 +93,10 @@ public class CustomPersistenceUnit implements PersistenceUnitInfo {
     }
 
     @Override
-    public Properties getProperties() {
+    public  Properties getProperties() {
         Properties properties = new Properties();
         properties.setProperty(AvailableSettings.DIALECT, "org.hibernate.dialect.MySQLDialect");
-        properties.setProperty(AvailableSettings.HBM2DDL_AUTO, "create-drop"); // This will drop and create the schema each time
+        properties.setProperty(AvailableSettings.HBM2DDL_AUTO, "create");
         properties.setProperty(AvailableSettings.SHOW_SQL, "true");
         properties.setProperty(AvailableSettings.FORMAT_SQL, "true");
         return properties;
