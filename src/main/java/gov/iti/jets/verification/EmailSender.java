@@ -30,7 +30,7 @@ public class EmailSender {
         try{
 
             String host = "smtp.office365.com";
-            Properties properties = new Properties();
+            Properties properties = getProperties();
             properties.put("mail.smtp.host", host);
             properties.put("mail.smtp.port", "587");
             properties.put("mail.smtp.auth", "true");
@@ -65,5 +65,9 @@ public class EmailSender {
 
     private Message getMessage(Session session) throws MessagingException {
         return new MimeMessage(session);
+    }
+
+    private Properties getProperties(){
+        return new Properties();
     }
 }
