@@ -20,5 +20,4 @@ class CartKey implements Serializable {
     @Column(name = "product_id", nullable = false)
     Long productId;
 
-
 }

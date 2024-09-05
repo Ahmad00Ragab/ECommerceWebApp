@@ -1,6 +1,6 @@
 package gov.iti.jets.product;
-
 import gov.iti.jets.cart.CartItem;
+
 import gov.iti.jets.category.Category;
 import lombok.*;
 
@@ -21,7 +21,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
     @Column(nullable = false)
@@ -39,6 +39,9 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
+
+    @OneToMany(mappedBy = "product")
+    private Set<CartItem> carts;
 
     @Column(name = "date_created", nullable = false)
     private LocalDateTime dateCreated;
