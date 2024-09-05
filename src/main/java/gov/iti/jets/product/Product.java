@@ -41,7 +41,7 @@ public class Product {
     private Category category;
 
     @OneToMany(mappedBy = "product")
-    private Set<Cart> carts;
+    private Set<CartItem> carts;
 
     @Column(name = "date_created", nullable = false)
     private LocalDateTime dateCreated;
