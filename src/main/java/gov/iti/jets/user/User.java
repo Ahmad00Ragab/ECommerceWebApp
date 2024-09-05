@@ -3,6 +3,7 @@ package gov.iti.jets.user;
 import gov.iti.jets.category.Category;
 import gov.iti.jets.order.Order;
 import gov.iti.jets.product.Product;
+import gov.iti.jets.verification.EmailStatus;
 import jakarta.persistence.*;
 import gov.iti.jets.cart.CartItem;
 import jakarta.validation.constraints.Email;
@@ -38,7 +39,7 @@ public class User {
 
     @Column(name = "email", unique = true, nullable = false)
     @Email
-    @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@(gmail\\.com|outlook\\.com)$",
+    @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
             message = "Email must be from gmail.com or outlook.com")
     private String email;
 
@@ -91,6 +92,10 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Order> orders;
 
+    @Column(name = "email_status")
+    private EmailStatus verificationCode;
+
+
     @PrePersist
     protected void onCreate() {
         this.dateCreated = LocalDate.now();
@@ -113,7 +118,7 @@ public class User {
     public User(String username, String firstName, String lastName, String email, String password,
                 String country, String city, String street, BigDecimal creditCardLimit,
                 LocalDate birthdate, String phone, LocalDate dateCreated,
-                LocalDate lastUpdated) {
+                LocalDate lastUpdated ) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -128,5 +133,6 @@ public class User {
         this.dateCreated = dateCreated;
         this.lastUpdated = lastUpdated;
         this.cartItems = new HashSet<>();
+
     }
 }
