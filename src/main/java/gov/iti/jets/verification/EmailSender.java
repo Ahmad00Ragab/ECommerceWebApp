@@ -1,5 +1,6 @@
 package gov.iti.jets.verification;
 
+import gov.iti.jets.exceptions.CannotSendMessageException;
 import gov.iti.jets.user.User;
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
@@ -54,7 +55,7 @@ public class EmailSender {
 
 
         } catch (MessagingException e) {
-            throw new RuntimeException(e);
+            throw new CannotSendMessageException();
         }
 
         return  test;

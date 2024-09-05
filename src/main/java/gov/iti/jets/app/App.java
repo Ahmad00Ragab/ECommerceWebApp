@@ -45,7 +45,7 @@ public class App {
 
 
             // Create and persist Product
-            Product product = new Product("Smartphone", BigDecimal.valueOf(699.99), "Latest model", 50, category, LocalDateTime.now(), LocalDateTime.now());
+            Product product = new Product("Smartphone", BigDecimal.valueOf(699.99), "Latest model", 50, category, LocalDateTime.now(), LocalDateTime.now(), "Joe Dao");
             em.persist(product);
 
             // Update Category with Products

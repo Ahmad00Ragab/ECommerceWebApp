@@ -39,7 +39,7 @@ class CartRepositoryTest {
         MockitoAnnotations.openMocks(this);
         // Initialize sample data
         user = new User("JohnDoe", "john.doe@gmail.com", "password123", LocalDate.now(), LocalDate.now());
-        product = new Product("Laptop", BigDecimal.valueOf(1000), "Gaming Laptop", 5, null, LocalDateTime.now(), LocalDateTime.now());
+        product = new Product("Laptop", BigDecimal.valueOf(1000), "Gaming Laptop", 5, null, LocalDateTime.now(), LocalDateTime.now(), "Joe Doe");
         cartItem = new CartItem(user, product, 2);
     }
 

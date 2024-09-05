@@ -52,7 +52,7 @@ public class Product {
     @Column(name = "created_by")
     private String createdBy;
 
-    public Product(String name, BigDecimal price, String description, int stock, Category category, LocalDateTime dateCreated, LocalDateTime lastUpdated) {
+    public Product(String name, BigDecimal price, String description, int stock, Category category, LocalDateTime dateCreated, LocalDateTime lastUpdated, String createdBy) {
         this.name = name;
         this.price = price;
         this.description = description;
@@ -61,6 +61,7 @@ public class Product {
         this.dateCreated = dateCreated;
         this.lastUpdated = lastUpdated;
         cart=new HashSet<>();
+        this.createdBy=createdBy;
     }
 
     public Product(String name, BigDecimal price, int stock, Category category, LocalDateTime dateCreated, LocalDateTime lastUpdated) {
