@@ -159,7 +159,6 @@
 
 
     <!--email validator-->
-    <!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator -->
     <dependency>
       <groupId>org.hibernate.validator</groupId>
       <artifactId>hibernate-validator</artifactId>
@@ -169,8 +168,23 @@
     <dependency>
       <groupId>org.glassfish.expressly</groupId>
       <artifactId>expressly</artifactId>
-      <version>5.0.0</version>
+      <version>6.0.0-M1</version>
     </dependency>
+
+
+    <!--Email verification in the registration process-->
+    <dependency>
+      <groupId>jakarta.activation</groupId>
+      <artifactId>jakarta.activation-api</artifactId>
+      <version>2.1.3</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.sun.mail</groupId>
+      <artifactId>jakarta.mail</artifactId>
+      <version>2.0.1</version>
+    </dependency>
+
 
 
 
