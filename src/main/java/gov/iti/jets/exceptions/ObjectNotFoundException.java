@@ -1,4 +1,4 @@
-package gov.iti.jets.system.exception;
+package gov.iti.jets.exceptions;
 
 public class ObjectNotFoundException extends RuntimeException{
     public ObjectNotFoundException(String objectName, Long id) {

@@ -13,6 +13,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -135,9 +136,9 @@ class ProductRepositoryTest {
     @Test
     void getProductByName() {
         String productName = "Product 1";
-        when(productRepository.getProductByName(productName)).thenReturn(product1);
+        when(productRepository.getProductByName(productName)).thenReturn(Optional.of(product1));
 
-        Product result = productRepository.getProductByName(productName);
+        Optional<Product>result = productRepository.getProductByName(productName);
 
         assertEquals(product1.getName(),  "Product 1", "The returned product should match the expected product");
 

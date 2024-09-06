@@ -48,7 +48,7 @@ public class EmailSender {
             message.setFrom(new InternetAddress(fromEmail));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail));
             message.setSubject("Email Verification Code");
-            message.setText("Successfully verified you Email"+"\n"+ "Your verification code is: " + user.getVerificationCode() );
+            message.setText("Successfully verified you Email"+"\n"+ "Your verification code is: " + user.getVerificationCode());
 
 
             test = true;

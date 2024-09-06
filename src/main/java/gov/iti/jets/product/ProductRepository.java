@@ -7,6 +7,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 
 import java.util.List;
+import java.util.Optional;
 
 public class ProductRepository extends GenericDaoImpl<Product> {
 
@@ -14,7 +15,7 @@ public class ProductRepository extends GenericDaoImpl<Product> {
         super(entityClass);
     }
 
-    public Product getProductByName(String name) {
+    public Optional<Product> getProductByName(String name) {
         try (EntityManager em = emf.createEntityManager()) {
             CriteriaBuilder cb = em.getCriteriaBuilder();
 
@@ -24,7 +25,7 @@ public class ProductRepository extends GenericDaoImpl<Product> {
 
             q.where(cb.equal(productRoot.get("name"), name));
 
-            return em.createQuery(q).getSingleResult();
+            return Optional.of(em.createQuery(q).getSingleResult());
         }
     }
 }
