@@ -22,8 +22,6 @@ public class ProductRepository extends GenericDaoImpl<Product>{
     }
 
 
-
-
     public Optional<Product> getProductByName(String name) {
         try (EntityManager em = emf.createEntityManager()) {
             CriteriaBuilder cb = em.getCriteriaBuilder();
