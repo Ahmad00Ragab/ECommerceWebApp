@@ -1,11 +1,9 @@
 package gov.iti.jets.product;
-import gov.iti.jets.cart.CartItem;
 
+import gov.iti.jets.cart.CartItem;
 import gov.iti.jets.category.Category;
 import lombok.*;
-
 import jakarta.persistence.*;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashSet;
