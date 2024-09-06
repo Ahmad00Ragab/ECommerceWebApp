@@ -40,7 +40,7 @@ public class EmailSender {
 
             Session session = Session.getInstance(properties, new jakarta.mail.Authenticator() {
                 protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication("abdulmajeed.ghndy9@outlook.com", password);
+                    return new PasswordAuthentication(fromEmail, password);
                 }
             });
 
