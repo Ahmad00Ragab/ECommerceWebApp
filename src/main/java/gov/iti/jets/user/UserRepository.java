@@ -1,5 +1,6 @@
 package gov.iti.jets.user;
 
+import gov.iti.jets.cart.CartItem;
 import gov.iti.jets.category.Category;
 import gov.iti.jets.genericDao.GenericDaoImpl;
 import gov.iti.jets.product.Product;
@@ -47,7 +48,7 @@ public class UserRepository extends GenericDaoImpl<User> {
                 .orElseThrow(() -> new ObjectNotFoundException("User", userId));
         return user.getWishlist();
     }
-
+    // interests
     public void addInterestToUser(Long userId, Category category) {
         User user = findById(userId).orElseThrow(() -> new ObjectNotFoundException("User", userId));
         user.getInterests().add(category);
@@ -64,7 +65,7 @@ public class UserRepository extends GenericDaoImpl<User> {
             throw new ObjectNotFoundException("Interest", category.getId());
         }
     }
-
+    // wishlist
     public void addProductToWishlist(Long userId, Product product) {
         User user = findById(userId)
                 .orElseThrow(() -> new ObjectNotFoundException("User", userId));

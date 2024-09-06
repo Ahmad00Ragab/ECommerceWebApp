@@ -51,16 +51,18 @@ class CartRepositoryTest {
     @Test
     void findById() {
         // Given
-        given(cartRepository.findById(cartItem.getCartId())).willReturn(cartItem);
+        CartKey cartKey = cartItem.getCartId(); // Create the CartKey from the CartItem
+        given(cartRepository.findById(cartKey)).willReturn(Optional.of(cartItem));
 
         // When
-        CartItem foundCart = cartRepository.findById(cartItem.getCartId());
+        Optional<CartItem> foundCart = cartRepository.findById(cartKey);
 
         // Then
-        assertNotNull(foundCart);
-        assertEquals(cartItem.getCartId(), foundCart.getCartId());
-        verify(cartRepository, times(1)).findById(cartItem.getCartId());
+        assertTrue(foundCart.isPresent()); // Ensure that the CartItem was found
+        assertEquals(cartItem.getCartId(), foundCart.get().getCartId()); // Check that the cartId matches
+        verify(cartRepository, times(1)).findById(cartKey); // Verify that the repository was called exactly once
     }
+
 
     @Test
     void save() {
@@ -81,7 +83,7 @@ class CartRepositoryTest {
     void delete() {
         // Given
         CartKey cartKey = cartItem.getCartId();
-        given(cartRepository.findById(cartKey)).willReturn(cartItem);
+        given(cartRepository.findById(cartKey)).willReturn(Optional.of(cartItem));
 
         // When
         cartRepository.delete(cartKey);

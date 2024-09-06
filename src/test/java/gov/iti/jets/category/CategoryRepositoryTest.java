@@ -11,6 +11,7 @@ import org.mockito.MockitoAnnotations;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -56,8 +57,8 @@ class CategoryRepositoryTest {
     @Test
     @DisplayName("Find Category by id")
     void findById() {
-        when(categoryRepository.findById(1L)).thenReturn(category1);
-        Category findProduct =(Category) categoryRepository.findById(1L);
+        when(categoryRepository.findById(1L)).thenReturn(Optional.of(category1));
+        Category findProduct =(Category) categoryRepository.findById(1L).get();
         assertEquals("Category 1", findProduct.getName(), "The name of the Category should be Category 1");
 
 
@@ -69,10 +70,10 @@ class CategoryRepositoryTest {
     void save() {
         Category category4 = new Category("Category 4", LocalDateTime.now(), LocalDateTime.now());
         given(this.categoryRepository.save(category4)).willReturn(category4);
-        given(this.categoryRepository.findById(4L)).willReturn(category4);
+        given(this.categoryRepository.findById(4L)).willReturn(Optional.of(category4));
         this.categoryRepository.save(category4);
 
-        Category savedProduct =(Category) categoryRepository.findById(4L);
+        Category savedProduct =(Category) categoryRepository.findById(4L).get();
         assertNotNull(savedProduct);
 
         assertEquals(category4.getName(), savedProduct.getName(), "The name of the Category should be Category 4");

@@ -82,8 +82,8 @@ class ProductRepositoryTest {
     @Test
     @DisplayName("Find by id behaviour Test")
     void findById() {
-        when(productRepository.findById(1L)).thenReturn(product1);
-        Product findProduct = productRepository.findById(1L);
+        when(productRepository.findById(1L)).thenReturn(Optional.of(product1));
+        Product findProduct = productRepository.findById(1L).get();
         assertEquals("Product 1", findProduct.getName(), "The name of the product should be 1");
         assertEquals(BigDecimal.valueOf(50.0), findProduct.getPrice(), "The price of the product should be 50.0");
 
@@ -99,11 +99,11 @@ class ProductRepositoryTest {
                 20,category, LocalDateTime.now(), LocalDateTime.now(),"Joe Doe");
 
         given(this.productRepository.save(product4)).willReturn(product4);
-        given(this.productRepository.findById(4L)).willReturn(product4);
+        given(this.productRepository.findById(4L)).willReturn(Optional.of(product4));
 
         this.productRepository.save(product4);
 
-        Product savedProduct = productRepository.findById(4L);
+        Product savedProduct = productRepository.findById(4L).get();
         assertNotNull(savedProduct);
 
         assertEquals(product4.getName(), savedProduct.getName(), "The name of the product should be Product 4");
@@ -116,8 +116,6 @@ class ProductRepositoryTest {
     void delete() {
         this.productRepository.delete(1L);
         assertNull(productRepository.findById(1L));
-
-
     }
 
 
