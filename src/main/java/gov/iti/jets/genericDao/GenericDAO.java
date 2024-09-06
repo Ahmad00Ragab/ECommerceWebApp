@@ -16,4 +16,5 @@ public interface GenericDAO<T> {
 
     T update (T entity);
 
+    boolean existsById(Long id);
 }

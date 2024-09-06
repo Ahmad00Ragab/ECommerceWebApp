@@ -1,5 +1,7 @@
 package gov.iti.jets.system.exceptions;
 
+import gov.iti.jets.cart.CartKey;
+
 public class ObjectNotFoundException extends RuntimeException {
 
     public ObjectNotFoundException(String objectName, Long id) {
@@ -11,6 +13,10 @@ public class ObjectNotFoundException extends RuntimeException {
     }
 
     public ObjectNotFoundException(String objectName, String id) {
+        super("Could not find " + objectName + " with Id " + id);
+    }
+
+    public ObjectNotFoundException(String objectName, CartKey id) {
         super("Could not find " + objectName + " with Id " + id);
     }
 
