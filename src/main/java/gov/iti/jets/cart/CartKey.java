@@ -12,7 +12,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-class CartKey implements Serializable {
+public class CartKey implements Serializable {
 
     @Column(name = "user_id", nullable = false)
     Long userId;

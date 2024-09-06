@@ -126,4 +126,7 @@ public class CartRepository extends GenericDaoImpl<CartItem> {
         }
     }
 
+    boolean exists(CartKey cartId) {
+        return findById(cartId).isPresent();
+    }
 }

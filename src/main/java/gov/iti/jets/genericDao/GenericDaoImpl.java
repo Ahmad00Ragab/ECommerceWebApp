@@ -117,6 +117,14 @@ public abstract class GenericDaoImpl<T> implements GenericDAO<T> {
         }
     }
 
+    @Override
+    public boolean existsById(Long id) {
+        try (EntityManager em = emf.createEntityManager()) {
+            T entity = em.find(entityClass, id);
+            return entity != null;
+        }
+    }
+
     public long countWithNamedQuery() {
         try (EntityManager em = emf.createEntityManager()) {
             CriteriaBuilder cb = emf.getCriteriaBuilder();
