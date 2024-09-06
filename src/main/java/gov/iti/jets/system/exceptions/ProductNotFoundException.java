@@ -1,4 +1,4 @@
-package gov.iti.jets.exceptions;
+package gov.iti.jets.system.exceptions;
 
 public class ProductNotFoundException extends RuntimeException{
     public ProductNotFoundException(){

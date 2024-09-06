@@ -3,7 +3,7 @@ package gov.iti.jets.user;
 import gov.iti.jets.cart.CartItem;
 import gov.iti.jets.category.Category;
 import gov.iti.jets.product.Product;
-import gov.iti.jets.system.exception.ObjectNotFoundException;
+import gov.iti.jets.system.exceptions.ObjectNotFoundException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 

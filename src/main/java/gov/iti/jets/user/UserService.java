@@ -1,6 +1,8 @@
 package gov.iti.jets.user;
 
-import gov.iti.jets.system.exception.ObjectNotFoundException;
+import gov.iti.jets.category.Category;
+import gov.iti.jets.product.Product;
+import gov.iti.jets.system.exceptions.ObjectNotFoundException;
 
 import java.util.Set;
 
@@ -58,4 +60,29 @@ public class UserService {
                 .orElseThrow(() -> new ObjectNotFoundException("user", userId));
     }
 
+    // Interests
+    public Set<Category> getInterests(Long userId) {
+        return userRepository.findInterestsByUserId(userId);
+    }
+
+    public void addInterest(Long userId, Category category) {
+        userRepository.addInterestToUser(userId, category);
+    }
+
+    public void removeInterest(Long userId, Category category) {
+        userRepository.removeInterestFromUser(userId, category);
+    }
+
+    // Wishlist
+    public Set<Product> getWishlist(Long userId) {
+        return userRepository.findWishlistByUserId(userId);
+    }
+
+    public void addToWishlist(Long userId, Product product) {
+        userRepository.addProductToWishlist(userId, product);
+    }
+
+    public void removeFromWishlist(Long userId, Product product) {
+        userRepository.removeProductFromWishlist(userId, product);
+    }
 }

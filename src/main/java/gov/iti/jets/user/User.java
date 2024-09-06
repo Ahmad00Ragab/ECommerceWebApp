@@ -73,6 +73,7 @@ public class User {
     @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
     private Set<CartItem> cartItems;
 
+    @Getter
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "wishlist",
@@ -135,5 +136,11 @@ public class User {
         this.cartItems = new HashSet<>();
 
     }
+
+    public Set<Category> getInterests() {
+        return this.categories;
+    }
+
+
 }
 

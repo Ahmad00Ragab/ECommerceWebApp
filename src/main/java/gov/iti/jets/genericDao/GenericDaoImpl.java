@@ -3,7 +3,6 @@ package gov.iti.jets.genericDao;
 import gov.iti.jets.system.persistence.CustomPersistenceUnit;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;

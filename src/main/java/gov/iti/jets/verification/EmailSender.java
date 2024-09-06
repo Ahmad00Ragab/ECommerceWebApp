@@ -1,6 +1,6 @@
 package gov.iti.jets.verification;
 
-import gov.iti.jets.exceptions.CannotSendMessageException;
+import gov.iti.jets.system.exceptions.CannotSendMessageException;
 import gov.iti.jets.user.User;
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;

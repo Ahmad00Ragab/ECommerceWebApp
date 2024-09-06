@@ -1,20 +1,6 @@
 package gov.iti.jets.app;
 
-import gov.iti.jets.cart.CartItem;
-import gov.iti.jets.category.Category;
-import gov.iti.jets.order.Order;
-import gov.iti.jets.order.OrderItem;
 import gov.iti.jets.system.persistence.CustomPersistenceUnit;
-import gov.iti.jets.product.Product;
-import gov.iti.jets.user.User;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import org.hibernate.jpa.HibernatePersistenceProvider;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.*;
 
 public class App {
     private static final CustomPersistenceUnit cpu = new CustomPersistenceUnit();

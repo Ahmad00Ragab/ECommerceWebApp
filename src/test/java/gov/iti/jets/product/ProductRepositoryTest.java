@@ -3,7 +3,7 @@ package gov.iti.jets.product;
 
 import gov.iti.jets.cart.CartItem;
 import gov.iti.jets.category.Category;
-import gov.iti.jets.exceptions.ProductNotFoundException;
+import gov.iti.jets.system.exceptions.ProductNotFoundException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
