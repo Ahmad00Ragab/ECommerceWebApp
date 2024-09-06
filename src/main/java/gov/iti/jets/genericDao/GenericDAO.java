@@ -1,5 +1,6 @@
 package gov.iti.jets.genericDao;
 
+import java.util.Optional;
 import java.util.Set;
 
 public interface GenericDAO<T> {
@@ -7,7 +8,7 @@ public interface GenericDAO<T> {
   
     Set<T> findAll();
 
-    T findById(Long id);
+    Optional<T> findById(Long id);
 
     boolean delete(Long id);
 

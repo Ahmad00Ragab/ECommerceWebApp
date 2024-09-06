@@ -6,13 +6,15 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 
+import java.util.Optional;
+
 public class UserRepository extends GenericDaoImpl<User> {
 
     public UserRepository() {
         super(User.class);
     }
 
-    public User findByUsername(String username) {
+    public Optional<User> findByUsername(String username) {
         try (EntityManager em = emf.createEntityManager()) {
             CriteriaBuilder cb = em.getCriteriaBuilder();
 
@@ -24,7 +26,9 @@ public class UserRepository extends GenericDaoImpl<User> {
 
             q.select(user).distinct(true);
 
-            return em.createQuery(q).getSingleResult();
+            return Optional.ofNullable(em.createQuery(q).getSingleResult());
+        } catch (Exception e) {
+            throw new RuntimeException("Error occurred while fetching " + username , e);
         }
     }
 }

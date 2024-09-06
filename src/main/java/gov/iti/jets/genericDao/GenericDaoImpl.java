@@ -8,8 +8,11 @@ import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
+import org.hibernate.ObjectNotFoundException;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 
+import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 public abstract class GenericDaoImpl<T> implements GenericDAO<T> {
@@ -30,22 +33,19 @@ public abstract class GenericDaoImpl<T> implements GenericDAO<T> {
             CriteriaBuilder cb = emf.getCriteriaBuilder();
             CriteriaQuery<T> query = cb.createQuery(entityClass);
             query.from(entityClass);
-            return (Set<T>) em.createQuery(query).getResultList();
+            return new HashSet<>(em.createQuery(query).getResultList());
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to fetch all records of " + entityClass.getSimpleName(), e);
         }
     }
 
     @Override
-    public T findById(Long id) {
+    public Optional<T> findById(Long id) {
         try (EntityManager em = emf.createEntityManager()) {
             T entity = em.find(entityClass, id);
-            if(entity == null){
-                throw new EntityNotFoundException();
-            }else {
-                return entity;
-            }
-        }catch (EntityNotFoundException e){
-            e.printStackTrace();
-            return null;
+            return Optional.ofNullable(entity);
+        } catch (Exception e) {
+            throw new RuntimeException("Error occurred while fetching " + entityClass.getSimpleName() + " with ID: " + id, e);
         }
     }
 
@@ -56,25 +56,27 @@ public abstract class GenericDaoImpl<T> implements GenericDAO<T> {
             transaction.begin();
             em.persist(entity);
             transaction.commit();
+            return entity;
         } catch (Exception e) {
-            e.printStackTrace();
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Error saving entity: " + entityClass.getSimpleName(), e);
         }
-        return entity;
     }
 
     public T update(T entity) {
-
-        try (EntityManager em = emf.createEntityManager()){
+        try (EntityManager em = emf.createEntityManager()) {
             transaction = em.getTransaction();
             transaction.begin();
             T updatedEntity = em.merge(entity);
             transaction.commit();
             return updatedEntity;
         } catch (Exception e) {
-            if (transaction.isActive()) {
+            if (transaction != null && transaction.isActive()) {
                 transaction.rollback();
             }
-            throw e;
+            throw new RuntimeException("Error updating entity: " + entityClass.getSimpleName(), e);
         }
     }
 
@@ -83,14 +85,21 @@ public abstract class GenericDaoImpl<T> implements GenericDAO<T> {
         try (EntityManager em = emf.createEntityManager()) {
             transaction = em.getTransaction();
             transaction.begin();
-            em.find(entityClass, id);
-            em.remove(em.find(entityClass, id));
+            T entity = em.find(entityClass, id);
+            if (entity == null) {
+                throw new ObjectNotFoundException(entityClass.getSimpleName(), id);
+            }
+            em.remove(entity);
             transaction.commit();
+            return true;
+        } catch (ObjectNotFoundException e) {
+            throw e;  // Explicit rethrow of custom exception
         } catch (Exception e) {
-            if (transaction != null) transaction.rollback();
-            e.printStackTrace();
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Error deleting entity: " + entityClass.getSimpleName(), e);
         }
-        return true;
     }
 
     @Override
@@ -100,12 +109,13 @@ public abstract class GenericDaoImpl<T> implements GenericDAO<T> {
             transaction.begin();
             em.remove(entity);
             transaction.commit();
+            return true;
         } catch (Exception e) {
-            if (transaction != null) transaction.rollback();
-            e.printStackTrace();
-            return false;
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Error deleting entity: " + entityClass.getSimpleName(), e);
         }
-        return true;
     }
 
     public long countWithNamedQuery() {
@@ -116,20 +126,24 @@ public abstract class GenericDaoImpl<T> implements GenericDAO<T> {
 
             query.select(cb.count(root));
 
-            return (long) em.createQuery(query).getSingleResult();
+            return em.createQuery(query).getSingleResult();
+        } catch (Exception e) {
+            throw new RuntimeException("Error counting entities: " + entityClass.getSimpleName(), e);
         }
     }
 
-    public long countWithNamedQuery(String paramNam, Object paramValue) {
+    public long countWithNamedQuery(String paramName, Object paramValue) {
         try (EntityManager em = emf.createEntityManager()) {
             CriteriaBuilder cb = emf.getCriteriaBuilder();
             CriteriaQuery<Long> query = cb.createQuery(Long.class);
             Root<T> root = query.from(entityClass);
-            query.where(cb.equal(root.get(paramNam), paramValue));
+            query.where(cb.equal(root.get(paramName), paramValue));
             query.select(cb.count(root));
-            return (long) em.createQuery(query).getSingleResult();
+            return em.createQuery(query).getSingleResult();
+        } catch (Exception e) {
+            throw new RuntimeException("Error counting entities with parameter: " + entityClass.getSimpleName(), e);
         }
     }
-
     // TODO Implement more methods here
 }
+
