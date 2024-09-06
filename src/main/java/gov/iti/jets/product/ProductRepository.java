@@ -16,15 +16,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class ProductRepository extends GenericDaoImpl<Product>{
-    private  EntityManager em;
-    public ProductRepository(EntityManager em) {
-        super(Product.class);
-        this.em = em;
-    }
 
     public ProductRepository(Class<Product> entityClass) {
         super(entityClass);
     }
+
 
     public Optional<Product> getProductByName(String name) {
         try (EntityManager em = emf.createEntityManager()) {
