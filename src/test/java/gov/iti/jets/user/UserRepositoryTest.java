@@ -4,8 +4,9 @@ import gov.iti.jets.cart.CartItem;
 import gov.iti.jets.category.Category;
 import gov.iti.jets.product.Product;
 import gov.iti.jets.system.exception.ObjectNotFoundException;
-import jakarta.persistence.EntityNotFoundException;
-import org.assertj.core.api.Assertions;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,6 +31,12 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 class UserRepositoryTest {
+
+    @Mock
+    private EntityManagerFactory emf;
+
+    @Mock
+    private EntityManager em;
 
     @Mock
     private UserRepository userRepository;
@@ -84,9 +91,8 @@ class UserRepositoryTest {
 
         // Mock the repository methods
         when(userRepository.findAll()).thenReturn(users);
-        when(userRepository.findById(1L)).thenReturn(user1);
         when(userRepository.save(any(User.class))).thenReturn(user1);
-        when(userRepository.findByUsername("ok")).thenReturn(user1);
+        when(userRepository.findByUsername("ok")).thenReturn(Optional.of(user1));
     }
 
     @AfterEach
@@ -105,25 +111,33 @@ class UserRepositoryTest {
 
     @Test
     void findById() {
-        User foundUser = userRepository.findById(1L);
+        given(this.userRepository.findById(1L)).willReturn(Optional.of(user1));
+
+        User foundUser = this.userRepository.findById(1L).get();
+
         assertNotNull(foundUser);
         assertEquals("ok", foundUser.getUsername());
     }
 
     @Test
     void findByIdNotFound() {
-        // Given
-        given(userRepository.findById(Mockito.any(Long.class))).willThrow(EntityNotFoundException.class);
+        // Given: Mock the behavior to throw an ObjectNotFoundException
+        Long userId = 1L;
+        given(userRepository.findById(Mockito.any(Long.class)))
+                .willThrow(new ObjectNotFoundException("User", userId));
 
-        // When
-        Throwable thrown = Assertions.catchThrowable(()->{
-            User foundUser = userRepository.findById(1L);
+        // When: Call the method and capture the thrown exception
+        Throwable thrown = catchThrowable(() -> {
+            userRepository.findById(userId);
         });
 
-        // Then
-        Assertions.assertThat(thrown).isInstanceOf(EntityNotFoundException.class);
+        // Then: Assert that the correct exception is thrown with the right message
+        assertThat(thrown)
+                .isInstanceOf(ObjectNotFoundException.class)
+                .hasMessage("Could not find User with Id " + userId);
 
-        verify(userRepository, times(1)).findById(1L);
+        // Verify that findById was called exactly once
+        verify(userRepository, times(1)).findById(Mockito.any(Long.class));
     }
 
     @Test
@@ -131,11 +145,11 @@ class UserRepositoryTest {
         User newUser = new User("new_kid3", "john.doe@gmail.com", "password123", LocalDate.now(), LocalDate.now());
 
         given(this.userRepository.save(newUser)).willReturn(newUser);
-        given(this.userRepository.findByUsername("new_kid3")).willReturn(newUser);
+        given(this.userRepository.findByUsername("new_kid3")).willReturn(Optional.of(newUser));
 
         this.userRepository.save(newUser);
 
-        User savedUser = userRepository.findByUsername("new_kid3");
+        User savedUser = userRepository.findByUsername("new_kid3").get();
         assertNotNull(savedUser);
 
         assertThat(savedUser.getUsername()).isEqualTo(newUser.getUsername());
@@ -161,7 +175,7 @@ class UserRepositoryTest {
 
     @Test
     void getUserByUsername() {
-        User foundUser = userRepository.findByUsername("ok");
+        User foundUser = userRepository.findByUsername("ok").get();
         assertNotNull(foundUser);
         assertEquals("ok", foundUser.getUsername());
     }
