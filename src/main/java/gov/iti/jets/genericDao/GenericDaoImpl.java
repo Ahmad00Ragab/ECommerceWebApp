@@ -14,6 +14,8 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
+
+
 public abstract class GenericDaoImpl<T> implements GenericDAO<T> {
 
     private final Class<T> entityClass;
@@ -26,31 +28,54 @@ public abstract class GenericDaoImpl<T> implements GenericDAO<T> {
         this.entityClass = entityClass;
     }
 
+
+
+
+    
     @Override
     public Set<T> findAll() {
-        try (EntityManager em = emf.createEntityManager()) {
+        EntityManager em = null;
+        try {
+            em = emf.createEntityManager();
             CriteriaBuilder cb = emf.getCriteriaBuilder();
             CriteriaQuery<T> query = cb.createQuery(entityClass);
             query.from(entityClass);
             return new HashSet<>(em.createQuery(query).getResultList());
         } catch (Exception e) {
             throw new RuntimeException("Failed to fetch all records of " + entityClass.getSimpleName(), e);
+        } finally {
+            if (em != null) {
+                em.close();
+            }
         }
     }
 
+
+
+
+
+
     @Override
     public Optional<T> findById(Long id) {
-        try (EntityManager em = emf.createEntityManager()) {
+        EntityManager em = null;
+        try {
+            em = emf.createEntityManager();
             T entity = em.find(entityClass, id);
             return Optional.ofNullable(entity);
         } catch (Exception e) {
             throw new RuntimeException("Error occurred while fetching " + entityClass.getSimpleName() + " with ID: " + id, e);
+        } finally {
+            if (em != null) {
+                em.close();
+            }
         }
     }
 
     @Override
     public T save(T entity) {
-        try (EntityManager em = emf.createEntityManager()) {
+        EntityManager em = null;
+        try {
+            em = emf.createEntityManager();
             transaction = em.getTransaction();
             transaction.begin();
             em.persist(entity);
@@ -61,11 +86,17 @@ public abstract class GenericDaoImpl<T> implements GenericDAO<T> {
                 transaction.rollback();
             }
             throw new RuntimeException("Error saving entity: " + entityClass.getSimpleName(), e);
+        } finally {
+            if (em != null) {
+                em.close();
+            }
         }
     }
 
     public T update(T entity) {
-        try (EntityManager em = emf.createEntityManager()) {
+        EntityManager em = null;
+        try {
+            em = emf.createEntityManager();
             transaction = em.getTransaction();
             transaction.begin();
             T updatedEntity = em.merge(entity);
@@ -76,12 +107,18 @@ public abstract class GenericDaoImpl<T> implements GenericDAO<T> {
                 transaction.rollback();
             }
             throw new RuntimeException("Error updating entity: " + entityClass.getSimpleName(), e);
+        } finally {
+            if (em != null) {
+                em.close();
+            }
         }
     }
 
     @Override
     public boolean delete(Long id) {
-        try (EntityManager em = emf.createEntityManager()) {
+        EntityManager em = null;
+        try {
+            em = emf.createEntityManager();
             transaction = em.getTransaction();
             transaction.begin();
             T entity = em.find(entityClass, id);
@@ -98,12 +135,18 @@ public abstract class GenericDaoImpl<T> implements GenericDAO<T> {
                 transaction.rollback();
             }
             throw new RuntimeException("Error deleting entity: " + entityClass.getSimpleName(), e);
+        } finally {
+            if (em != null) {
+                em.close();
+            }
         }
     }
 
     @Override
     public boolean delete(T entity) {
-        try (EntityManager em = emf.createEntityManager()) {
+        EntityManager em = null;
+        try {
+            em = emf.createEntityManager();
             transaction = em.getTransaction();
             transaction.begin();
             em.remove(entity);
@@ -114,33 +157,49 @@ public abstract class GenericDaoImpl<T> implements GenericDAO<T> {
                 transaction.rollback();
             }
             throw new RuntimeException("Error deleting entity: " + entityClass.getSimpleName(), e);
+        } finally {
+            if (em != null) {
+                em.close();
+            }
         }
     }
 
     @Override
     public boolean existsById(Long id) {
-        try (EntityManager em = emf.createEntityManager()) {
+        EntityManager em = null;
+        try {
+            em = emf.createEntityManager();
             T entity = em.find(entityClass, id);
             return entity != null;
+        } finally {
+            if (em != null) {
+                em.close();
+            }
         }
     }
 
     public long countWithNamedQuery() {
-        try (EntityManager em = emf.createEntityManager()) {
+        EntityManager em = null;
+        try {
+            em = emf.createEntityManager();
             CriteriaBuilder cb = emf.getCriteriaBuilder();
             CriteriaQuery<Long> query = cb.createQuery(Long.class);
             Root<T> root = query.from(entityClass);
-
             query.select(cb.count(root));
-
             return em.createQuery(query).getSingleResult();
         } catch (Exception e) {
             throw new RuntimeException("Error counting entities: " + entityClass.getSimpleName(), e);
+        } finally {
+            if (em != null) {
+                em.close();
+            }
         }
     }
 
     public long countWithNamedQuery(String paramName, Object paramValue) {
-        try (EntityManager em = emf.createEntityManager()) {
+        EntityManager em = null;
+        try {
+            em = emf.createEntityManager();
             CriteriaBuilder cb = emf.getCriteriaBuilder();
             CriteriaQuery<Long> query = cb.createQuery(Long.class);
             Root<T> root = query.from(entityClass);
@@ -149,8 +208,11 @@ public abstract class GenericDaoImpl<T> implements GenericDAO<T> {
             return em.createQuery(query).getSingleResult();
         } catch (Exception e) {
             throw new RuntimeException("Error counting entities with parameter: " + entityClass.getSimpleName(), e);
+        } finally {
+            if (em != null) {
+                em.close();
+            }
         }
     }
     // TODO Implement more methods here
 }
-
