@@ -34,10 +34,6 @@ public class UserService {
         return true;
     }
 
-    public User update(User user) {
-        return userRepository.update(user);
-    }
-
     public User update(Long userId, User user) {
         User foundUser = this.userRepository.findById(userId)
                 .orElseThrow(() -> new ObjectNotFoundException("user", userId));
@@ -58,6 +54,10 @@ public class UserService {
     public User findById(Long userId) {
         return this.userRepository.findById(userId)
                 .orElseThrow(() -> new ObjectNotFoundException("user", userId));
+    }
+
+    public boolean existsById(Long userId) {
+        return userRepository.existsById(userId);
     }
 
     // Interests
