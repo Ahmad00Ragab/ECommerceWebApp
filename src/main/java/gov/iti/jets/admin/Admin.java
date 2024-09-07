@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 @NoArgsConstructor
-@Table(name ="admin")
+@Table(name = "admin")
 public class Admin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,16 +29,17 @@ public class Admin {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name= "date_created", nullable = true)
+    @Column(name = "date_created", nullable = true)
     private LocalDateTime dateCreated;
 
-    @Column(name="last_updated", nullable = true)
+    @Column(name = "last_updated", nullable = true)
     private LocalDateTime lastUpdated;
 
     @Column(name = "created_by", nullable = true)
     private String createdBy;
 
-    public Admin(String name, String email, String password, LocalDateTime dateCreated, LocalDateTime lastUpdate, String createdBy) {
+    public Admin(String name, String email, String password, LocalDateTime dateCreated, LocalDateTime lastUpdate,
+            String createdBy) {
         this.name = name;
         this.email = email;
         this.password = password;
@@ -46,4 +47,16 @@ public class Admin {
         this.lastUpdated = lastUpdate;
         this.createdBy = createdBy;
     }
+
+    @PrePersist
+    protected void onCreate() {
+        dateCreated = LocalDateTime.now();
+        lastUpdated = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        lastUpdated = LocalDateTime.now();
+    }
+
 }

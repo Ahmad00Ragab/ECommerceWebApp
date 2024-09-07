@@ -20,6 +20,7 @@ public class CartService {
         this.userRepository = userRepository;
     }
 
+    
     // 1. Find cart items by user ID
     public Set<CartItem> getCartByUserId(Long userId) {
         if(userRepository.existsById(userId)) {

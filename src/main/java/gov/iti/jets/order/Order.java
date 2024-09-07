@@ -6,6 +6,7 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -29,12 +30,14 @@ public class Order {
     @Column(name = "date_created")
     private LocalDateTime dateCreated;
 
+    // Initialize orderItems
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
-    private Set<OrderItem> orderItems;
+    private Set<OrderItem> orderItems = new HashSet<>();
 
     public Order(User user, BigDecimal totalPrice, LocalDateTime dateCreated) {
         this.user = user;
         this.totalPrice = totalPrice;
         this.dateCreated = dateCreated;
+        this.orderItems = new HashSet<>(); // Initialize orderItems
     }
 }

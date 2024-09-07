@@ -3,7 +3,9 @@ package gov.iti.jets.product;
 import gov.iti.jets.cart.CartItem;
 import gov.iti.jets.category.Category;
 import lombok.*;
+
 import jakarta.persistence.*;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -19,7 +21,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String name;
 
     @Column(nullable = false)
@@ -38,9 +40,6 @@ public class Product {
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
-    @OneToMany(mappedBy = "product")
-    private Set<CartItem> carts;
-
     @Column(name = "date_created", nullable = false)
     private LocalDateTime dateCreated;
 
@@ -50,7 +49,7 @@ public class Product {
     @Column(name = "created_by")
     private String createdBy;
 
-    public Product(String name, BigDecimal price, String description, int stock, Category category, LocalDateTime dateCreated, LocalDateTime lastUpdated, String createdBy) {
+    public Product(String name, BigDecimal price, String description, int stock, Category category, LocalDateTime dateCreated, LocalDateTime lastUpdated) {
         this.name = name;
         this.price = price;
         this.description = description;
@@ -59,7 +58,6 @@ public class Product {
         this.dateCreated = dateCreated;
         this.lastUpdated = lastUpdated;
         cart=new HashSet<>();
-        this.createdBy=createdBy;
     }
 
     public Product(String name, BigDecimal price, int stock, Category category, LocalDateTime dateCreated, LocalDateTime lastUpdated) {

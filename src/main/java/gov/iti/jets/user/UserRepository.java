@@ -20,22 +20,26 @@ public class UserRepository extends GenericDaoImpl<User> {
     }
 
     public Optional<User> findByUsername(String username) {
-        try (EntityManager em = emf.createEntityManager()) {
+        EntityManager em = null;
+        try {
+            em = emf.createEntityManager();
             CriteriaBuilder cb = em.getCriteriaBuilder();
-
             CriteriaQuery<User> q = cb.createQuery(User.class);
-
             Root<User> user = q.from(User.class);
-
             q.where(cb.equal(user.get("username"), username));
-
             q.select(user).distinct(true);
-
             return Optional.ofNullable(em.createQuery(q).getSingleResult());
         } catch (Exception e) {
-            throw new RuntimeException("Error occurred while fetching " + username , e);
+            throw new RuntimeException("Error occurred while fetching " + username, e);
+        } finally {
+            if (em != null) {
+                em.close();
+            }
         }
     }
+
+
+
 
     public Set<Category> findInterestsByUserId(Long userId) {
         User user = findById(userId)
@@ -48,12 +52,18 @@ public class UserRepository extends GenericDaoImpl<User> {
                 .orElseThrow(() -> new ObjectNotFoundException("User", userId));
         return user.getWishlist();
     }
-    // interests
+
+
+
+    // Interests
     public void addInterestToUser(Long userId, Category category) {
-        User user = findById(userId).orElseThrow(() -> new ObjectNotFoundException("User", userId));
+        User user = findById(userId)
+                .orElseThrow(() -> new ObjectNotFoundException("User", userId));
         user.getInterests().add(category);
         update(user);
     }
+
+
 
     public void removeInterestFromUser(Long userId, Category category) {
         User user = findById(userId)
@@ -65,7 +75,10 @@ public class UserRepository extends GenericDaoImpl<User> {
             throw new ObjectNotFoundException("Interest", category.getId());
         }
     }
-    // wishlist
+
+
+
+    // Wishlist
     public void addProductToWishlist(Long userId, Product product) {
         User user = findById(userId)
                 .orElseThrow(() -> new ObjectNotFoundException("User", userId));
@@ -73,6 +86,8 @@ public class UserRepository extends GenericDaoImpl<User> {
         update(user);
     }
 
+
+    
     public void removeProductFromWishlist(Long userId, Product product) {
         User user = findById(userId)
                 .orElseThrow(() -> new ObjectNotFoundException("User", userId));
