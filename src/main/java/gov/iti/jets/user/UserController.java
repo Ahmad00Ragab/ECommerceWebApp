@@ -1,6 +1,9 @@
 package gov.iti.jets.user;
 
-import gov.iti.jets.system.utils.encryption.PasswordEncryptionUtil;
+import gov.iti.jets.system.exceptions.ObjectNotFoundException;
+import gov.iti.jets.system.exceptions.ValidationException;
+import gov.iti.jets.user.converter.UserDtoToUserConverter;
+import gov.iti.jets.user.dto.UserDto;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -8,11 +11,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
-import gov.iti.jets.system.exceptions.ObjectNotFoundException;
-
-@WebServlet("/user")
 public class UserController extends HttpServlet {
 
     private final UserService userService = new UserService();
@@ -21,7 +22,7 @@ public class UserController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
 
-        try {
+
             switch (action) {
                 case "view":
                     viewUser(req, resp);
@@ -32,19 +33,16 @@ public class UserController extends HttpServlet {
                 default:
                     resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid action");
             }
-        } catch (ObjectNotFoundException e) {
-            req.setAttribute("error", e.getMessage());
-            req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, resp);
-        }
+
     }
 
     private void viewUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Long userId = Long.parseLong(req.getParameter("userId"));
-        User user = userService.findById(userId);
+        Optional<User> userOpt = userService.findById(userId);
 
-        if (userService.existsById(userId)) {
-            req.setAttribute("user", user);
-            req.getRequestDispatcher("/WEB-INF/jsp/user/view.jsp").forward(req, resp);
+        if (userOpt.isPresent()) {
+            req.setAttribute("user", userOpt.get());
+            req.getRequestDispatcher("/jsp/user/view.jsp").forward(req, resp);
         } else {
             throw new ObjectNotFoundException("User", userId);
         }
@@ -71,55 +69,91 @@ public class UserController extends HttpServlet {
                     deleteUser(req, resp);
                     break;
                 default:
-                    resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid action");
+                    req.setAttribute("error", "Invalid action");
+                    req.getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
             }
-        } catch (ObjectNotFoundException e) {
-            req.setAttribute("error", e.getMessage());
-            req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, resp);
+        } catch (Exception e) {
+            req.setAttribute("error", "An error occurred: " + e.getMessage());
+            req.getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
         }
     }
 
     private void createUser(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        // Form validation logic here (e.g., check empty fields)
         String username = req.getParameter("username");
         String email = req.getParameter("email");
         String password = req.getParameter("password");
 
+        // Create a User object with provided input
+        User user = new User(username, email, password, LocalDate.now(), LocalDate.now());
+
+        // Perform validation
+        List<String> validationErrors = userService.createUserValidation(user);
+
+        if (!validationErrors.isEmpty()) {
+            // If validation fails, set errors in request and forward to JSP
+            req.setAttribute("errors", validationErrors);
+            req.getRequestDispatcher("/jsp/user/create.jsp").forward(req, resp);
+            return;
+        }
+
+        // Check if the username already exists
         if (userService.findUserByUsername(username).isPresent()) {
             req.setAttribute("error", "Username already exists.");
-            req.getRequestDispatcher("/WEB-INF/jsp/user/create.jsp").forward(req, resp);
+            req.getRequestDispatcher("/jsp/user/create.jsp").forward(req, resp);
             return;
         }
 
-        if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
-            req.setAttribute("error", "All fields are required.");
-            req.getRequestDispatcher("/WEB-INF/jsp/user/create.jsp").forward(req, resp);
-            return;
-        }
-
-        // Save user to database
-        userService.save(new User(username, email, password, LocalDate.now(), LocalDate.now()));
-        resp.sendRedirect("/user?action=list");
+        // Save user to the database after validation
+        userService.save(user);
+        req.setAttribute("successMessage", "User created successfully.");
+        req.getRequestDispatcher("/jsp/user/success.jsp").forward(req, resp);
     }
 
     private void updateUser(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         Long userId = Long.parseLong(req.getParameter("userId"));
-        String newUsername = req.getParameter("username");
-        User user = userService.findById(userId);
 
-        user.setUsername(newUsername);
-        String newphone = req.getParameter("phone");
-        String newcity = req.getParameter("city");
-        String newcountry = req.getParameter("country");
-        String newstreet = req.getParameter("street");
+        // Create the UserDto from the request parameters
+        UserDto userDto = new UserDto(
+                req.getParameter("username"),
+                req.getParameter("email"),
+                req.getParameter("password"), // Ensure you handle passwords securely
+                req.getParameter("phone"),
+                req.getParameter("city"),
+                req.getParameter("country"),
+                req.getParameter("street")
+        );
 
-        userService.update(userId, user);
-        resp.sendRedirect("/user?action=view&userId=" + userId);
+        // Convert the UserDto to a User object
+        User user = UserDtoToUserConverter.convert(userDto, userId);
+
+        try {
+            // Call the service to update the user
+            userService.update(userId, user);
+
+            // Success, forward to success page
+            req.setAttribute("successMessage", "User updated successfully.");
+            req.getRequestDispatcher("/jsp/user/success.jsp").forward(req, resp);
+
+        } catch (ValidationException e) {
+            // Validation failed, send validation errors to the JSP
+            req.setAttribute("errors", e.getValidationErrors());
+            req.getRequestDispatcher("/jsp/user/update.jsp").forward(req, resp);
+        } catch (ObjectNotFoundException e) {
+            // User not found
+            req.setAttribute("error", "User not found.");
+            req.getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
+        }
     }
 
-    private void deleteUser(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    private void deleteUser(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         Long userId = Long.parseLong(req.getParameter("userId"));
-        userService.delete(userId);
-        resp.sendRedirect("/user?action=list");
+        if (userService.existsById(userId)) {
+            userService.delete(userId);
+            req.setAttribute("successMessage", "User deleted successfully.");
+            req.getRequestDispatcher("/jsp/user/success.jsp").forward(req, resp);
+        } else {
+            req.setAttribute("error", "User not found.");
+            req.getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
+        }
     }
 }

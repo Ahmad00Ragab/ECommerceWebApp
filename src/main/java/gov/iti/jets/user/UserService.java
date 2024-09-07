@@ -3,16 +3,19 @@ package gov.iti.jets.user;
 import gov.iti.jets.category.Category;
 import gov.iti.jets.product.Product;
 import gov.iti.jets.system.exceptions.ObjectNotFoundException;
+import gov.iti.jets.system.exceptions.ValidationException;
 import gov.iti.jets.system.utils.encryption.PasswordEncryptionUtil;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 public class UserService {
     UserRepository userRepository;
+    UserValidator userValidator;
     public UserService() {
         userRepository = new UserRepository();
-
+        userValidator = new UserValidator();
     }
 
     public Optional<User> findUserByUsername(String username) {
@@ -38,8 +41,18 @@ public class UserService {
     }
 
     public User update(Long userId, User user) {
+        // Find the user in the repository
         User foundUser = this.userRepository.findById(userId)
                 .orElseThrow(() -> new ObjectNotFoundException("user", userId));
+
+        // Perform validation at the service layer
+        List<String> validationErrors = createUserValidation(user);
+
+        if (!validationErrors.isEmpty()) {
+            throw new ValidationException(validationErrors); // Custom exception for validation failures
+        }
+
+        // Update the necessary fields
         foundUser.setFirstName(user.getFirstName());
         foundUser.setLastName(user.getLastName());
         foundUser.setCountry(user.getCountry());
@@ -47,6 +60,9 @@ public class UserService {
         foundUser.setStreet(user.getStreet());
         foundUser.setCreditLimit(user.getCreditLimit());
         foundUser.setBirthdate(user.getBirthdate());
+        foundUser.setPhone(user.getPhone());
+
+        // Save the updated user
         return userRepository.update(foundUser);
     }
 
@@ -54,14 +70,15 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public User findById(Long userId) {
-        return this.userRepository.findById(userId)
-                .orElseThrow(() -> new ObjectNotFoundException("user", userId));
+    public Optional<User> findById(Long userId) {
+        return Optional.ofNullable(this.userRepository.findById(userId)
+                .orElseThrow(() -> new ObjectNotFoundException("user", userId)));
     }
 
     public boolean existsById(Long userId) {
         return userRepository.existsById(userId);
     }
+
 
     // Interests
     public Set<Category> getInterests(Long userId) {
@@ -76,6 +93,7 @@ public class UserService {
         userRepository.removeInterestFromUser(userId, category);
     }
 
+
     // Wishlist
     public Set<Product> getWishlist(Long userId) {
         return userRepository.findWishlistByUserId(userId);
@@ -87,5 +105,11 @@ public class UserService {
 
     public void removeFromWishlist(Long userId, Product product) {
         userRepository.removeProductFromWishlist(userId, product);
+    }
+
+
+    // Validation
+    public List<String> createUserValidation(User user){
+        return userValidator.validateUserInput(user, false, true);
     }
 }
