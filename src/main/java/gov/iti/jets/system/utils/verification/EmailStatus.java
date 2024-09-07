@@ -1,4 +1,4 @@
-package gov.iti.jets.verification;
+package gov.iti.jets.system.utils.verification;
 
 public enum EmailStatus {
     VERIFIED,

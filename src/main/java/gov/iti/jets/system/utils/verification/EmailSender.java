@@ -1,4 +1,4 @@
-package gov.iti.jets.verification;
+package gov.iti.jets.system.utils.verification;
 
 import gov.iti.jets.system.exceptions.CannotSendMessageException;
 import gov.iti.jets.user.User;
