@@ -3,7 +3,9 @@ package gov.iti.jets.user;
 import gov.iti.jets.category.Category;
 import gov.iti.jets.product.Product;
 import gov.iti.jets.system.exceptions.ObjectNotFoundException;
+import gov.iti.jets.system.utils.encryption.PasswordEncryptionUtil;
 
+import java.util.Optional;
 import java.util.Set;
 
 public class UserService {
@@ -13,12 +15,13 @@ public class UserService {
 
     }
 
-    public User getUserByUsername(String username) {
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new ObjectNotFoundException(username));
+    public Optional<User> findUserByUsername(String username) {
+        return Optional.ofNullable(userRepository.findByUsername(username)
+                .orElseThrow(() -> new ObjectNotFoundException(username)));
     }
 
     public User save(User user) {
+        user.setPassword(PasswordEncryptionUtil.encryptPassword(user.getPassword()));
         return userRepository.save(user);
     }
 

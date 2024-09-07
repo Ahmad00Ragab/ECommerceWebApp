@@ -1,5 +1,6 @@
 package gov.iti.jets.user;
 
+import gov.iti.jets.system.utils.encryption.PasswordEncryptionUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -84,12 +85,19 @@ public class UserController extends HttpServlet {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
 
+        if (userService.findUserByUsername(username).isPresent()) {
+            req.setAttribute("error", "Username already exists.");
+            req.getRequestDispatcher("/WEB-INF/jsp/user/create.jsp").forward(req, resp);
+            return;
+        }
+
         if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
             req.setAttribute("error", "All fields are required.");
             req.getRequestDispatcher("/WEB-INF/jsp/user/create.jsp").forward(req, resp);
             return;
         }
 
+        // Save user to database
         userService.save(new User(username, email, password, LocalDate.now(), LocalDate.now()));
         resp.sendRedirect("/user?action=list");
     }
