@@ -1,4 +1,4 @@
-package gov.iti.jets.Order;
+package gov.iti.jets.order;
 
 public class OrderController {
     

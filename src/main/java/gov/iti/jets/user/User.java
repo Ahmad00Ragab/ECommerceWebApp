@@ -3,7 +3,7 @@ package gov.iti.jets.user;
 import gov.iti.jets.category.Category;
 import gov.iti.jets.order.Order;
 import gov.iti.jets.product.Product;
-import gov.iti.jets.verification.EmailStatus;
+import gov.iti.jets.system.utils.verification.EmailStatus;
 import jakarta.persistence.*;
 import gov.iti.jets.cart.CartItem;
 import jakarta.validation.constraints.Email;
