@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -47,7 +48,7 @@ public class UserController extends HttpServlet {
 
         if (userOpt.isPresent()) {
             req.setAttribute("user", userOpt.get().getUsername());
-            req.getRequestDispatcher("/jsp/user/view.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/jsp/view.jsp").forward(req, resp);
         } else {
             throw new ObjectNotFoundException("User", userId);
         }
@@ -55,7 +56,19 @@ public class UserController extends HttpServlet {
 
     private void listUsers(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("users", userService.findAll());
-        req.getRequestDispatcher("/WEB-INF/jsp/user/list.jsp").forward(req, resp);
+        //req.getRequestDispatcher("/WEB-INF/jsp/list.jsp").forward(req, resp);
+        PrintWriter out = resp.getWriter();
+        resp.setContentType("text/html");
+        out.println("<html>");
+        out.println("<head>");
+        out.println("<title>"+userService.findAll()+"</title>");
+        out.println("</head>");
+        out.println("<body>");
+        out.println("<h1>"+userService.findAll()+"</h1>");
+        out.println("</body>");
+        out.println("</html>");
+
+
     }
 
     @Override

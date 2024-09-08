@@ -6,6 +6,7 @@ import gov.iti.jets.models.Order;
 import gov.iti.jets.models.OrderItem;
 import gov.iti.jets.models.Product;
 import gov.iti.jets.models.User;
+import gov.iti.jets.services.UserService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceException;
@@ -20,7 +21,9 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
 
 
 
@@ -28,9 +31,14 @@ public class App {
 public static void main(String[] args) {
     HibernatePersistenceProvider provider = new HibernatePersistenceProvider();
 
-    EntityManagerFactory emf = provider.createContainerEntityManagerFactory(new CustomPersistenceUnit(), null);
+ /*   EntityManagerFactory emf = provider.createContainerEntityManagerFactory(new CustomPersistenceUnit(), new CustomPersistenceUnit().getProperties());
     EntityManager em = emf.createEntityManager();
-    try {
+    UserService userService= new UserService();*/
+/*
+   java.util.Set<User> userList=userService.findAll();
+    userList.forEach(System.out::println);*/
+
+    /*try {
         
         em = emf.createEntityManager();
         em.getTransaction().begin();
@@ -83,7 +91,9 @@ public static void main(String[] args) {
         if (emf != null && emf.isOpen()) {
             emf.close();
         }
-    }
+    }*/
+
+
 }
 
 }
