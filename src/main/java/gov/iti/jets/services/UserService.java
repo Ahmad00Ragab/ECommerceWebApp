@@ -7,6 +7,7 @@ import gov.iti.jets.repositories.UserRepository;
 import gov.iti.jets.system.exceptions.ObjectNotFoundException;
 import gov.iti.jets.system.exceptions.ValidationException;
 import gov.iti.jets.system.utils.encryption.PasswordEncryptionUtil;
+import gov.iti.jets.system.utils.verification.EmailStatus;
 import gov.iti.jets.validators.UserValidator;
 
 import java.util.List;
@@ -28,6 +29,7 @@ public class UserService {
 
     public User save(User user) {
         user.setPassword(PasswordEncryptionUtil.encryptPassword(user.getPassword()));
+        user.setVerificationCode(EmailStatus.VERIFIED);
         return userRepository.save(user);
     }
 

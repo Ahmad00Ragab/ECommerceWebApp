@@ -41,7 +41,7 @@
   </welcome-file-list>
 
   <!-- Error Pages -->
-  <error-page>
+ <!-- <error-page>
     <exception-type>java.lang.Exception</exception-type>
     <location>/jsp/error404.jsp</location>
   </error-page>
@@ -54,5 +54,5 @@
   <error-page>
     <error-code>500</error-code>
     <location>/jsp/error500.jsp</location>
-  </error-page>
+  </error-page>-->
 </web-app>

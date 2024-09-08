@@ -163,6 +163,7 @@ public class UserController extends HttpServlet {
         }
     }
 
+
     private void deleteUser(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         Long userId = Long.parseLong(req.getParameter("userId"));
         if (userService.existsById(userId)) {

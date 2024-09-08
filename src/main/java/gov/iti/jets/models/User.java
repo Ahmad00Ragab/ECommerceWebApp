@@ -123,6 +123,7 @@ public class User {
     }
 
 
+
     // Constructor to initialize required fields and collections
     public User(String username, String firstName, String lastName, String email, String password,
                 String country, String city, String street, BigDecimal creditCardLimit,
