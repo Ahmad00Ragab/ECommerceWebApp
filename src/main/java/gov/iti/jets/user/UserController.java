@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+@WebServlet("/user")
 public class UserController extends HttpServlet {
 
     private final UserService userService = new UserService();
@@ -41,7 +42,7 @@ public class UserController extends HttpServlet {
         Optional<User> userOpt = userService.findById(userId);
 
         if (userOpt.isPresent()) {
-            req.setAttribute("user", userOpt.get());
+            req.setAttribute("user", userOpt.get().getUsername());
             req.getRequestDispatcher("/jsp/user/view.jsp").forward(req, resp);
         } else {
             throw new ObjectNotFoundException("User", userId);

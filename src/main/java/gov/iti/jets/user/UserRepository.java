@@ -5,7 +5,9 @@ import gov.iti.jets.category.Category;
 import gov.iti.jets.genericDao.GenericDaoImpl;
 import gov.iti.jets.product.Product;
 import gov.iti.jets.system.exceptions.ObjectNotFoundException;
+import gov.iti.jets.util.CreateEntityManagerFactory;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
@@ -18,7 +20,6 @@ public class UserRepository extends GenericDaoImpl<User> {
     public UserRepository() {
         super(User.class);
     }
-
     public Optional<User> findByUsername(String username) {
         EntityManager em = null;
         try {

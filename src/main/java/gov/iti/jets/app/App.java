@@ -9,8 +9,11 @@ import gov.iti.jets.user.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceException;
+import gov.iti.jets.system.persistence.CustomPersistenceUnit;
+
 
 import gov.iti.jets.util.CreateEntityManagerFactory;
+import org.hibernate.jpa.HibernatePersistenceProvider;
 
 
 import java.math.BigDecimal;
@@ -23,7 +26,9 @@ import java.util.Set;
 
 public class App {
 public static void main(String[] args) {
-    EntityManagerFactory emf = CreateEntityManagerFactory.getInstance();
+    HibernatePersistenceProvider provider = new HibernatePersistenceProvider();
+
+    EntityManagerFactory emf = provider.createContainerEntityManagerFactory(new CustomPersistenceUnit(), null);
     EntityManager em = emf.createEntityManager();
     try {
         
