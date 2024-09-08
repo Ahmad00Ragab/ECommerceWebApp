@@ -76,9 +76,6 @@ public class ProductRepository extends GenericDaoImpl<Product>{
     public  Set<ProductDto> getAllProductsHomeScreen(){
         String jpql = "SELECT new gov.iti.jets.product.ProductDto(p.id,p.name,p.description, p.imageUrl,p.price) FROM Product p";
         TypedQuery<ProductDto> query = em.createQuery(jpql, ProductDto.class);
-
-
-
-
+        return new HashSet<>(query.getResultList());
     }
 }
