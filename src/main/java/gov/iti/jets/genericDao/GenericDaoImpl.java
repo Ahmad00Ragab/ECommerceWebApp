@@ -20,7 +20,6 @@ import java.util.Set;
 public abstract class GenericDaoImpl<T> implements GenericDAO<T> {
 
     private final Class<T> entityClass;
-    HibernatePersistenceProvider provider = new HibernatePersistenceProvider();
     protected final EntityManagerFactory emf = CreateEntityManagerFactory.getInstance();
     protected EntityManager em;
     protected EntityTransaction transaction;

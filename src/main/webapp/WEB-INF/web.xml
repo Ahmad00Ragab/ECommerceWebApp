@@ -12,6 +12,17 @@
     <param-value>MyECommerceApp</param-value>
   </context-param>
 
+  <!-- Servlet Definition -->
+  <servlet>
+    <servlet-name>UserController</servlet-name>
+    <servlet-class>gov.iti.jets.controllers.UserController</servlet-class>
+  </servlet>
+
+  <!-- Servlet Mapping -->
+  <servlet-mapping>
+    <servlet-name>UserController</servlet-name>
+    <url-pattern>/user</url-pattern>
+  </servlet-mapping>
 
 
 <!--  &lt;!&ndash; Filter Configuration &ndash;&gt;-->
@@ -40,19 +51,19 @@
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
 
-  <!-- Error Pages -->
-  <error-page>
-    <exception-type>java.lang.Exception</exception-type>
-    <location>/jsp/error404.jsp</location>
-  </error-page>
+<!--  &lt;!&ndash; Error Pages &ndash;&gt;-->
+<!--  <error-page>-->
+<!--    <exception-type>java.lang.Exception</exception-type>-->
+<!--    <location>/jsp/error404.jsp</location>-->
+<!--  </error-page>-->
 
-  <error-page>
-    <error-code>404</error-code>
-    <location>/jsp/error404.jsp</location>
-  </error-page>
+<!--  <error-page>-->
+<!--    <error-code>404</error-code>-->
+<!--    <location>/jsp/error404.jsp</location>-->
+<!--  </error-page>-->
 
-  <error-page>
-    <error-code>500</error-code>
-    <location>/jsp/error500.jsp</location>
-  </error-page>
+<!--  <error-page>-->
+<!--    <error-code>500</error-code>-->
+<!--    <location>/jsp/error500.jsp</location>-->
+<!--  </error-page>-->
 </web-app>

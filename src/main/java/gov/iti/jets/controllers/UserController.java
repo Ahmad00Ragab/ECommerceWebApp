@@ -1,5 +1,6 @@
 package gov.iti.jets.controllers;
 
+import gov.iti.jets.converters.UserToUserDtoConverter;
 import gov.iti.jets.models.User;
 import gov.iti.jets.services.UserService;
 import gov.iti.jets.system.exceptions.ObjectNotFoundException;
@@ -12,22 +13,25 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-@WebServlet("/user")
 public class UserController extends HttpServlet {
 
-    private final UserService userService = new UserService();
-    private final UserDtoToUserConverter userDtoToUserConverter = new UserDtoToUserConverter();
+    UserService userService = new UserService();
+    private UserToUserDtoConverter userToUserDtoConverter = new UserToUserDtoConverter();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
-
-
+        System.out.println("here in get");
+        log("here in get");
             switch (action) {
                 case "view":
                     viewUser(req, resp);
@@ -35,10 +39,7 @@ public class UserController extends HttpServlet {
                 case "list":
                     listUsers(req, resp);
                     break;
-                default:
-                    resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid action");
             }
-
     }
 
     private void viewUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -46,17 +47,33 @@ public class UserController extends HttpServlet {
         Optional<User> userOpt = userService.findById(userId);
 
         if (userOpt.isPresent()) {
-            req.setAttribute("user", userOpt.get().getUsername());
-            req.getRequestDispatcher("/jsp/user/view.jsp").forward(req, resp);
+            req.setAttribute("user", userOpt.get());
+            req.getRequestDispatcher("/jsp/view.jsp").forward(req, resp);
         } else {
             throw new ObjectNotFoundException("User", userId);
         }
     }
 
     private void listUsers(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("users", userService.findAll());
-        req.getRequestDispatcher("/WEB-INF/jsp/user/list.jsp").forward(req, resp);
+        Set<User> users;
+        users = userService.findAll();
+
+        // Convert Users to UserDtos
+//        List<UserDto> userDtos = users.stream()
+//                .map(foundUser -> this.userToUserDtoConverter.convert(foundUser))
+//                .collect(Collectors.toList());
+
+        // Set UserDtos in the request attribute
+        req.setAttribute("users", users);
+
+        System.out.println("Users: " + users);
+
+        String error = (String) req.getAttribute("error");  // Optional error
+        req.setAttribute("error", error);
+
+        req.getRequestDispatcher("/jsp/list.jsp").forward(req, resp);
     }
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -117,19 +134,13 @@ public class UserController extends HttpServlet {
     private void updateUser(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         Long userId = Long.parseLong(req.getParameter("userId"));
 
-        // Create the UserDto from the request parameters
-        UserDto userDto = new UserDto(
-                req.getParameter("username"),
-                req.getParameter("email"),
-                req.getParameter("password"), // Ensure you handle passwords securely
-                req.getParameter("phone"),
-                req.getParameter("city"),
-                req.getParameter("country"),
-                req.getParameter("street")
-        );
+        User user = new User();
 
-        // Convert the UserDto to a User object
-        User user = userDtoToUserConverter.convert(userDto, userId);
+        user.setUsername(req.getParameter("username"));
+        user.setPhone(req.getParameter("phone"));
+        user.setCity(req.getParameter("city"));
+        user.setCountry(req.getParameter("country"));
+        user.setStreet(req.getParameter("street"));
 
         try {
             // Call the service to update the user

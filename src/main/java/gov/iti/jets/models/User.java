@@ -122,7 +122,6 @@ public class User {
         this.categories = new HashSet<>();  // Initialize categories
     }
 
-
     // Constructor to initialize required fields and collections
     public User(String username, String firstName, String lastName, String email, String password,
                 String country, String city, String street, BigDecimal creditCardLimit,

@@ -38,13 +38,17 @@ public class CustomPersistenceUnit implements PersistenceUnitInfo {
     public DataSource getNonJtaDataSource() {
         try {
             HikariDataSource dataSource = new HikariDataSource();
+
             dataSource.setJdbcUrl("jdbc:mysql://localhost:3306/ecommerce");
             dataSource.setUsername("root");
+            dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+            dataSource.setMaximumPoolSize(10);
+            dataSource.setConnectionTimeout(30000);  // 30 seconds
             return dataSource;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            throw new RuntimeException("Failed to configure HikariDataSource", e);
         }
-        return null;
+
     }
 
     @Override
@@ -71,8 +75,7 @@ public class CustomPersistenceUnit implements PersistenceUnitInfo {
                  "gov.iti.jets.models.Product",
                  "gov.iti.jets.models.Order",
                  "gov.iti.jets.models.OrderItem",
-                 "gov.iti.jets.models.CartItem",
-                 "gov.iti.jets.models.OrderItem"
+                 "gov.iti.jets.models.CartItem"
 
                 // Add more classes as needed
         );
@@ -97,7 +100,7 @@ public class CustomPersistenceUnit implements PersistenceUnitInfo {
     public  Properties getProperties() {
         Properties properties = new Properties();
         properties.setProperty(AvailableSettings.DIALECT, "org.hibernate.dialect.MySQLDialect");
-        properties.setProperty(AvailableSettings.HBM2DDL_AUTO, "create");
+        properties.setProperty(AvailableSettings.HBM2DDL_AUTO, "update");
         properties.setProperty(AvailableSettings.SHOW_SQL, "true");
         properties.setProperty(AvailableSettings.FORMAT_SQL, "true");
         return properties;
