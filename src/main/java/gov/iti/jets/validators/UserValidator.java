@@ -1,5 +1,6 @@
-package gov.iti.jets.user;
+package gov.iti.jets.validators;
 
+import gov.iti.jets.models.User;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;

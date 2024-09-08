@@ -2,8 +2,10 @@ package gov.iti.jets.models;
 
 import gov.iti.jets.system.utils.verification.EmailStatus;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -24,7 +26,14 @@ public class User {
     private Long id;
 
     @Column(name = "username", nullable = false, unique = true)
+    @Size(min = 3, max = 50, message = "Username must be between 3 and 50 characters")
     private String username;
+
+    @Column(name = "password", nullable = false)
+    @Size(min = 8, message = "Password must be at least 8 characters long")
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-zA-Z]).{8,}$",
+            message = "Password must contain at least one letter and one number")
+    private String password;
 
     @Column(name = "firstname")
     private String firstName;
@@ -38,9 +47,6 @@ public class User {
             message = "Email must be from gmail.com or outlook.com")
     private String email;
 
-    @Column(name = "password", nullable = false)
-    private String password;
-
     @Column(name = "country")
     private String country;
 
@@ -51,6 +57,7 @@ public class User {
     private String street;
 
     @Column(name = "credit_limit")
+    @DecimalMin(value = "0.0", inclusive = false, message = "Credit limit must be a positive number")
     private BigDecimal creditLimit;
 
     @Column(name = "birthdate")
@@ -114,7 +121,7 @@ public class User {
         this.wishlist = new HashSet<>();  // Initialize wishlist
         this.categories = new HashSet<>();  // Initialize categories
     }
-    
+
 
     // Constructor to initialize required fields and collections
     public User(String username, String firstName, String lastName, String email, String password,

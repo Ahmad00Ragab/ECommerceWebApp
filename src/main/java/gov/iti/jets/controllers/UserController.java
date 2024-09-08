@@ -1,9 +1,11 @@
 package gov.iti.jets.controllers;
 
+import gov.iti.jets.models.User;
+import gov.iti.jets.services.UserService;
 import gov.iti.jets.system.exceptions.ObjectNotFoundException;
 import gov.iti.jets.system.exceptions.ValidationException;
-import gov.iti.jets.user.converter.UserDtoToUserConverter;
-import gov.iti.jets.user.dto.UserDto;
+import gov.iti.jets.converters.UserDtoToUserConverter;
+import gov.iti.jets.dtos.UserDto;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -12,12 +14,14 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
+
 import java.util.Optional;
 
 @WebServlet("/user")
 public class UserController extends HttpServlet {
 
     private final UserService userService = new UserService();
+    private final UserDtoToUserConverter userDtoToUserConverter = new UserDtoToUserConverter();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -125,7 +129,7 @@ public class UserController extends HttpServlet {
         );
 
         // Convert the UserDto to a User object
-        User user = UserDtoToUserConverter.convert(userDto, userId);
+        User user = userDtoToUserConverter.convert(userDto, userId);
 
         try {
             // Call the service to update the user

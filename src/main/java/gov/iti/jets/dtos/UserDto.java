@@ -1,4 +1,4 @@
-package gov.iti.jets.user.dto;
+package gov.iti.jets.dtos;
 
 public record UserDto(
     String username,

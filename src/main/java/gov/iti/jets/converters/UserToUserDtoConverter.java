@@ -1,7 +1,7 @@
-package gov.iti.jets.user.converter;
+package gov.iti.jets.converters;
 
-import gov.iti.jets.user.User;
-import gov.iti.jets.user.dto.UserDto;
+import gov.iti.jets.dtos.UserDto;
+import gov.iti.jets.models.User;
 
 public class UserToUserDtoConverter {
 
