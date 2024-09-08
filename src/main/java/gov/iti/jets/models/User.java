@@ -1,6 +1,6 @@
 package gov.iti.jets.models;
 
-import gov.iti.jets.verification.EmailStatus;
+import gov.iti.jets.system.utils.verification.EmailStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;

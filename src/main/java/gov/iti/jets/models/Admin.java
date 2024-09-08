@@ -49,7 +49,7 @@ public class Admin {
     }
 
     @PrePersist
-    protected void onCreate() {
+    public void onCreate() {
         dateCreated = LocalDateTime.now();
         lastUpdated = LocalDateTime.now();
     }
