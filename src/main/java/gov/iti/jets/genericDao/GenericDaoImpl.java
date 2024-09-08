@@ -1,6 +1,7 @@
 package gov.iti.jets.genericDao;
 
 import gov.iti.jets.system.persistence.CustomPersistenceUnit;
+import gov.iti.jets.util.CreateEntityManagerFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
@@ -20,7 +21,7 @@ public abstract class GenericDaoImpl<T> implements GenericDAO<T> {
 
     private final Class<T> entityClass;
     HibernatePersistenceProvider provider = new HibernatePersistenceProvider();
-    protected final EntityManagerFactory emf = provider.createContainerEntityManagerFactory(new CustomPersistenceUnit(), null);
+    protected final EntityManagerFactory emf = CreateEntityManagerFactory.getInstance();
     protected EntityManager em;
     protected EntityTransaction transaction;
 

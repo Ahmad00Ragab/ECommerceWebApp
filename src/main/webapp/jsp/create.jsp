@@ -8,7 +8,7 @@
 
 <!-- Display validation errors, if any -->
 <c:if test="${not empty errors}">
-    <ul">
+    <ul>
         <c:forEach var="error" items="${errors}">
             <li>${error}</li>
         </c:forEach>
