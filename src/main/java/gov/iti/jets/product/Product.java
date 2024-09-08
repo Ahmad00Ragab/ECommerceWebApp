@@ -50,7 +50,10 @@ public class Product {
     @Column(name = "created_by")
     private String createdBy;
 
-    public Product(String name, BigDecimal price, String description, int stock, Category category, LocalDateTime dateCreated, LocalDateTime lastUpdated, String createdBy) {
+    @Column(name="product_image")
+    private String imageUrl;
+
+    public Product(String name, BigDecimal price, String description, int stock, Category category, LocalDateTime dateCreated, LocalDateTime lastUpdated, String createdBy, String imageUrl) {
         this.name = name;
         this.price = price;
         this.description = description;
@@ -60,6 +63,7 @@ public class Product {
         this.lastUpdated = lastUpdated;
         cart=new HashSet<>();
         this.createdBy=createdBy;
+        this.imageUrl=imageUrl;
     }
 
     public Product(String name, BigDecimal price, int stock, Category category, LocalDateTime dateCreated, LocalDateTime lastUpdated) {
