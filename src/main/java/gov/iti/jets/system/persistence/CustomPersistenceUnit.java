@@ -71,7 +71,7 @@ public class CustomPersistenceUnit implements PersistenceUnitInfo {
                  "gov.iti.jets.product.Product",
                  "gov.iti.jets.order.Order",
                  "gov.iti.jets.order.OrderItem",
-                 "gov.iti.jets.cart.Cart"
+                 "gov.iti.jets.cart.CartItem"
 
                 // Add more classes as needed
         );

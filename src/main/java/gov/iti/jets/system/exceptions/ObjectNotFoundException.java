@@ -1,6 +1,6 @@
 package gov.iti.jets.system.exceptions;
 
-import gov.iti.jets.cart.CartKey;
+import gov.iti.jets.models.CartKey;
 
 public class ObjectNotFoundException extends RuntimeException {
 

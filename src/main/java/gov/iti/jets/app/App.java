@@ -1,11 +1,11 @@
 package gov.iti.jets.app;
 
-import gov.iti.jets.cart.CartItem;
-import gov.iti.jets.category.Category;
-import gov.iti.jets.order.Order;
-import gov.iti.jets.order.OrderItem;
-import gov.iti.jets.product.Product;
-import gov.iti.jets.user.User;
+import gov.iti.jets.models.CartItem;
+import gov.iti.jets.models.Category;
+import gov.iti.jets.models.Order;
+import gov.iti.jets.models.OrderItem;
+import gov.iti.jets.models.Product;
+import gov.iti.jets.models.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceException;

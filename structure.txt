@@ -2,110 +2,83 @@ ECommerceWebApp/
 ├── src/
 │   ├── main/
 │   │   ├── java/
-│   │   │   ├── gov/iti/jets/
-│   │   │   │   ├── user/
-│   │   │   │   │   ├── controller/
-│   │   │   │   │   │   ├── UserController.java
-│   │   │   │   │   ├── model/
-│   │   │   │   │   │   ├── User.java
-│   │   │   │   │   ├── service/
-│   │   │   │   │   │   ├── UserService.java
-│   │   │   │   │   ├── repository/
-│   │   │   │   │       ├── UserRepository.java
-│   │   │   │   ├── admin/
-│   │   │   │   │   ├── controller/
-│   │   │   │   │   │   ├── AdminController.java
-│   │   │   │   │   ├── model/
-│   │   │   │   │   │   ├── Admin.java
-│   │   │   │   │   ├── service/
-│   │   │   │   │   │   ├── AdminService.java
-│   │   │   │   │   ├── repository/
-│   │   │   │   │       ├── AdminRepository.java
-│   │   │   │   ├── product/
-│   │   │   │   │   ├── controller/
-│   │   │   │   │   │   ├── ProductController.java
-│   │   │   │   │   ├── model/
-│   │   │   │   │   │   ├── Product.java
-│   │   │   │   │   ├── service/
-│   │   │   │   │   │   ├── ProductService.java
-│   │   │   │   │   ├── repository/
-│   │   │   │   │       ├── ProductRepository.java
-│   │   │   │   ├── category/
-│   │   │   │   │   ├── controller/
-│   │   │   │   │   │   ├── CategoryController.java
-│   │   │   │   │   ├── model/
-│   │   │   │   │   │   ├── Category.java
-│   │   │   │   │   ├── service/
-│   │   │   │   │   │   ├── CategoryService.java
-│   │   │   │   │   ├── repository/
-│   │   │   │   │       ├── CategoryRepository.java
-│   │   │   │   ├── interest/
-│   │   │   │   │   ├── controller/
-│   │   │   │   │   │   ├── InterestController.java
-│   │   │   │   │   ├── model/
-│   │   │   │   │   │   ├── Interest.java
-│   │   │   │   │   ├── service/
-│   │   │   │   │   │   ├── InterestService.java
-│   │   │   │   │   ├── repository/
-│   │   │   │   │       ├── InterestRepository.java
-│   │   │   │   ├── order/
-│   │   │   │   │   ├── controller/
-│   │   │   │   │   │   ├── OrderController.java
-│   │   │   │   │   ├── model/
-│   │   │   │   │   │   ├── Order.java
-│   │   │   │   │   ├── service/
-│   │   │   │   │   │   ├── OrderService.java
-│   │   │   │   │   ├── repository/
-│   │   │   │   │       ├── OrderRepository.java
-│   │   │   │   ├── cart/
-│   │   │   │   │   ├── controller/
-│   │   │   │   │   │   ├── CartController.java
-│   │   │   │   │   ├── model/
-│   │   │   │   │   │   ├── Cart.java
-│   │   │   │   │   ├── service/
-│   │   │   │   │   │   ├── CartService.java
-│   │   │   │   │   ├── repository/
-│   │   │   │   │       ├── CartRepository.java
-│   │   │   │   ├── wishlist/
-│   │   │   │   │   ├── controller/
-│   │   │   │   │   │   ├── WishlistController.java
-│   │   │   │   │   ├── model/
-│   │   │   │   │   │   ├── Wishlist.java
-│   │   │   │   │   ├── service/
-│   │   │   │   │   │   ├── WishlistService.java
-│   │   │   │   │   ├── repository/
-│   │   │   │   │       ├── WishlistRepository.java
-│   │   ├── resources/
-│   │   │   ├── application.properties
-│   │   │   ├── log4j2.xml
-│   │   ├── webapp/
-│   │   │   ├── WEB-INF/
-│   │   │   │   ├── views/
-│   │   │   │   │   ├── user/
-│   │   │   │   │   │   ├── user.jsp
-│   │   │   │   │   ├── admin/
-│   │   │   │   │   │   ├── admin.jsp
-│   │   │   │   │   ├── product/
-│   │   │   │   │   │   ├── product.jsp
-│   │   │   │   │   ├── category/
-│   │   │   │   │   │   ├── category.jsp
-│   │   │   │   │   ├── interest/
-│   │   │   │   │   │   ├── interest.jsp
-│   │   │   │   │   ├── order/
-│   │   │   │   │   │   ├── order.jsp
-│   │   │   │   │   ├── cart/
-│   │   │   │   │   │   ├── cart.jsp
-│   │   │   │   │   ├── wishlist/
-│   │   │   │   │   │   ├── wishlist.jsp
+│   │   │   └── gov/
+│   │   │       └── iti/
+│   │   │           └── jets/
+│   │   │               ├── FrontController.java       // Front controller to handle all requests
+│   │   │               ├── controllers/
+│   │   │               │   ├── AdminController.java   // Admin operations
+│   │   │               │   ├── UserController.java    // User operations (login, register, etc.)
+│   │   │               │   ├── ProductController.java // Product listing, detail, etc.
+│   │   │               │   ├── CartController.java    // Shopping cart operations
+│   │   │               │   ├── CheckoutController.java// Checkout operations
+│   │   │               │   ├── OrderController.java   // Orders handling
+│   │   │               │   └── CategoryController.java// Category operations
+│   │   │               ├── services/
+│   │   │               │   ├── AdminService.java      // Business logic for admin operations
+│   │   │               │   ├── UserService.java       // Business logic for user operations
+│   │   │               │   ├── ProductService.java    // Business logic for products
+│   │   │               │   ├── CartService.java       // Shopping cart logic
+│   │   │               │   ├── OrderService.java      // Order management logic
+│   │   │               │   ├── WishlistService.java   // Wishlist handling
+│   │   │               │   └── CategoryService.java   // Business logic for categories
+│   │   │               ├── repositories/
+│   │   │               │   ├── AdminRepository.java   // Admin data access
+│   │   │               │   ├── UserRepository.java    // User data access
+│   │   │               │   ├── ProductRepository.java // Product data access
+│   │   │               │   ├── OrderRepository.java   // Order data access
+│   │   │               │   ├── WishlistRepository.java// Wishlist data access
+│   │   │               │   └── CategoryRepository.java// Category data access
+│   │   │               ├── models/
+│   │   │               │   ├── Admin.java             // Admin entity
+│   │   │               │   ├── User.java              // User entity
+│   │   │               │   ├── Product.java           // Product entity
+│   │   │               │   ├── CartItem.java          // Cart item entity
+│   │   │               │   ├── Order.java             // Order entity
+│   │   │               │   ├── Wishlist.java          // Wishlist entity
+│   │   │               │   └── Category.java          // Category entity
+│   │   │               └── utils/
+│   │   │                   ├── CreateEntityManager.java// Singleton for EntityManagerFactory management
+│   │   │                   └── ValidationUtil.java    // Utilities for input validation
 │   ├── test/
 │   │   ├── java/
-│   │   │   ├── gov/iti/jets/
-│   │   │   │   ├── user/
-│   │   │   │   ├── admin/
-│   │   │   │   ├── product/
-│   │   │   │   ├── category/
-│   │   │   │   ├── interest/
-│   │   │   │   ├── order/
-│   │   │   │   ├── cart/
-│   │   │   │   ├── wishlist/
-│   ├── pom.xml
+│   │   │   └── gov/
+│   │   │       └── iti/
+│   │   │           └── jets/
+│   │   │               ├── controllers/               // Tests for controllers
+│   │   │               ├── services/                  // Unit tests for services
+│   │   │               └── repositories/              // Unit and integration tests for repositories
+│   │   └── resources/                                 // Resources for test (e.g., test config, DB setup)
+│   │       └── test-database-config.xml               // Test-specific database config (optional)
+│   └── webapp/
+│       ├── WEB-INF/
+│       │   ├── web.xml                                // Servlet configurations
+│       │   └── views/                                 // All JSP files (secured under WEB-INF)
+│       │       ├── admin/
+│       │       │   ├── admin-login.jsp
+│       │       │   ├── manage-products.jsp
+│       │       │   ├── manage-users.jsp
+│       │       │   └── manage-categories.jsp          // View for managing categories
+│       │       ├── user/
+│       │       │   ├── login.jsp
+│       │       │   ├── register.jsp
+│       │       │   └── profile.jsp
+│       │       ├── product/
+│       │       │   ├── product-list.jsp
+│       │       │   ├── product-detail.jsp
+│       │       │   └── product-by-category.jsp        // View for listing products by category
+│       │       ├── cart/
+│       │       │   └── cart.jsp
+│       │       ├── checkout/
+│       │       │   └── checkout.jsp
+│       │       ├── order/
+│       │       │   └── order-confirmation.jsp
+│       │       └── wishlist/
+│       │           └── wishlist.jsp
+│       └── resources/
+│           ├── css/
+│           │   └── styles.css                        // Main CSS file for styling
+│           ├── js/
+│           │   └── scripts.js                        // Optional JavaScript files for client-side logic
+│           └── images/
+│               └── logo.png                          // Any image files (if used)
