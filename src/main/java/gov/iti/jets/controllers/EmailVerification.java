@@ -26,7 +26,7 @@ public class EmailVerification extends HttpServlet {
         verificationProcess(req,resp);
 
     }
-    
+
 
     public void verificationProcess(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String verificationCode = req.getParameter("verificationCode");
