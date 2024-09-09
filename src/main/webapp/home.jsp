@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.List" %>
 <%@ page import="gov.iti.jets.dtos.ProductDto" %>
+<%@ page import="java.util.Set" %>
 
 <html>
 <head>
@@ -77,7 +78,7 @@
 <div class="section-title">Products</div>
 <div class="product-category">
     <%
-        List<ProductDto> products = (List<ProductDto>) request.getAttribute("homeProducts");
+        Set<ProductDto> products = (Set<ProductDto>) request.getAttribute("homeProducts");
 
         if (products != null && !products.isEmpty()) {
             for (ProductDto product : products) {

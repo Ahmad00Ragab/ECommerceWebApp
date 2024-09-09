@@ -75,4 +75,5 @@ public class Product {
         this.dateCreated = dateCreated;
         this.lastUpdated = lastUpdated;
     }
+
 }

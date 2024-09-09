@@ -2,16 +2,10 @@ package gov.iti.jets.services;
 
 
 import gov.iti.jets.dtos.ProductDto;
-import gov.iti.jets.models.Category;
 import gov.iti.jets.models.Product;
 import gov.iti.jets.repositories.ProductRepository;
-import gov.iti.jets.system.exceptions.CategoryNotFoundException;
 import gov.iti.jets.system.exceptions.ProductNotFoundException;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
-
 import java.math.BigDecimal;
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -109,4 +103,9 @@ public class ProductService {
     public Set<ProductDto> findAllProductsUsingDTO() {
        return productRepository.findAllProductsUsingDTO();
     }
+
+    public Set<ProductDto> findProductsByCategoryUsingProductDTO(String category) {
+        return productRepository.findProductsByCategoryUsingProductDTO(category);
+    }
+
 }

@@ -11,9 +11,9 @@ public class UserToUserDtoConverter {
         }
 
         return new UserDto(
+            user.getId(),
             user.getUsername(),
             user.getEmail(),
-            user.getPassword(),  // Note: Ensure you handle sensitive data securely
             user.getPhone(),
             user.getCity(),
             user.getCountry(),

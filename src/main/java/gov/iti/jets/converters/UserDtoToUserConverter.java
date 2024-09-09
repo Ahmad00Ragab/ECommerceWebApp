@@ -5,17 +5,18 @@ import gov.iti.jets.models.User;
 
 public class UserDtoToUserConverter {
 
-    public static User convert(UserDto userDto, Long userId) {
+    public static User convert(UserDto userDto) {
+
         if (userDto == null) {
             return null;
         }
 
         User user = new User();  // Or fetch an existing user if updating
-        user.setId(userId);  // Set ID if updating an existing user
 
+        // Set ID if updating an existing user
+        user.setId(userDto.id());
         user.setUsername(userDto.username());
         user.setEmail(userDto.email());
-        user.setPassword(userDto.password());  // Handle password securely
         user.setPhone(userDto.phone());
         user.setCity(userDto.city());
         user.setCountry(userDto.country());

@@ -44,7 +44,7 @@ public class CustomPersistenceUnit implements PersistenceUnitInfo {
             dataSource.setPassword("root");
             dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
             dataSource.setMaximumPoolSize(10);
-            dataSource.setConnectionTimeout(30000);
+            dataSource.setConnectionTimeout(30000);  // 30 seconds
             return dataSource;
         } catch (Exception e) {
             throw new RuntimeException("Failed to configure HikariDataSource", e);
