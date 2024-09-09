@@ -36,13 +36,13 @@ public class App {
             Product productB = new Product("T-shirt", 29.99, "Cotton T-shirt", 50, clothing, LocalDateTime.now(), LocalDateTime.now());
             Product productC = new Product("Novel", 9.99, "Bestselling novel", 200, books, LocalDateTime.now(), LocalDateTime.now());
 
-            
+
             // Persist products
             em.persist(productA);
             em.persist(productB);
             em.persist(productC);
 
-            // Commit the transaction
+            /* Commit the transaction */ 
             em.getTransaction().commit();
 
             System.out.println("Data inserted successfully!");

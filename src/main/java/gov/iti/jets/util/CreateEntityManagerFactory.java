@@ -18,7 +18,7 @@ public class CreateEntityManagerFactory{
         if (entityManagerFactory == null) {
             synchronized (CreateEntityManagerFactory.class) {
                 if (entityManagerFactory == null) {
-                    entityManagerFactory = Persistence.createEntityManagerFactory("ecommerce");
+                    entityManagerFactory = Persistence.createEntityManagerFactory("ecommercePU");
                 }
             }
         }

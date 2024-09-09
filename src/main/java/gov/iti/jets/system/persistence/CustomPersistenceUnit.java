@@ -40,8 +40,8 @@ public class CustomPersistenceUnit implements PersistenceUnitInfo {
             HikariDataSource dataSource = new HikariDataSource();
 
             dataSource.setJdbcUrl("jdbc:mysql://localhost:3306/ecommerce");
-            dataSource.setUsername("root");
-            dataSource.setPassword("root");
+            dataSource.setUsername("projectUser");
+            dataSource.setPassword("user");
             dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
             dataSource.setMaximumPoolSize(10);
             dataSource.setConnectionTimeout(30000);
@@ -52,20 +52,20 @@ public class CustomPersistenceUnit implements PersistenceUnitInfo {
 
     }
 
-//     @Override
-//     public List<String> getMappingFileNames() {
-//         return List.of();
-//     }
+    @Override
+    public List<String> getMappingFileNames() {
+        return List.of();
+    }
 
-//     @Override
-//     public List<URL> getJarFileUrls() {
-//         return List.of();
-//     }
+    @Override
+    public List<URL> getJarFileUrls() {
+        return List.of();
+    }
 
-//     @Override
-//     public URL getPersistenceUnitRootUrl() {
-//         return null;
-//     }
+    @Override
+    public URL getPersistenceUnitRootUrl() {
+        return null;
+    }
 
     @Override
     public List<String> getManagedClassNames() {
