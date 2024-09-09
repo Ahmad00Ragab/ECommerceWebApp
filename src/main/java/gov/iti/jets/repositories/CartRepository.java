@@ -14,11 +14,11 @@ import java.util.stream.Collectors;
 
 public class CartRepository extends GenericDaoImpl<CartItem> {
 
+
+
     public CartRepository() {
         super(CartItem.class);
     }
-
-
 
 
     public Set<CartItem> findByUser(User user) {

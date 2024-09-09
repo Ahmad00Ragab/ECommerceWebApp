@@ -1,22 +1,21 @@
 package gov.iti.jets.services;
 
-
-import gov.iti.jets.models.Category;
 import gov.iti.jets.models.Product;
 import gov.iti.jets.repositories.ProductRepository;
-import gov.iti.jets.system.exceptions.CategoryNotFoundException;
 import gov.iti.jets.system.exceptions.ProductNotFoundException;
 
 import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.Set;
+import jakarta.transaction.Transactional;
+
 
 public class ProductService {
 
-    private final ProductRepository productRepository;
+    private final ProductRepository productRepository  ;
 
-    public ProductService(ProductRepository productRepository) {
-        this.productRepository = productRepository;
+    public ProductService() {
+        this.productRepository =  new ProductRepository(Product.class);
     }
 
 
@@ -24,7 +23,7 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public Product findProductById(Long id) {
+    public Optional<Product> findProductById(Long id) {
         Optional<Product> optProduct = productRepository.findById(id);
         Product product=null;
         if(optProduct.isPresent()) {
@@ -32,7 +31,7 @@ public class ProductService {
         }else {
             throw new ProductNotFoundException();
         }
-        return product;
+        return optProduct;
     }
 
     public Product saveProduct(Product product) {
@@ -43,6 +42,13 @@ public class ProductService {
     public Product updateProduct(Product product) {
         productRepository.save(product);
         return product;
+    }
+
+
+    @Transactional
+    public void createProduct(Product product) {
+         System.out.println("Saving product: " + product);
+        productRepository.save(product);
     }
 
 

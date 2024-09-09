@@ -9,6 +9,8 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+
+
 @Entity
 @Setter
 @Getter
@@ -55,7 +57,7 @@ public class Admin {
     }
 
     @PreUpdate
-    protected void onUpdate() {
+    public void onUpdate() {
         lastUpdated = LocalDateTime.now();
     }
 

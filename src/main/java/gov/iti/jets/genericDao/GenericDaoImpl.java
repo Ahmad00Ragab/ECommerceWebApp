@@ -2,6 +2,9 @@ package gov.iti.jets.genericDao;
 
 import gov.iti.jets.system.persistence.CustomPersistenceUnit;
 import gov.iti.jets.util.CreateEntityManagerFactory;
+
+// import gov.iti.jets.system.persistence.CustomPersistenceUnit;
+
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
@@ -9,7 +12,8 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import org.hibernate.ObjectNotFoundException;
-import org.hibernate.jpa.HibernatePersistenceProvider;
+
+import gov.iti.jets.util.CreateEntityManagerFactory;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -20,7 +24,9 @@ import java.util.Set;
 public abstract class GenericDaoImpl<T> implements GenericDAO<T> {
 
     private final Class<T> entityClass;
-    protected final EntityManagerFactory emf = CreateEntityManagerFactory.getInstance();
+
+    HibernatePersistenceProvider provider = new HibernatePersistenceProvider();
+    
     protected EntityManager em;
     protected EntityTransaction transaction;
 
