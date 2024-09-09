@@ -22,15 +22,11 @@ public class HomeController extends HttpServlet {
     }
 
 
-
     private  void handleProducts(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Set<ProductDto> homeProducts=productService.findAllProductsUsingDTO();
         req.setAttribute("homeProducts", homeProducts);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/home.jsp");
         dispatcher.forward(req,resp);
     }
-
-
-
 
 }

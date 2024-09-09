@@ -72,46 +72,33 @@
     </style>
 </head>
 <body>
-<!-- Large Appliances Section -->
-<div class="section-title">Large Appliances</div>
-<div class="product-category">
-    <!-- Repeat this block for each product in Large Appliances -->
-    <div class="product-item">
-        <img src="path_to_image_1.jpg" alt="Product Image 1"/>
-        <div class="product-name">Product Name 1</div>
-        <div class="product-price">EGP 2000.00</div>
-    </div>
-    <!-- Continue adding products here -->
-</div>
 
-<!-- Deals Under 250 EGP Section -->
-<div class="section-title">Deals Under 250 EGP</div>
+<!-- Products Section -->
+<div class="section-title">Products</div>
 <div class="product-category">
     <%
-        // Retrieve the list of products from the request or session scope
-        List<ProductDto> products = (List<ProductDto>) request.getAttribute("products");
+        List<ProductDto> products = (List<ProductDto>) request.getAttribute("homeProducts");
 
-        if (products != null) {
+        if (products != null && !products.isEmpty()) {
             for (ProductDto product : products) {
     %>
     <div class="product-item">
         <img src="<%= product.imageUrl() %>" alt="<%= product.name() %>"/>
         <div class="product-name"><%= product.name() %></div>
         <div class="product-price">EGP <%= product.price() %></div>
-        <% if (product.price() != null) { %>
-        <div class="product-old-price">EGP <%= product.price() %></div>
-        <% } %>
-        <% if (product.price() != null) { %>
-        <div class="product-discount"><%= product.price() %> off</div>
-        <% } %>
         <div class="product-actions">
             <a href="add_to_cart.jsp?productId=<%= product.id() %>">Add to Cart</a>
         </div>
     </div>
     <%
-            }
+   }
+    } else {
+    %>
+    <p>No products available at the moment.</p>
+    <%
         }
     %>
 </div>
+
 </body>
 </html>
