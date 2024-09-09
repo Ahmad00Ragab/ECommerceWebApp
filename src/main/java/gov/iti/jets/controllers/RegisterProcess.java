@@ -27,6 +27,11 @@ public class RegisterProcess extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+         registrationProcess(req, resp);
+    }
+
+
+    private void registrationProcess (HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String firstName = req.getParameter("firstName");
         String lastName = req.getParameter("lastName");
         String username = req.getParameter("username");
@@ -38,7 +43,6 @@ public class RegisterProcess extends HttpServlet {
         String city = req.getParameter("city");
         String street = req.getParameter("street");
         String phone = req.getParameter("phone");
-
 
         User user =
                 new User(username, firstName, lastName, email,
@@ -53,14 +57,13 @@ public class RegisterProcess extends HttpServlet {
 
 
         try {
-          EmailSender.sendVerificationCode(email,verificationCode);
+            EmailSender.sendVerificationCode(email,verificationCode);
             RequestDispatcher rd =req.getRequestDispatcher("/verifyEmail.jsp");
             rd.forward(req, resp);
 
         } catch (Exception e) {
             throw new CannotSendMessageException();
         }
-
 
     }
 }
