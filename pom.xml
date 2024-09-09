@@ -167,6 +167,21 @@
       <scope>test</scope>
     </dependency>
 
+
+
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.8.9</version> <!-- or latest version -->
+  </dependency>
+
+
+  <dependency>
+    <groupId>org.json</groupId>
+    <artifactId>json</artifactId>
+    <version>20210307</version>
+</dependency>
+
     <!-- HikariCP for Connection Pooling -->
     <!-- <dependency>
       <groupId>com.zaxxer</groupId>

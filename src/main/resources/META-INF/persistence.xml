@@ -8,13 +8,13 @@
 
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
-        <class>gov.iti.jets.admin.Admin</class>
-        <class>gov.iti.jets.cart.CartItem</class>
-        <class>gov.iti.jets.category.Category</class>
-        <class>gov.iti.jets.order.Order</class>
-        <class>gov.iti.jets.order.OrderItem</class>
-        <class>gov.iti.jets.product.Product</class>
-        <class>gov.iti.jets.user.User</class>
+        <class>gov.iti.jets.models.Admin</class>
+        <class>gov.iti.jets.models.CartItem</class>
+        <class>gov.iti.jets.models.Category</class>
+        <class>gov.iti.jets.models.Order</class>
+        <class>gov.iti.jets.models.OrderItem</class>
+        <class>gov.iti.jets.models.Product</class>
+        <class>gov.iti.jets.models.User</class>
         
         <properties>
             <property name="jakarta.persistence.jdbc.driver"   value="com.mysql.cj.jdbc.Driver"/>

@@ -29,28 +29,6 @@ class AdminRepositoryTest {
     private Admin admin1;
     private Admin admin2;
 
-    // @BeforeEach
-    // void setUp() {
-    //     MockitoAnnotations.openMocks(this);
-    
-    //     // Create Admin instances
-    //     admin1 = new Admin("John Doe", "john.doe@gmail.com", "password123", LocalDateTime.now(), LocalDateTime.now(), "System");
-    //     admin2 = new Admin("Jane Doe", "jane.doe@gmail.com", "password456", LocalDateTime.now(), LocalDateTime.now(), "Admin");
-    
-    //     Set<Admin> adminSet = new HashSet<>();
-    //     adminSet.add(admin1);
-    //     adminSet.add(admin2);
-    
-    //     // Convert Set<Admin> to List<Admin>
-    //     List<Admin> adminList = new ArrayList<>(adminSet);
-    
-    //     // Mock repository methods
-    //     when(adminRepository.findAll()).thenReturn(adminList);
-    //     when(adminRepository.findById(1L)).thenReturn(Optional.of(admin1)); // wrap in Optional
-    //     when(adminRepository.save(any(Admin.class))).thenReturn(admin1);
-    //     when(adminRepository.findByEmail("john.doe@gmail.com")).thenReturn(Optional.of(admin1)); // wrap in Optional
-    // }
-    
 
     @BeforeEach
     void setUp() {
@@ -75,15 +53,6 @@ class AdminRepositoryTest {
     void tearDown() {
         adminRepository = null;
     }
-
-    // @Test
-    // void findAll() {
-    //     List<Admin> admins = adminRepository.findAll();
-    //     assertEquals(2, admins.size());
-    //     assertTrue(admins.contains(admin1));
-
-    //     verify(adminRepository, times(1)).findAll();
-    // }
 
     @Test
     void findAll() {

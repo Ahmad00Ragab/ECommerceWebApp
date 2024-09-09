@@ -3,6 +3,7 @@ package gov.iti.jets.repositories;
 import gov.iti.jets.genericDao.GenericDaoImpl;
 import gov.iti.jets.models.Category;
 import gov.iti.jets.models.Product;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -13,7 +14,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class CategoryRepository extends GenericDaoImpl {
+public class CategoryRepository extends GenericDaoImpl<Category> {
+
+    EntityManager em = emf.createEntityManager();
 
     public CategoryRepository(Class entityClass) {
         super(entityClass);

@@ -1,6 +1,7 @@
 package gov.iti.jets.models;
 
 import lombok.*;
+import gov.iti.jets.repositories.*;
 
 import jakarta.persistence.*;
 
@@ -65,5 +66,25 @@ public class Product {
         this.category = category;
         this.dateCreated = dateCreated;
         this.lastUpdated = lastUpdated;
+        cart=new HashSet<>();
     }
+
+    
+    
+     // Constructor that accepts categoryId as a String
+     public Product(String name, double price, int stock, String categoryId) {
+        this.name = name;
+        this.price = BigDecimal.valueOf(price);  // Convert double to BigDecimal
+        this.stock = stock;
+        this.dateCreated = LocalDateTime.now();
+        this.lastUpdated = LocalDateTime.now();
+        this.cart = new HashSet<>();
+
+        // Fetch Category from repository using the categoryId
+        Long categoryIdLong = Long.parseLong(categoryId); // Convert String to Long
+        this.category = (new CategoryRepository(Category.class)).findById(categoryIdLong)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid category ID: " + categoryId));
+    }
+
+
 }

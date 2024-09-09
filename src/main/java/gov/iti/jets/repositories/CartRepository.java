@@ -2,6 +2,7 @@ package gov.iti.jets.repositories;
 
 import gov.iti.jets.genericDao.GenericDaoImpl;
 import gov.iti.jets.models.CartItem;
+import gov.iti.jets.models.CartKey;
 import gov.iti.jets.models.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.*;
@@ -13,11 +14,11 @@ import java.util.stream.Collectors;
 
 public class CartRepository extends GenericDaoImpl<CartItem> {
 
+
+
     public CartRepository() {
         super(CartItem.class);
     }
-
-
 
 
     public Set<CartItem> findByUser(User user) {
@@ -151,7 +152,7 @@ public class CartRepository extends GenericDaoImpl<CartItem> {
         }
     }
 
-    boolean exists(CartKey cartId) {
+    public boolean exists(CartKey cartId) {
         return findById(cartId).isPresent();
     }
 }

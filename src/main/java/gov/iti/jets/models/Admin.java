@@ -9,6 +9,8 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+
+
 @Entity
 @Setter
 @Getter
@@ -49,13 +51,13 @@ public class Admin {
     }
 
     @PrePersist
-    protected void onCreate() {
+    public void onCreate() {
         dateCreated = LocalDateTime.now();
         lastUpdated = LocalDateTime.now();
     }
 
     @PreUpdate
-    protected void onUpdate() {
+    public void onUpdate() {
         lastUpdated = LocalDateTime.now();
     }
 
