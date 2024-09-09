@@ -14,7 +14,7 @@ import java.io.IOException;
 
 @WebServlet(name = "verify", urlPatterns = "/verify")
 public class EmailVerification extends HttpServlet {
-    //private UserService userService = new UserService();
+    private UserService userService = new UserService();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         doPost(req, resp);
@@ -23,21 +23,26 @@ public class EmailVerification extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("Hello ");
-        UserService userService = new UserService();
+        verificationProcess(req,resp);
+
+    }
+    
+
+    public void verificationProcess(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String verificationCode = req.getParameter("verificationCode");
         HttpSession session = req.getSession();
         String verify= (String) session.getAttribute("verifyCode");
         User user = (User) session.getAttribute("user");
         System.out.println(user.getUsername());
         if(verificationCode.equals(verify)){
-         User newUser=  userService.save(user);
+            User newUser=  userService.save(user);
             System.out.println(newUser.getEmail());
             RequestDispatcher rd =req.getRequestDispatcher("/welcome.jsp");
             rd.forward(req, resp);
         }else {
             resp.sendRedirect("/ECommerceWebApp_war/verifyEmail.jsp");
         }
+
 
     }
 }
