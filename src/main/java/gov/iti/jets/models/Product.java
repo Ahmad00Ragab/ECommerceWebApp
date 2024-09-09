@@ -24,7 +24,7 @@ public class Product {
     private String name;
 
     @Column(nullable = false)
-    private BigDecimal price;
+    private Double price;
 
     @Column(nullable = true)
     private String description;
@@ -48,7 +48,7 @@ public class Product {
     @Column(name = "created_by")
     private String createdBy;
 
-    public Product(String name, BigDecimal price, String description, int stock, Category category, LocalDateTime dateCreated, LocalDateTime lastUpdated) {
+    public Product(String name, Double price, String description, int stock, Category category, LocalDateTime dateCreated, LocalDateTime lastUpdated) {
         this.name = name;
         this.price = price;
         this.description = description;
@@ -59,7 +59,7 @@ public class Product {
         cart=new HashSet<>();
     }
 
-    public Product(String name, BigDecimal price, int stock, Category category, LocalDateTime dateCreated, LocalDateTime lastUpdated) {
+    public Product(String name, Double price, int stock, Category category, LocalDateTime dateCreated, LocalDateTime lastUpdated) {
         this.name = name;
         this.price = price;
         this.stock = stock;
@@ -74,16 +74,28 @@ public class Product {
      // Constructor that accepts categoryId as a String
      public Product(String name, double price, int stock, String categoryId) {
         this.name = name;
-        this.price = BigDecimal.valueOf(price);  // Convert double to BigDecimal
+        this.price = price;  // Convert double to BigDecimal
         this.stock = stock;
         this.dateCreated = LocalDateTime.now();
         this.lastUpdated = LocalDateTime.now();
         this.cart = new HashSet<>();
 
         // Fetch Category from repository using the categoryId
-        Long categoryIdLong = Long.parseLong(categoryId); // Convert String to Long
+        Long categoryIdLong = Long.parseLong(categoryId); 
         this.category = (new CategoryRepository(Category.class)).findById(categoryIdLong)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid category ID: " + categoryId));
+    } 
+    
+
+     /* Constructor that accepts categoryId as a String */
+     public Product(String name, double price, int stock, Category category) {
+        this.name        = name;
+        this.price       = price;  
+        this.stock       = stock;
+        this.dateCreated = LocalDateTime.now();
+        this.lastUpdated = LocalDateTime.now();
+        this.category    = category;
+        this.cart = new HashSet<>();
     }
 
 
