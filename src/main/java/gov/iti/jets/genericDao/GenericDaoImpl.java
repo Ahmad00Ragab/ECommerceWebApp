@@ -31,7 +31,6 @@ public abstract class GenericDaoImpl<T> implements GenericDAO<T> {
     }
 
 
-
     @Override
     public Set<T> findAll() {
         EntityManager em = null;
@@ -49,11 +48,6 @@ public abstract class GenericDaoImpl<T> implements GenericDAO<T> {
             }
         }
     }
-
-
-
-
-
 
     @Override
     public Optional<T> findById(Long id) {

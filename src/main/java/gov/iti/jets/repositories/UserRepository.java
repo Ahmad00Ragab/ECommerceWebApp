@@ -6,7 +6,9 @@ import gov.iti.jets.models.Category;
 import gov.iti.jets.models.Product;
 import gov.iti.jets.models.User;
 import gov.iti.jets.system.exceptions.ObjectNotFoundException;
+import gov.iti.jets.util.CreateEntityManagerFactory;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
@@ -19,7 +21,6 @@ public class UserRepository extends GenericDaoImpl<User> {
     public UserRepository() {
         super(User.class);
     }
-
     public Optional<User> findByUsername(String username) {
         EntityManager em = null;
         try {
@@ -39,9 +40,6 @@ public class UserRepository extends GenericDaoImpl<User> {
         }
     }
 
-
-
-
     public Set<Category> findInterestsByUserId(Long userId) {
         User user = findById(userId)
                 .orElseThrow(() -> new ObjectNotFoundException("User", userId));
@@ -55,7 +53,6 @@ public class UserRepository extends GenericDaoImpl<User> {
     }
 
 
-
     // Interests
     public void addInterestToUser(Long userId, Category category) {
         User user = findById(userId)
@@ -63,8 +60,6 @@ public class UserRepository extends GenericDaoImpl<User> {
         user.getInterests().add(category);
         update(user);
     }
-
-
 
     public void removeInterestFromUser(Long userId, Category category) {
         User user = findById(userId)
@@ -78,7 +73,6 @@ public class UserRepository extends GenericDaoImpl<User> {
     }
 
 
-
     // Wishlist
     public void addProductToWishlist(Long userId, Product product) {
         User user = findById(userId)
@@ -87,8 +81,6 @@ public class UserRepository extends GenericDaoImpl<User> {
         update(user);
     }
 
-
-    
     public void removeProductFromWishlist(Long userId, Product product) {
         User user = findById(userId)
                 .orElseThrow(() -> new ObjectNotFoundException("User", userId));
