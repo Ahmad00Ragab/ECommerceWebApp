@@ -53,7 +53,7 @@ public class UserController extends HttpServlet {
         Optional<User> userOpt = findUserById(req);
         if (userOpt.isPresent()) {
             req.setAttribute("user", userOpt.get());
-            req.getRequestDispatcher("/jsp/view.jsp").forward(req, resp);
+            req.getRequestDispatcher("jsp/user/view.jsp").forward(req, resp);
         } else {
             req.setAttribute("error", "User not found.");
             req.getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
@@ -71,7 +71,7 @@ public class UserController extends HttpServlet {
         String error = (String) req.getAttribute("error");  // Optional error
         req.setAttribute("error", error);
 
-        req.getRequestDispatcher("/jsp/user/list.jsp").forward(req, resp);
+        req.getRequestDispatcher("jsp/user/list.jsp").forward(req, resp);
     }
 
 
@@ -89,13 +89,14 @@ public class UserController extends HttpServlet {
                     break;
                 default:
                     req.setAttribute("error", "Invalid action");
-                    req.getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
+                    req.getRequestDispatcher("../error.jsp").forward(req, resp);
             }
         } catch (Exception e) {
             req.setAttribute("error", "An error occurred: " + e.getMessage());
             req.getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
         }
     }
+
     private Optional<User> findUserById(HttpServletRequest req) {
         Long userId = Long.parseLong(req.getParameter("userId"));
         return userService.findById(userId);
@@ -105,7 +106,7 @@ public class UserController extends HttpServlet {
         Optional<User> userOpt = findUserById(req);
         if (userOpt.isPresent()) {
             req.setAttribute("user", userOpt.get());
-            req.getRequestDispatcher("/jsp/user.update.jsp").forward(req, resp);
+            req.getRequestDispatcher("/jsp/user/update.jsp").forward(req, resp);
         } else {
             req.setAttribute("error", "User not found.");
             req.getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
@@ -167,6 +168,7 @@ public class UserController extends HttpServlet {
                 req.setAttribute("error", "User not found.");
                 req.getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
             }
+
         } catch (Exception e) {
             // Log the exception
             e.printStackTrace();

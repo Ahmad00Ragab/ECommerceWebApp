@@ -78,6 +78,21 @@ public class UserService {
                 .orElseThrow(() -> new ObjectNotFoundException("user", userId)));
     }
 
+    // Login
+    public User login(String email, String password) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ObjectNotFoundException("User", email));
+
+        if (!user.getPassword().equals(PasswordEncryptionUtil.encryptPassword(password))) {
+            throw new ObjectNotFoundException("User", email);
+        } else {
+            return user;
+        }
+    }
+
+
+
+    // Exists
     public boolean existsById(Long userId) {
         return userRepository.existsById(userId);
     }
