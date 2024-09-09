@@ -33,8 +33,6 @@ public abstract class GenericDaoImpl<T> implements GenericDAO<T> {
 
 
 
-
-    
     @Override
     public Set<T> findAll() {
         EntityManager em = null;

@@ -14,7 +14,6 @@ import java.io.PrintWriter;
 import java.util.Set;
 import java.util.*;
 
-
 @WebServlet("/ProductController")
 public class ProductController extends HttpServlet {
 
@@ -27,19 +26,15 @@ public class ProductController extends HttpServlet {
         if ("delete".equals(action)) {
             long id = Long.parseLong(req.getParameter("id"));
             productService.deleteProduct(id);
-            resp.sendRedirect("index.jsp");
+            resp.sendRedirect("index.jsp"); 
         } else if ("fetch".equals(action)) {
             long id = Long.parseLong(req.getParameter("id"));
             Optional<Product> product = productService.getProductById(id);
-            
-            // Convert product object to JSON and return in response
+
             Gson gson = new Gson();
-            String productJson = gson.toJson(product);
-            
+            String productJson = gson.toJson(product.orElse(null)); // Use Optional
             resp.setContentType("application/json");
-            PrintWriter out = resp.getWriter();
-            out.print(productJson);
-            out.flush();
+            resp.getWriter().write(productJson);
         } else {
             Set<Product> products = productService.getAllProducts();
             req.setAttribute("productList", products);
