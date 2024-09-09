@@ -38,7 +38,7 @@ public class UserController extends HttpServlet {
                     showUpdateForm(req, resp);
                     break;
                 case "confirmDelete":
-                    req.getRequestDispatcher("/jsp/delete.jsp").forward(req, resp);
+                    req.getRequestDispatcher("/jsp/user/delete.jsp").forward(req, resp);
                     break;
                 case "view":
                     viewUser(req, resp);
@@ -71,7 +71,7 @@ public class UserController extends HttpServlet {
         String error = (String) req.getAttribute("error");  // Optional error
         req.setAttribute("error", error);
 
-        req.getRequestDispatcher("/jsp/list.jsp").forward(req, resp);
+        req.getRequestDispatcher("/jsp/user/list.jsp").forward(req, resp);
     }
 
 
@@ -81,9 +81,6 @@ public class UserController extends HttpServlet {
 
         try {
             switch (action) {
-                case "create":
-                    createUser(req, resp);
-                    break;
                 case "update":
                     updateUser(req, resp);
                     break;
@@ -104,42 +101,11 @@ public class UserController extends HttpServlet {
         return userService.findById(userId);
     }
 
-    private void createUser(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        String username = req.getParameter("username");
-        String email = req.getParameter("email");
-        String password = req.getParameter("password");
-
-        // Create a User object with provided input
-        User user = new User(username, email, password, LocalDate.now(), LocalDate.now());
-
-        // Perform validation
-        List<String> validationErrors = userService.createUserValidation(user);
-
-        if (!validationErrors.isEmpty()) {
-            // If validation fails, set errors in request and forward to JSP
-            req.setAttribute("errors", validationErrors);
-            req.getRequestDispatcher("/jsp/create.jsp").forward(req, resp);
-            return;
-        }
-
-        // Check if the username already exists
-        if (userService.findUserByUsername(username).isPresent()) {
-            req.setAttribute("error", "Username already exists.");
-            req.getRequestDispatcher("/jsp/create.jsp").forward(req, resp);
-            return;
-        }
-
-        // Save user to the database after validation
-        userService.save(user);
-        req.setAttribute("successMessage", "User created successfully.");
-        req.getRequestDispatcher("/jsp/success.jsp").forward(req, resp);
-    }
-
     private void showUpdateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Optional<User> userOpt = findUserById(req);
         if (userOpt.isPresent()) {
             req.setAttribute("user", userOpt.get());
-            req.getRequestDispatcher("/jsp/update.jsp").forward(req, resp);
+            req.getRequestDispatcher("/jsp/user.update.jsp").forward(req, resp);
         } else {
             req.setAttribute("error", "User not found.");
             req.getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
@@ -172,7 +138,7 @@ public class UserController extends HttpServlet {
             userService.update(userId, existingUser);
 
             req.setAttribute("successMessage", "User updated successfully.");
-            req.getRequestDispatcher("/jsp/success.jsp").forward(req, resp);
+            req.getRequestDispatcher("/jsp/user/success.jsp").forward(req, resp);
         } catch (ValidationException e) {
             // Set validation errors and user data in request
             req.setAttribute("errors", e.getValidationErrors());
@@ -196,7 +162,7 @@ public class UserController extends HttpServlet {
                 userService.delete(userId);
                 System.out.println("found and deleted");
                 req.setAttribute("successMessage", "User deleted successfully.");
-                req.getRequestDispatcher("/jsp/success.jsp").forward(req, resp);
+                req.getRequestDispatcher("/jsp/user/success.jsp").forward(req, resp);
             } else {
                 req.setAttribute("error", "User not found.");
                 req.getRequestDispatcher("/jsp/error.jsp").forward(req, resp);

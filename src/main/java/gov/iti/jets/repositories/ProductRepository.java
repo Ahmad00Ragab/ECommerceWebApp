@@ -16,8 +16,8 @@ import java.util.Set;
 
 public class ProductRepository extends GenericDaoImpl<Product>{
 
-    public ProductRepository(Class<Product> entityClass) {
-        super(entityClass);
+    public ProductRepository() {
+        super(Product.class);
     }
 
     public Optional<Product> getProductByName(String name) {
