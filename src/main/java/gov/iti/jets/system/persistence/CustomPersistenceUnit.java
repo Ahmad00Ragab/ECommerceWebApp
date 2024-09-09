@@ -38,13 +38,18 @@ public class CustomPersistenceUnit implements PersistenceUnitInfo {
     public DataSource getNonJtaDataSource() {
         try {
             HikariDataSource dataSource = new HikariDataSource();
+
             dataSource.setJdbcUrl("jdbc:mysql://localhost:3306/ecommerce");
             dataSource.setUsername("root");
+            dataSource.setPassword("root");
+            dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+            dataSource.setMaximumPoolSize(10);
+            dataSource.setConnectionTimeout(30000);
             return dataSource;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            throw new RuntimeException("Failed to configure HikariDataSource", e);
         }
-        return null;
+
     }
 
     @Override
@@ -65,13 +70,13 @@ public class CustomPersistenceUnit implements PersistenceUnitInfo {
     @Override
     public List<String> getManagedClassNames() {
         return List.of(
-                 "gov.iti.jets.user.User",
-                 "gov.iti.jets.admin.Admin",
-                 "gov.iti.jets.category.Category",
-                 "gov.iti.jets.product.Product",
-                 "gov.iti.jets.order.Order",
-                 "gov.iti.jets.order.OrderItem",
-                 "gov.iti.jets.cart.Cart"
+                "gov.iti.jets.models.User",
+                "gov.iti.jets.models.Admin",
+                "gov.iti.jets.models.Category",
+                "gov.iti.jets.models.Product",
+                "gov.iti.jets.models.Order",
+                "gov.iti.jets.models.OrderItem",
+                "gov.iti.jets.models.CartItem"
 
                 // Add more classes as needed
         );
@@ -96,7 +101,7 @@ public class CustomPersistenceUnit implements PersistenceUnitInfo {
     public  Properties getProperties() {
         Properties properties = new Properties();
         properties.setProperty(AvailableSettings.DIALECT, "org.hibernate.dialect.MySQLDialect");
-        properties.setProperty(AvailableSettings.HBM2DDL_AUTO, "create");
+        properties.setProperty(AvailableSettings.HBM2DDL_AUTO, "update");
         properties.setProperty(AvailableSettings.SHOW_SQL, "true");
         properties.setProperty(AvailableSettings.FORMAT_SQL, "true");
         return properties;
