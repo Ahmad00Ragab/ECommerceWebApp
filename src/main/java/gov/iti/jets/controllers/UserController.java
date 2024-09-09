@@ -22,6 +22,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@WebServlet(name = "UserController", value = "/user")
 public class UserController extends HttpServlet {
 
     UserService userService = new UserService();
@@ -33,6 +34,12 @@ public class UserController extends HttpServlet {
         System.out.println("here in get");
         log("here in get");
             switch (action) {
+                case "updateForm":
+                    showUpdateForm(req, resp);
+                    break;
+                case "confirmDelete":
+                    req.getRequestDispatcher("/jsp/delete.jsp").forward(req, resp);
+                    break;
                 case "view":
                     viewUser(req, resp);
                     break;
@@ -43,14 +50,13 @@ public class UserController extends HttpServlet {
     }
 
     private void viewUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Long userId = Long.parseLong(req.getParameter("userId"));
-        Optional<User> userOpt = userService.findById(userId);
-
+        Optional<User> userOpt = findUserById(req);
         if (userOpt.isPresent()) {
             req.setAttribute("user", userOpt.get());
             req.getRequestDispatcher("/jsp/view.jsp").forward(req, resp);
         } else {
-            throw new ObjectNotFoundException("User", userId);
+            req.setAttribute("error", "User not found.");
+            req.getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
         }
     }
 
@@ -58,12 +64,6 @@ public class UserController extends HttpServlet {
         Set<User> users;
         users = userService.findAll();
 
-        // Convert Users to UserDtos
-//        List<UserDto> userDtos = users.stream()
-//                .map(foundUser -> this.userToUserDtoConverter.convert(foundUser))
-//                .collect(Collectors.toList());
-
-        // Set UserDtos in the request attribute
         req.setAttribute("users", users);
 
         System.out.println("Users: " + users);
@@ -99,6 +99,10 @@ public class UserController extends HttpServlet {
             req.getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
         }
     }
+    private Optional<User> findUserById(HttpServletRequest req) {
+        Long userId = Long.parseLong(req.getParameter("userId"));
+        return userService.findById(userId);
+    }
 
     private void createUser(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String username = req.getParameter("username");
@@ -114,48 +118,68 @@ public class UserController extends HttpServlet {
         if (!validationErrors.isEmpty()) {
             // If validation fails, set errors in request and forward to JSP
             req.setAttribute("errors", validationErrors);
-            req.getRequestDispatcher("/jsp/user/create.jsp").forward(req, resp);
+            req.getRequestDispatcher("/jsp/create.jsp").forward(req, resp);
             return;
         }
 
         // Check if the username already exists
         if (userService.findUserByUsername(username).isPresent()) {
             req.setAttribute("error", "Username already exists.");
-            req.getRequestDispatcher("/jsp/user/create.jsp").forward(req, resp);
+            req.getRequestDispatcher("/jsp/create.jsp").forward(req, resp);
             return;
         }
 
         // Save user to the database after validation
         userService.save(user);
         req.setAttribute("successMessage", "User created successfully.");
-        req.getRequestDispatcher("/jsp/user/success.jsp").forward(req, resp);
+        req.getRequestDispatcher("/jsp/success.jsp").forward(req, resp);
+    }
+
+    private void showUpdateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Optional<User> userOpt = findUserById(req);
+        if (userOpt.isPresent()) {
+            req.setAttribute("user", userOpt.get());
+            req.getRequestDispatcher("/jsp/update.jsp").forward(req, resp);
+        } else {
+            req.setAttribute("error", "User not found.");
+            req.getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
+        }
     }
 
     private void updateUser(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         Long userId = Long.parseLong(req.getParameter("userId"));
+        Optional<User> existingUserOpt = userService.findById(userId);
+        System.out.println("here in update user");
+        if (!existingUserOpt.isPresent()) {
+            req.setAttribute("error", "User not found.");
+            req.getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
+            return;
+        }
 
-        User user = new User();
+        User existingUser = existingUserOpt.get();
+        // Update only the fields that are provided
+        existingUser.setUsername(req.getParameter("username"));
+        existingUser.setPhone(req.getParameter("phone"));
+        existingUser.setCity(req.getParameter("city"));
+        existingUser.setCountry(req.getParameter("country"));
+        existingUser.setStreet(req.getParameter("street"));
 
-        user.setUsername(req.getParameter("username"));
-        user.setPhone(req.getParameter("phone"));
-        user.setCity(req.getParameter("city"));
-        user.setCountry(req.getParameter("country"));
-        user.setStreet(req.getParameter("street"));
+        // Perform validation
+        System.out.println("just before validation");
 
         try {
             // Call the service to update the user
-            userService.update(userId, user);
+            userService.update(userId, existingUser);
 
-            // Success, forward to success page
             req.setAttribute("successMessage", "User updated successfully.");
-            req.getRequestDispatcher("/jsp/user/success.jsp").forward(req, resp);
-
+            req.getRequestDispatcher("/jsp/success.jsp").forward(req, resp);
         } catch (ValidationException e) {
-            // Validation failed, send validation errors to the JSP
+            // Set validation errors and user data in request
             req.setAttribute("errors", e.getValidationErrors());
-            req.getRequestDispatcher("/jsp/user/update.jsp").forward(req, resp);
+            req.setAttribute("user", existingUser);
+            // Forward to the update form
+            showUpdateForm(req, resp);
         } catch (ObjectNotFoundException e) {
-            // User not found
             req.setAttribute("error", "User not found.");
             req.getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
         }
@@ -163,12 +187,24 @@ public class UserController extends HttpServlet {
 
     private void deleteUser(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         Long userId = Long.parseLong(req.getParameter("userId"));
-        if (userService.existsById(userId)) {
-            userService.delete(userId);
-            req.setAttribute("successMessage", "User deleted successfully.");
-            req.getRequestDispatcher("/jsp/user/success.jsp").forward(req, resp);
-        } else {
-            req.setAttribute("error", "User not found.");
+        System.out.println("here in delete user");
+        try {
+            Optional<User> userOpt = userService.findById(userId);
+            System.out.println("find user");
+
+            if (userOpt.isPresent()) {
+                userService.delete(userId);
+                System.out.println("found and deleted");
+                req.setAttribute("successMessage", "User deleted successfully.");
+                req.getRequestDispatcher("/jsp/success.jsp").forward(req, resp);
+            } else {
+                req.setAttribute("error", "User not found.");
+                req.getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
+            }
+        } catch (Exception e) {
+            // Log the exception
+            e.printStackTrace();
+            req.setAttribute("error", "An error occurred while deleting the user: " + e.getMessage());
             req.getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
         }
     }

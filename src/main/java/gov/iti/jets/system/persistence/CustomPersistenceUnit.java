@@ -69,13 +69,13 @@ public class CustomPersistenceUnit implements PersistenceUnitInfo {
     @Override
     public List<String> getManagedClassNames() {
         return List.of(
-                 "gov.iti.jets.models.User",
-                 "gov.iti.jets.models.Admin",
-                 "gov.iti.jets.models.Category",
-                 "gov.iti.jets.models.Product",
-                 "gov.iti.jets.models.Order",
-                 "gov.iti.jets.models.OrderItem",
-                 "gov.iti.jets.models.CartItem"
+                "gov.iti.jets.models.User",
+                "gov.iti.jets.models.Admin",
+                "gov.iti.jets.models.Category",
+                "gov.iti.jets.models.Product",
+                "gov.iti.jets.models.Order",
+                "gov.iti.jets.models.OrderItem",
+                "gov.iti.jets.models.CartItem"
 
                 // Add more classes as needed
         );
