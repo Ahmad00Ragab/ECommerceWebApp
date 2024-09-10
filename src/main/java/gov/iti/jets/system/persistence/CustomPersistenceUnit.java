@@ -42,7 +42,7 @@ public class CustomPersistenceUnit implements PersistenceUnitInfo {
             dataSource.setJdbcUrl("jdbc:mysql://localhost:3306/ecommerce");
             dataSource.setUsername("root");
             dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-            dataSource.setMaximumPoolSize(10);
+            dataSource.setMaximumPoolSize(200);
             dataSource.setConnectionTimeout(30000);  // 30 seconds
             return dataSource;
         } catch (Exception e) {

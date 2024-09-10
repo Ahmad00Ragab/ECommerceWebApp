@@ -6,6 +6,8 @@ import gov.iti.jets.models.Order;
 import gov.iti.jets.models.OrderItem;
 import gov.iti.jets.models.Product;
 import gov.iti.jets.models.User;
+import gov.iti.jets.services.CartService;
+import gov.iti.jets.services.ProductService;
 import gov.iti.jets.services.UserService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -89,14 +91,19 @@ public static void main(String[] args) {
 //        }
 //
 //    }
-    UserService userService = new UserService();
+//    UserService userService = new UserService();
+//    ProductService productService = new ProductService();
+//    CartService cartService = new CartService();
+//
+//    //User user = new User("tony", "tony@gmail.com", "123", LocalDate.now(), LocalDate.now());
+//    User user = userService.findUserByUsername("tony").get();
+//    Product product = productService.findProductById(1L);
+//    CartItem cartItem = new CartItem(user, product, 2);
+//
+//    cartService.addProductToCart(user.getId(), product.getId(), 2);
 
-    UserService userService2 = new UserService();
-    Set<User> users = userService2.findAll();
+    //System.out.println(userService.save(user));
 
-    for(User user : users){
-        System.out.println(user.getUsername());
-    }
 
 }
 

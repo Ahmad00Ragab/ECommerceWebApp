@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Set;
 
-@WebServlet("/cartItem")
+@WebServlet("/cart")
 public class CartController extends HttpServlet {
 
     private CartService cartService;
@@ -30,6 +30,15 @@ public class CartController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        Long userId = (Long)request.getSession().getAttribute("id");
+
+        if (userId == null) {
+            request.setAttribute("error", "User not logged in");
+            request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
+            return;
+        }
+
         String action = request.getParameter("action");
         if (action == null) action = "list";
 
@@ -50,23 +59,23 @@ public class CartController extends HttpServlet {
     }
 
     private void listCartItemsByUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Long userId = Long.parseLong(request.getParameter("userId"));
+        Long userId = (Long)request.getSession().getAttribute("userId");
         Set<CartItem> cartItems = cartService.findCartByUserId(userId);
         request.setAttribute("cartItems", cartItems);
         request.getRequestDispatcher("/jsp/cartItemList.jsp").forward(request, response);
     }
 
     private void deleteCartItem(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Long userId = Long.parseLong(request.getParameter("userId"));
+        Long userId = (Long)request.getSession().getAttribute("userId");
         Long productId = Long.parseLong(request.getParameter("productId"));
         cartService.removeItem(userId, productId);
-        response.sendRedirect("cartItem?action=list");
+        response.sendRedirect("cart?action=list");
     }
 
     private void clearCart(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Long userId = Long.parseLong(request.getParameter("userId"));
+        Long userId = (Long)request.getSession().getAttribute("userId");
         cartService.clearCart(userId);
-        response.sendRedirect("cartItem?action=list");
+        response.sendRedirect("cart?action=list");
     }
 
     @Override
@@ -82,18 +91,18 @@ public class CartController extends HttpServlet {
     private void saveCartItem(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int quantity = Integer.parseInt(request.getParameter("quantity"));
         Long productId = Long.parseLong(request.getParameter("productId"));
-        Long userId = Long.parseLong(request.getParameter("userId"));
+        Long userId = (Long)request.getSession().getAttribute("userId");
 
         cartService.addProductToCart(userId, productId, quantity);
-        response.sendRedirect("cartItem?action=list");
+        response.sendRedirect("cart?action=list");
     }
 
     private void updateCartItem(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int quantity = Integer.parseInt(request.getParameter("quantity"));
         Long productId = Long.parseLong(request.getParameter("productId"));
-        Long userId = Long.parseLong(request.getParameter("userId"));
+        Long userId = (Long)request.getSession().getAttribute("userId");
 
         cartService.updateQuantity(userId, productId, quantity);
-        response.sendRedirect("cartItem?action=list");
+        response.sendRedirect("cart?action=list");
     }
 }

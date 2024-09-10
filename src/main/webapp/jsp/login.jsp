@@ -6,8 +6,13 @@
 </head>
 <body>
 
-<form method="POST" action="Login">
-    <br> Username: <input type="email" name="email">
+<!-- Display error message if exists -->
+<c:if test="${not empty errorMessage}">
+    <span style="color:red;">${errorMessage}</span><br>
+</c:if>
+
+<form method="POST" action="${pageContext.request.contextPath}/login">
+    <br> Email: <input type="email" name="email">
     <br> Password: <input type="password" name="password">
     <br> <input type="submit" value="Login">
 </form>

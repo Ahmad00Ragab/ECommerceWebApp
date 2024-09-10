@@ -49,13 +49,12 @@ public class UserRepository extends GenericDaoImpl<User> {
             Root<User> user = q.from(User.class);
             q.where(cb.equal(user.get("email"), email));
             q.select(user).distinct(true);
+            System.out.println(((em.createQuery(q).getSingleResult()).getEmail()));
             return Optional.ofNullable(em.createQuery(q).getSingleResult());
         } catch (Exception e) {
             throw new RuntimeException("Error occurred while fetching " + email, e);
         } finally {
-            if (em != null) {
-                em.close();
-            }
+            em.close();
         }
     }
 

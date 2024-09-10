@@ -2,44 +2,48 @@ package gov.iti.jets.controllers;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
+import java.util.Optional;
+import java.util.Set;
 
 
+import gov.iti.jets.models.CartItem;
 import gov.iti.jets.models.User;
+import gov.iti.jets.services.CartService;
 import gov.iti.jets.services.UserService;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+
+@WebServlet("/login")
 public class Login extends HttpServlet {
 
     private UserService userService = new UserService();
+    private CartService cartService = new CartService();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PrintWriter out = response.getWriter();
-
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
-        User user = userService.login(email, password);
-        if (user == null) {
-            out.println("<span style='color:red;'>Login Unauthorized!</span><br>");
-            request.getRequestDispatcher("index.jsp").include(request, response);
-            return;
+        try {
+            Optional<User> user = userService.login(email, password);
+            System.out.println(user.get().getUsername());
+            log(user.get().getUsername());
+            request.getSession().setAttribute("id", user.get().getId());
+
+            // Load cart items for the user
+            Set<CartItem> cartItems = cartService.findCartByUserId(user.get().getId());
+            request.getSession().setAttribute("cartItems", cartItems);
+
+            // Redirect to the cart page after successful login
+            response.sendRedirect(request.getContextPath() + "/jsp/cart/cartItemList.jsp");
+        } catch (Exception e) {
+            // Set error message as an attribute and forward it to the login JSP page
+            request.setAttribute("errorMessage", "Login Unauthorized!");
+            request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
         }
-
-        request.getSession().setAttribute("email", email);
-        request.getSession().setAttribute("password", password);
-
-        response.setContentType("text/html");
-
-        request.getSession().setAttribute("id", user.getId());
-
-        out.println("Login successful!<br>");
-
-        response.sendRedirect(request.getContextPath() + "/jsp/welcome.jsp");
-
     }
-
 }
