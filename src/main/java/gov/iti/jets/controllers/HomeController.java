@@ -33,7 +33,7 @@ public class HomeController extends HttpServlet {
     public void handleProducts(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String pageNumberParam = request.getParameter("pageNumber");
         int pageNumber = (pageNumberParam == null || pageNumberParam.isEmpty()) ? 1 : Integer.parseInt(pageNumberParam);
-        int pageSize = 10;
+        int pageSize = 3;
 
         Set<ProductDto> products = productService.findAllProductsUsingDTO(pageNumber, pageSize);
 
@@ -54,7 +54,7 @@ public class HomeController extends HttpServlet {
     public void handleSearchByCategory(HttpServletRequest request, HttpServletResponse response, String category) throws ServletException, IOException {
         String pageNumberParam = request.getParameter("pageNumber");
         int pageNumber = (pageNumberParam == null || pageNumberParam.isEmpty()) ? 1 : Integer.parseInt(pageNumberParam);
-        int pageSize = 10;
+        int pageSize = 3;
 
         Set<ProductDto> products = productService.findProductsByCategoryUsingProductDTO(category, pageNumber, pageSize);
 
@@ -74,7 +74,7 @@ public class HomeController extends HttpServlet {
 
     private  void handleSearchForProducts(HttpServletRequest req, HttpServletResponse resp, String name) throws ServletException, IOException {
         int pageNumber = req.getParameter("pageNumber") != null? Integer.parseInt(req.getParameter("pageNumber")) : 1;
-        int pageSize = 10;
+        int pageSize = 3;
         Set<ProductDto> products = productService.findProductByNameUsingProductDTO(name, pageNumber, pageSize);
 
         int totalProducts = productService.countByName(name);

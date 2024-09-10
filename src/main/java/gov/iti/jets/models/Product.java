@@ -49,6 +49,9 @@ public class Product {
     @Column(name = "created_by")
     private String createdBy;
 
+    @Column(name= "product_image")
+    private String imageUrl;
+
     public Product(String name, BigDecimal price, String description, int stock, Category category, LocalDateTime dateCreated, LocalDateTime lastUpdated) {
         this.name = name;
         this.price = price;
