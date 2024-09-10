@@ -49,9 +49,6 @@ public class Product {
     @Column(name = "created_by")
     private String createdBy;
 
-    @Column(name ="image_url")
-    private String imageUrl;
-
     public Product(String name, BigDecimal price, String description, int stock, Category category, LocalDateTime dateCreated, LocalDateTime lastUpdated) {
         this.name = name;
         this.price = price;
@@ -77,13 +74,13 @@ public class Product {
      // Constructor that accepts categoryId as a String
      public Product(String name, BigDecimal price, int stock, String categoryId) {
         this.name = name;
-        this.price = price;  // Convert double to BigDecimal
+        this.price = price;
         this.stock = stock;
         this.dateCreated = LocalDateTime.now();
         this.lastUpdated = LocalDateTime.now();
         this.cart = new HashSet<>();
 
-        // Fetch Category from repository using the categoryId
+
         Long categoryIdLong = Long.parseLong(categoryId); 
         this.category = (new CategoryRepository(Category.class)).findById(categoryIdLong)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid category ID: " + categoryId));
@@ -100,8 +97,4 @@ public class Product {
         this.category    = category;
         this.cart = new HashSet<>();
     }
-
-
-
-
 }

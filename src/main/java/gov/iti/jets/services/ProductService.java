@@ -42,19 +42,22 @@ public class ProductService {
     }
 
     public Product updateProduct(Product product) {
-        productRepository.save(product);
+        // productRepository.save(product);
+        /* Commented the above code, we should use productRepository.update not productRepository.save(product) : Haroun */
+        productRepository.update(product);
         return product;
     }
 
 
     @Transactional
     public void createProduct(Product product) {
-         System.out.println("Saving product: " + product);
+        System.out.println("Saving product: " + product);
         productRepository.save(product);
     }
 
 
     public boolean deleteProduct(Long id) {
+        System.out.println("inside ProductService.deleteProduct");
         return productRepository.delete(id);
     }
 
@@ -98,8 +101,6 @@ public class ProductService {
     public Set<Product> findProductsByPrice(BigDecimal minPrice, BigDecimal maxPrice) {
         return productRepository.findProductsByPrice(minPrice, maxPrice);
     }
-
-
 
     public Set<Product> sortProductsByPrice() {
         return productRepository.sortProductsByPrice();

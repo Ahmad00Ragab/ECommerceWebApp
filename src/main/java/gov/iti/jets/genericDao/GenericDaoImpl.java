@@ -3,8 +3,6 @@ package gov.iti.jets.genericDao;
 import gov.iti.jets.system.persistence.CustomPersistenceUnit;
 import gov.iti.jets.util.CreateEntityManagerFactory;
 
-// import gov.iti.jets.system.persistence.CustomPersistenceUnit;
-
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
@@ -12,7 +10,9 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import org.hibernate.ObjectNotFoundException;
+import org.hibernate.jpa.HibernatePersistenceProvider;
 
+import gov.iti.jets.models.Product;
 import gov.iti.jets.util.CreateEntityManagerFactory;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 
@@ -25,8 +25,6 @@ import java.util.Set;
 public abstract class GenericDaoImpl<T> implements GenericDAO<T> {
 
     private final Class<T> entityClass;
-
-    HibernatePersistenceProvider provider = new HibernatePersistenceProvider();
     protected EntityManagerFactory emf = CreateEntityManagerFactory.getInstance();
 
     protected EntityManager em;
@@ -54,6 +52,8 @@ public abstract class GenericDaoImpl<T> implements GenericDAO<T> {
         }
     }
 
+   
+    
     @Override
     public Optional<T> findById(Long id) {
         EntityManager em = null;
@@ -115,6 +115,9 @@ public abstract class GenericDaoImpl<T> implements GenericDAO<T> {
 
     @Override
     public boolean delete(Long id) {
+
+        System.out.println("inside GenericDaoImp!");
+        
         EntityManager em = null;
         try {
             em = emf.createEntityManager();
@@ -140,6 +143,7 @@ public abstract class GenericDaoImpl<T> implements GenericDAO<T> {
             }
         }
     }
+
 
     @Override
     public boolean delete(T entity) {

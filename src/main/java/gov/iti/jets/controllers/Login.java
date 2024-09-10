@@ -34,7 +34,7 @@ public class Login extends HttpServlet {
             log(user.get().getUsername());
             request.getSession().setAttribute("id", user.get().getId());
 
-            // Load cart items for the user
+            // Load cart items for the user bgrb yro7 3al cart 3ashan kont bgrbha bel marra
             Set<CartItem> cartItems = cartService.findCartByUserId(user.get().getId());
             request.getSession().setAttribute("cartItems", cartItems);
 

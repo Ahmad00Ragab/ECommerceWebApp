@@ -39,7 +39,7 @@ public class HomeController extends HttpServlet {
 
         request.setAttribute("homeProducts", products);
 
-        int totalProducts = productService.countAllProducts();  
+        int totalProducts = productService.countAllProducts();
         int totalPages = (int) Math.ceil((double) totalProducts / pageSize);
 
         request.setAttribute("currentPage", pageNumber);
