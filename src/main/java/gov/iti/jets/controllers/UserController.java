@@ -22,6 +22,7 @@ import java.util.Optional;
 public class UserController extends HttpServlet {
 
     private final UserService userService = new UserService();
+    
     private final UserDtoToUserConverter userDtoToUserConverter = new UserDtoToUserConverter();
 
     @Override

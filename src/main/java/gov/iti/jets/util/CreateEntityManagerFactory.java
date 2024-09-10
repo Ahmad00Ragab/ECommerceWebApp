@@ -13,7 +13,6 @@ public class CreateEntityManagerFactory{
     private CreateEntityManagerFactory() {
     }
 
-
     public static EntityManagerFactory getInstance() {
         if (entityManagerFactory == null) {
             synchronized (CreateEntityManagerFactory.class) {
