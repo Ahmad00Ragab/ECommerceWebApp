@@ -229,8 +229,6 @@ public class ProductRepository extends GenericDaoImpl<Product>{
 
     ///  counting products processes
 
-
-
     public int countProductsByName(String name) {
         EntityManager em = null;
         try {
