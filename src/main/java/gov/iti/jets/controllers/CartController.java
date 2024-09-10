@@ -1,7 +1,6 @@
 package gov.iti.jets.controllers;
 
 import gov.iti.jets.models.CartItem;
-import gov.iti.jets.models.CartKey;
 import gov.iti.jets.services.CartService;
 import gov.iti.jets.services.ProductService;
 import gov.iti.jets.services.UserService;
@@ -33,11 +32,11 @@ public class CartController extends HttpServlet {
 
         Long userId = (Long)request.getSession().getAttribute("id");
 
-        if (userId == null) {
-            request.setAttribute("error", "User not logged in");
-            request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
-            return;
-        }
+//        if (userId == null) {
+//            request.setAttribute("error", "User not logged in");
+//            request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
+//            return;
+//        }
 
         String action = request.getParameter("action");
         if (action == null) action = "list";
