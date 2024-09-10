@@ -20,7 +20,6 @@ import java.util.Set;
 public class App {
 public static void main(String[] args) {
 
-
 //    EntityManagerFactory emf = CreateEntityManagerFactory.getInstance();
 //    EntityManager em = emf.createEntityManager();
 //    try {
@@ -129,5 +128,4 @@ public static void main(String[] args) {
         // }
     }
 }
-
 
