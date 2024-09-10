@@ -15,6 +15,7 @@
         <h1>Welcome to the Admin Panel</h1>
     </header>
 
+
     <section>
         <!-- Form to send a GET request to ProductController -->
         <form action="ProductController" method="get">
@@ -23,10 +24,11 @@
         </form>
 
         <!-- Form to send a GET request to ReviewCustomerProfile -->
-        <form action="ReviewCustomerProfile" method="get">
+        <form action="ProductController" method="get">
             <input type="hidden" name="action" value="viewProfile">
             <button type="submit">Go to Customer Profile</button>
         </form>
+
     </section>
 </body>
 </html>

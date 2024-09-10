@@ -1,5 +1,8 @@
 package gov.iti.jets.util;
 
+import org.hibernate.jpa.HibernatePersistenceProvider;
+
+import gov.iti.jets.system.persistence.CustomPersistenceUnit;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
@@ -17,7 +20,8 @@ public class CreateEntityManagerFactory{
         if (entityManagerFactory == null) {
             synchronized (CreateEntityManagerFactory.class) {
                 if (entityManagerFactory == null) {
-                    entityManagerFactory = Persistence.createEntityManagerFactory("ecommercePU");
+                    HibernatePersistenceProvider provider = new HibernatePersistenceProvider();
+                    entityManagerFactory = provider.createContainerEntityManagerFactory(new CustomPersistenceUnit(), new CustomPersistenceUnit().getProperties());
                 }
             }
         }

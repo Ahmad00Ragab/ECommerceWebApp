@@ -250,14 +250,15 @@
       <version>2.1.3</version>
     </dependency>
 
+
     <dependency>
       <groupId>com.sun.mail</groupId>
       <artifactId>jakarta.mail</artifactId>
       <version>2.0.1</version>
     </dependency>
 
-    <!--password encryption-->
 
+    <!--password encryption-->
     <dependency>
       <groupId>org.mindrot</groupId>
       <artifactId>jbcrypt</artifactId>
