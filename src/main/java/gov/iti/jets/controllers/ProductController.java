@@ -67,14 +67,15 @@ public class ProductController extends HttpServlet {
         
         System.out.println(productId);
 
-        String name      = req.getParameter("name");
+        String name   = req.getParameter("name");
         System.out.println(productId);
         
-        double price;
+        BigDecimal price;
         int quantity;
         
         try {
-            price    = Double.parseDouble(req.getParameter("price"));
+          //  price    = Double.parseDouble(req.getParameter("price"));
+            price =new BigDecimal(req.getParameter("price"));
             
             System.out.println("Price : "+price);
 
@@ -111,7 +112,7 @@ public class ProductController extends HttpServlet {
         
         System.out.println(category);
 
-        
+
         Product product = new Product(name, price, "Added by Admin", quantity, category, LocalDateTime.now(), LocalDateTime.now());
 
     
