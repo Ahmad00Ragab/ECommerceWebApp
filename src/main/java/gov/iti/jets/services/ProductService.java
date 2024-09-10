@@ -8,6 +8,7 @@ import gov.iti.jets.system.exceptions.ProductNotFoundException;
 import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.Set;
+
 import jakarta.transaction.Transactional;
 
 
@@ -110,12 +111,35 @@ public class ProductService {
         return productRepository.sortProductsByCategoryAndPrice(category);
     }
 
-    public Set<ProductDto> findAllProductsUsingDTO() {
-       return productRepository.findAllProductsUsingDTO();
+    public Set<ProductDto> findAllProductsUsingDTO(int pageNumber, int pageSize) {
+       return productRepository.findAllProductsUsingDTO(pageNumber,pageSize);
     }
 
-    public Set<ProductDto> findProductsByCategoryUsingProductDTO(String category) {
-        return productRepository.findProductsByCategoryUsingProductDTO(category);
+    public Set<ProductDto> findProductsByCategoryUsingProductDTO(String category, int pageNumber, int pageSize) {
+        return productRepository.findProductsByCategoryUsingProductDTO(category, pageNumber, pageSize);//String /
+
     }
 
+
+    public Set<ProductDto> findProductByNameUsingProductDTO(String name, int pageNumber, int pageSize) {
+       return productRepository.findProductByNameUsingProductDTO(name, pageNumber,pageSize);
+    }
+
+
+    public Set<Product> sortProductsByCategoryAndPriceUsingProductDTO(String category) {
+       return productRepository.sortProductsByCategoryAndPriceUsingProductDTO(category);
+    }
+
+    public int countByName(String name) {
+        return productRepository.countProductsByName(name);
+    }
+
+    public int countProductsByCategory(String category) {
+       return productRepository.countProductsByCategory(category);
+    }
+
+
+    public int countAllProducts(){
+        return productRepository.countAllProducts();
+    }
 }

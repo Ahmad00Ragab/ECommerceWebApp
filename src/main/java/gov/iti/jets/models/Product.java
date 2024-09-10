@@ -74,13 +74,13 @@ public class Product {
      // Constructor that accepts categoryId as a String
      public Product(String name, BigDecimal price, int stock, String categoryId) {
         this.name = name;
-        this.price = price;  // Convert double to BigDecimal
+        this.price = price;
         this.stock = stock;
         this.dateCreated = LocalDateTime.now();
         this.lastUpdated = LocalDateTime.now();
         this.cart = new HashSet<>();
 
-        // Fetch Category from repository using the categoryId
+
         Long categoryIdLong = Long.parseLong(categoryId); 
         this.category = (new CategoryRepository(Category.class)).findById(categoryIdLong)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid category ID: " + categoryId));
