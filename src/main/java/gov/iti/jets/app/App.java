@@ -7,6 +7,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceException;
 
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -32,9 +33,9 @@ public class App {
             em.persist(books);
 
             // Create products
-            Product productA = new Product("Smartphone", 699.99, "Latest smartphone", 100, electronics, LocalDateTime.now(), LocalDateTime.now());
-            Product productB = new Product("T-shirt", 29.99, "Cotton T-shirt", 50, clothing, LocalDateTime.now(), LocalDateTime.now());
-            Product productC = new Product("Novel", 9.99, "Bestselling novel", 200, books, LocalDateTime.now(), LocalDateTime.now());
+            Product productA = new Product("Smartphone", BigDecimal.valueOf(699.99), "Latest smartphone", 100, electronics, LocalDateTime.now(), LocalDateTime.now());
+            Product productB = new Product("T-shirt", BigDecimal.valueOf(360.99), "Cotton T-shirt", 50, clothing, LocalDateTime.now(), LocalDateTime.now());
+            Product productC = new Product("Novel", BigDecimal.valueOf(500.99), "Bestselling novel", 200, books, LocalDateTime.now(), LocalDateTime.now());
 
 
             // Persist products

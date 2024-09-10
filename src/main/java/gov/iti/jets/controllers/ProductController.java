@@ -24,6 +24,9 @@ import java.time.LocalDateTime;
 
 
 
+/* ======================================================================================== */
+/*    This is Servlet Enables the Admin to View, Add, Edit and Delete Products              */
+/* ======================================================================================== */
 @WebServlet("/ProductController")
 public class ProductController extends HttpServlet {
 
@@ -34,18 +37,29 @@ public class ProductController extends HttpServlet {
         String action = req.getParameter("action");
 
         if ("delete".equals(action)) {
+            // Handle product deletion via GET
             long id = Long.parseLong(req.getParameter("id"));
             productService.deleteProduct(id);
             resp.sendRedirect("ProductController");
-        } else if ("fetch".equals(action)) {
+        } else if ("edit".equals(action)) {
+            // Handle edit product
             long id = Long.parseLong(req.getParameter("id"));
             Optional<Product> product = productService.findProductById(id);
 
-            Gson gson = new Gson();
-            String productJson = gson.toJson(product.orElse(null));
-            resp.setContentType("application/json");
-            resp.getWriter().write(productJson);
+            if (product.isPresent()) {
+                req.setAttribute("product", product.get());
+
+                /* Fetch and set categories */
+                CategoryService categoryService = new CategoryService(new CategoryRepository(Category.class));
+                Set<Category> categories = categoryService.findAllCategories();
+                req.setAttribute("categories", categories);
+
+                req.getRequestDispatcher("WEB-INF/views/admin/edit-product.jsp").forward(req, resp);
+            } else {
+                resp.sendRedirect("ProductController");
+            }
         } else {
+            // Default action: show product list
             Set<Product> products = productService.findAllProducts();
             req.setAttribute("productList", products);
 
@@ -54,67 +68,55 @@ public class ProductController extends HttpServlet {
             Set<Category> categories = categoryService.findAllCategories();
             req.setAttribute("categories", categories);
 
-            req.getRequestDispatcher("index.jsp").forward(req, resp);
+            req.getRequestDispatcher("WEB-INF/views/admin/manage-products.jsp").forward(req, resp);
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        
-        System.out.println("Inside the doPost");
-        
+        String action = req.getParameter("action");
+
+        if ("delete".equals(action)) {
+            // Handle product deletion via POST
+            long id = Long.parseLong(req.getParameter("id"));
+            productService.deleteProduct(id);
+            resp.sendRedirect("ProductController");
+        } else {
+            // Handle product creation and update (same as before)
+            handleCreateOrUpdate(req, resp);
+        }
+    }
+
+    private void handleCreateOrUpdate(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String productId = req.getParameter("productId");
-        
-        System.out.println(productId);
-
-        String name      = req.getParameter("name");
-        System.out.println(productId);
-        
-        double price;
+        String name = req.getParameter("name");
+        BigDecimal price;
         int quantity;
-        
+
         try {
-            price    = Double.parseDouble(req.getParameter("price"));
-            
-            System.out.println("Price : "+price);
-
+            price = new BigDecimal(req.getParameter("price"));
             quantity = Integer.parseInt(req.getParameter("quantity"));
-            System.out.println("Quantity : "+quantity);
-
         } catch (NumberFormatException e) {
             req.setAttribute("error", "Invalid number format for price or quantity.");
-            
-            System.out.println("error in price or quantity");
-
-            req.getRequestDispatcher("index.jsp").forward(req, resp);
+            req.getRequestDispatcher("WEB-INF/views/admin/manage-products.jsp").forward(req, resp);
             return;
         }
-    
-        String categoryId = req.getParameter("category");
 
-        System.out.println("Category Id : " + categoryId);
+        String categoryId = req.getParameter("category");
 
         if (categoryId == null || categoryId.isEmpty()) {
             req.setAttribute("error", "Please select a valid category.");
-            req.getRequestDispatcher("index.jsp").forward(req, resp);
+            req.getRequestDispatcher("WEB-INF/views/admin/manage-products.jsp").forward(req, resp);
             return;
         }
-    
 
-        /*  Fetch the category based on the category ID */
         CategoryRepository categoryRepository = new CategoryRepository(Category.class);
-       
-        System.out.println("CategoryRepo is created");
-
         Category category = categoryRepository.findById(Long.parseLong(categoryId))
                 .orElseThrow(() -> new IllegalArgumentException("Invalid category ID"));
-        
-        System.out.println(category);
 
-        
+
         Product product = new Product(name, price, "Added by Admin", quantity, category, LocalDateTime.now(), LocalDateTime.now());
 
-    
 
         if (productId == null || productId.isEmpty()) {
             productService.createProduct(product);
@@ -122,10 +124,7 @@ public class ProductController extends HttpServlet {
             product.setId(Long.parseLong(productId));
             productService.updateProduct(product);
         }
-    
-        /* Log the action and redirect  */
-        System.out.println("Product saved: " + product);
+        
         resp.sendRedirect("ProductController");
     }
 }
-

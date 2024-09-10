@@ -1,6 +1,6 @@
 package gov.iti.jets.genericDao;
 
-// import gov.iti.jets.system.persistence.CustomPersistenceUnit;
+import gov.iti.jets.system.persistence.CustomPersistenceUnit;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
@@ -10,7 +10,7 @@ import jakarta.persistence.criteria.Root;
 import org.hibernate.ObjectNotFoundException;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 
-
+import gov.iti.jets.models.Product;
 import gov.iti.jets.util.CreateEntityManagerFactory;
 
 import java.util.HashSet;
@@ -114,6 +114,9 @@ public abstract class GenericDaoImpl<T> implements GenericDAO<T> {
 
     @Override
     public boolean delete(Long id) {
+
+        System.out.println("inside GenericDaoImp!");
+        
         EntityManager em = null;
         try {
             em = emf.createEntityManager();
@@ -139,6 +142,7 @@ public abstract class GenericDaoImpl<T> implements GenericDAO<T> {
             }
         }
     }
+
 
     @Override
     public boolean delete(T entity) {
