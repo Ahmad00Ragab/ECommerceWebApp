@@ -40,11 +40,23 @@ public class CustomPersistenceUnit implements PersistenceUnitInfo {
             HikariDataSource dataSource = new HikariDataSource();
 
             dataSource.setJdbcUrl("jdbc:mysql://localhost:3306/ecommerce");
-            dataSource.setUsername("projectUser");
-            dataSource.setPassword("user");
+            dataSource.setUsername("root");
+//            dataSource.setPassword("user");
             dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-            dataSource.setMaximumPoolSize(200);
+            dataSource.setMaximumPoolSize(50);
             dataSource.setConnectionTimeout(30000);  // 30 seconds
+            dataSource.setIdleTimeout(60000);  // 1 minute
+            dataSource.setMaxLifetime(180000); // 30 minutes
+            dataSource.setMinimumIdle(5);  // Minimum number of idle connections in the pool
+
+            // Log the configuration values for debugging
+            System.out.println("HikariCP DataSource initialized with settings:");
+            System.out.println("Max Pool Size: " + dataSource.getMaximumPoolSize());
+            System.out.println("Connection Timeout: " + dataSource.getConnectionTimeout());
+            System.out.println("Idle Timeout: " + dataSource.getIdleTimeout());
+            System.out.println("Max Lifetime: " + dataSource.getMaxLifetime());
+            System.out.println("Minimum Idle: " + dataSource.getMinimumIdle());
+
             return dataSource;
         } catch (Exception e) {
             throw new RuntimeException("Failed to configure HikariDataSource", e);

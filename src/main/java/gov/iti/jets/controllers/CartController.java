@@ -61,7 +61,7 @@ public class CartController extends HttpServlet {
         Long userId = (Long)request.getSession().getAttribute("userId");
         Set<CartItem> cartItems = cartService.findCartByUserId(userId);
         request.setAttribute("cartItems", cartItems);
-        request.getRequestDispatcher("/jsp/cartItemList.jsp").forward(request, response);
+        request.getRequestDispatcher("/jsp/cart/cartItemList.jsp").forward(request, response);
     }
 
     private void deleteCartItem(HttpServletRequest request, HttpServletResponse response) throws IOException {
