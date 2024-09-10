@@ -68,7 +68,7 @@ public class ProductController extends HttpServlet {
             Set<Category> categories = categoryService.findAllCategories();
             req.setAttribute("categories", categories);
 
-            req.getRequestDispatcher("WEB-INF/views/admin/manage-products.jsp").forward(req, resp);
+            req.getRequestDispatcher("WEB-INF/views/admin/admin-panel.jsp").forward(req, resp);
         }
     }
 
@@ -98,7 +98,7 @@ public class ProductController extends HttpServlet {
             quantity = Integer.parseInt(req.getParameter("quantity"));
         } catch (NumberFormatException e) {
             req.setAttribute("error", "Invalid number format for price or quantity.");
-            req.getRequestDispatcher("WEB-INF/views/admin/manage-products.jsp").forward(req, resp);
+            req.getRequestDispatcher("WEB-INF/views/admin/admin-panel.jsp").forward(req, resp);
             return;
         }
 
@@ -106,7 +106,7 @@ public class ProductController extends HttpServlet {
 
         if (categoryId == null || categoryId.isEmpty()) {
             req.setAttribute("error", "Please select a valid category.");
-            req.getRequestDispatcher("WEB-INF/views/admin/manage-products.jsp").forward(req, resp);
+            req.getRequestDispatcher("WEB-INF/views/admin/admin-panel.jsp").forward(req, resp);
             return;
         }
 
