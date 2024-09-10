@@ -17,15 +17,15 @@ public class CartService {
     private final ProductRepository productRepository; // If you need to check product details
     private final UserRepository userRepository;
 
-    public CartService(CartRepository cartRepository, ProductRepository productRepository, UserRepository userRepository) {
-        this.cartRepository = cartRepository;
-        this.productRepository = productRepository;
-        this.userRepository = userRepository;
+    public CartService() {
+        this.cartRepository = new CartRepository();
+        this.productRepository = new ProductRepository();
+        this.userRepository = new UserRepository();
     }
 
     
     // 1. Find cart items by user ID
-    public Set<CartItem> getCartByUserId(Long userId) {
+    public Set<CartItem> findCartByUserId(Long userId) {
         if(userRepository.existsById(userId)) {
             return cartRepository.findCartByUserId(userId);
         } else {
@@ -34,7 +34,11 @@ public class CartService {
     }
 
     // 2. Add product to cart
-    public void addProductToCart(Long userId, Long productId) {
+    public void addProductToCart(Long userId, Long productId, int quantity) {
+        if (quantity < 0) {
+            throw new IllegalArgumentException("Quantity must be greater than 0");
+        }
+
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ObjectNotFoundException("User", userId));
 
@@ -49,7 +53,7 @@ public class CartService {
 
         if(existingCartItem.isPresent()) {
             CartItem cartItem = existingCartItem.get();
-            cartItem.setQuantity(cartItem.getQuantity() + 1);
+            cartItem.setQuantity(cartItem.getQuantity() + quantity);
             cartRepository.save(cartItem);
         }
         else{

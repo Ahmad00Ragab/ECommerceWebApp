@@ -14,6 +14,7 @@ import jakarta.persistence.criteria.Root;
 import org.hibernate.ObjectNotFoundException;
 
 import gov.iti.jets.util.CreateEntityManagerFactory;
+import org.hibernate.jpa.HibernatePersistenceProvider;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -26,7 +27,8 @@ public abstract class GenericDaoImpl<T> implements GenericDAO<T> {
     private final Class<T> entityClass;
 
     HibernatePersistenceProvider provider = new HibernatePersistenceProvider();
-    
+    protected EntityManagerFactory emf = CreateEntityManagerFactory.getInstance();
+
     protected EntityManager em;
     protected EntityTransaction transaction;
 

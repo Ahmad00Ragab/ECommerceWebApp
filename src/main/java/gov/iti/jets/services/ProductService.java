@@ -1,7 +1,10 @@
 package gov.iti.jets.services;
 
+
+import gov.iti.jets.models.Category;
 import gov.iti.jets.models.Product;
 import gov.iti.jets.repositories.ProductRepository;
+import gov.iti.jets.system.exceptions.CategoryNotFoundException;
 import gov.iti.jets.system.exceptions.ProductNotFoundException;
 
 import java.math.BigDecimal;
@@ -12,10 +15,10 @@ import jakarta.transaction.Transactional;
 
 public class ProductService {
 
-    private final ProductRepository productRepository  ;
+    private final ProductRepository productRepository;
 
     public ProductService() {
-        this.productRepository =  new ProductRepository(Product.class);
+        this.productRepository = new ProductRepository();
     }
 
 

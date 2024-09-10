@@ -42,7 +42,7 @@ public class CustomPersistenceUnit implements PersistenceUnitInfo {
             dataSource.setJdbcUrl("jdbc:mysql://localhost:3306/ecommerce");
             dataSource.setUsername("root");
             dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-            dataSource.setMaximumPoolSize(10);
+            dataSource.setMaximumPoolSize(200);
             dataSource.setConnectionTimeout(30000);  // 30 seconds
             return dataSource;
         } catch (Exception e) {
@@ -81,20 +81,20 @@ public class CustomPersistenceUnit implements PersistenceUnitInfo {
         );
     }
 
-//     @Override
-//     public boolean excludeUnlistedClasses() {
-//         return false;
-//     }
+     @Override
+     public boolean excludeUnlistedClasses() {
+         return false;
+     }
 
-//     @Override
-//     public SharedCacheMode getSharedCacheMode() {
-//         return SharedCacheMode.ENABLE_SELECTIVE;
-//     }
+     @Override
+     public SharedCacheMode getSharedCacheMode() {
+         return SharedCacheMode.ENABLE_SELECTIVE;
+     }
 
-//     @Override
-//     public ValidationMode getValidationMode() {
-//         return ValidationMode.NONE;
-//     }
+     @Override
+     public ValidationMode getValidationMode() {
+         return ValidationMode.NONE;
+     }
 
     @Override
     public  Properties getProperties() {
@@ -106,23 +106,22 @@ public class CustomPersistenceUnit implements PersistenceUnitInfo {
         return properties;
     }
 
-//     @Override
-//     public String getPersistenceXMLSchemaVersion() {
-//         return "2.2";
-//     }
+     @Override
+     public String getPersistenceXMLSchemaVersion() {
+         return "2.2";
+     }
 
-//     @Override
-//     public ClassLoader getClassLoader() {
-//         return Thread.currentThread().getContextClassLoader();
-//     }
+     @Override
+     public ClassLoader getClassLoader() {
+         return Thread.currentThread().getContextClassLoader();
+     }
 
-//     @Override
-//     public void addTransformer(ClassTransformer classTransformer) {
-//     }
+     @Override
+     public void addTransformer(ClassTransformer classTransformer) {
+     }
 
-//     @Override
-//     public ClassLoader getNewTempClassLoader() {
-//         return Thread.currentThread().getContextClassLoader();
-//     }
-// }
-}
+     @Override
+     public ClassLoader getNewTempClassLoader() {
+         return Thread.currentThread().getContextClassLoader();
+     }
+ }
