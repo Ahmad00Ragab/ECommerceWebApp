@@ -2,24 +2,17 @@ package gov.iti.jets.app;
 
 import gov.iti.jets.models.CartItem;
 import gov.iti.jets.models.Category;
-import gov.iti.jets.models.Order;
-import gov.iti.jets.models.OrderItem;
 import gov.iti.jets.models.Product;
 import gov.iti.jets.models.User;
 import gov.iti.jets.services.CartService;
 import gov.iti.jets.services.ProductService;
 import gov.iti.jets.services.UserService;
+import gov.iti.jets.util.CreateEntityManagerFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceException;
-import gov.iti.jets.system.persistence.CustomPersistenceUnit;
-
-
-import gov.iti.jets.util.CreateEntityManagerFactory;
-import org.hibernate.jpa.HibernatePersistenceProvider;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -105,6 +98,30 @@ public static void main(String[] args) {
     //System.out.println(userService.save(user));
 
 
+        //     // // Persist products
+        //     // em.persist(productA);
+        //     // em.persist(productB);
+        //     // em.persist(productC);
+
+        //     /* Commit the transaction */ 
+        //     em.getTransaction().commit();
+
+        //     System.out.println("Data inserted successfully!");
+        // } catch (PersistenceException e) {
+        //     if (em != null && em.getTransaction().isActive()) {
+        //         em.getTransaction().rollback();
+        //     }
+        //     System.err.println("Error persisting data: " + e.getMessage());
+        //     e.printStackTrace();
+        // } finally {
+        //     if (em != null && em.isOpen()) {
+        //         em.close();
+        //     }
+        //     if (emf != null && emf.isOpen()) {
+        //         emf.close();
+        //     }
+        // }
+    }
 }
 
-}
+

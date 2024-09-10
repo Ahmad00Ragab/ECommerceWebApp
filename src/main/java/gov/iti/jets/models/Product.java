@@ -25,7 +25,7 @@ public class Product {
     private String name;
 
     @Column(nullable = false)
-    private Double price;
+    private BigDecimal price;
 
     @Column(nullable = true)
     private String description;
@@ -49,7 +49,7 @@ public class Product {
     @Column(name = "created_by")
     private String createdBy;
 
-    public Product(String name, Double price, String description, int stock, Category category, LocalDateTime dateCreated, LocalDateTime lastUpdated) {
+    public Product(String name, BigDecimal price, String description, int stock, Category category, LocalDateTime dateCreated, LocalDateTime lastUpdated) {
         this.name = name;
         this.price = price;
         this.description = description;
@@ -60,7 +60,7 @@ public class Product {
         cart=new HashSet<>();
     }
 
-    public Product(String name, Double price, int stock, Category category, LocalDateTime dateCreated, LocalDateTime lastUpdated) {
+    public Product(String name, BigDecimal price, int stock, Category category, LocalDateTime dateCreated, LocalDateTime lastUpdated) {
         this.name = name;
         this.price = price;
         this.stock = stock;
@@ -72,7 +72,7 @@ public class Product {
 
     
      // Constructor that accepts categoryId as a String
-     public Product(String name, double price, int stock, String categoryId) {
+     public Product(String name, BigDecimal price, int stock, String categoryId) {
         this.name = name;
         this.price = price;  // Convert double to BigDecimal
         this.stock = stock;
@@ -88,7 +88,7 @@ public class Product {
     
 
      /* Constructor that accepts categoryId as a String */
-     public Product(String name, double price, int stock, Category category) {
+     public Product(String name, BigDecimal price, int stock, Category category) {
         this.name        = name;
         this.price       = price;  
         this.stock       = stock;
@@ -97,19 +97,4 @@ public class Product {
         this.category    = category;
         this.cart = new HashSet<>();
     }
-
-
-    public Product(String name, double price, String description, int stock, Category category,
-            LocalDateTime now, LocalDateTime now2) {
-        this.name = name;
-        this.price = price;
-        this.description = description;
-        this.stock = stock;
-        this.category = category;
-        this.dateCreated = now;
-        this.lastUpdated = now2;
-        this.cart = new HashSet<>();
-    }
-
-
 }
