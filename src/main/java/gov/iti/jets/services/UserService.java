@@ -8,6 +8,7 @@ import gov.iti.jets.system.exceptions.ObjectNotFoundException;
 import gov.iti.jets.system.exceptions.ValidationException;
 import gov.iti.jets.system.utils.encryption.PasswordEncryptionUtil;
 import gov.iti.jets.util.validators.UserValidator;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.List;
 import java.util.Optional;
@@ -78,6 +79,27 @@ public class UserService {
                 .orElseThrow(() -> new ObjectNotFoundException("user", userId)));
     }
 
+    public Optional<User> findByEmail(String email) {
+        return Optional.ofNullable(this.userRepository.findByEmail(email)
+                .orElseThrow(() -> new ObjectNotFoundException("user", email)));
+    }
+
+    // Login
+    public Optional<User> login(String email, String password) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ObjectNotFoundException("User", email));
+
+        // Use BCrypt to check the password against the stored hash
+        if (!BCrypt.checkpw(password, user.getPassword())) {
+            throw new ObjectNotFoundException("User", email);  // Password doesn't match, user unauthorized
+        } else {
+            return Optional.of(user);  // Password matches, return the user
+        }
+    }
+
+
+
+    // Exists
     public boolean existsById(Long userId) {
         return userRepository.existsById(userId);
     }

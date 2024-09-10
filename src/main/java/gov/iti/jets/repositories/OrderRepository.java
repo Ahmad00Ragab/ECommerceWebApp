@@ -19,8 +19,6 @@ public class OrderRepository extends GenericDaoImpl<Order> {
     // Remove EntityManager Instantiation: The OrderRepository class no longer directly
     // creates an EntityManager instance. Instead, it uses the EntityManager provided by the GenericDaoImpl methods.
 
-    EntityManager em = emf.createEntityManager();
-
     // Constructor to call the superclass constructor
     public OrderRepository() {
         super(Order.class);
