@@ -65,7 +65,7 @@
 
         <h2>Admin Panel</h2>
         
-        <a href="/AdminHome">Manage Products</a>
+        <a href="/ProductController">Manage Products</a>
 
         <a href="/">my profile</a>
         
