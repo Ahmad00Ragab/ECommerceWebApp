@@ -88,9 +88,22 @@ public static void main(String[] args) {
 //    }
     UserService userService = new UserService();
 
+
+
+        ProductService productService = new ProductService();
+    CartService cartService = new CartService();
+
+    //User user = new User("tony", "tony@gmail.com", "123", LocalDate.now(), LocalDate.now());
+    User user = userService.findUserByUsername("tony").get();
+    Product product = productService.findProductById(1L).get();
+    CartItem cartItem = new CartItem(user, product, 2);
+
+    cartService.addProductToCart(user.getId(), product.getId(), 3);
+
+
     Set<User> users = userService.findAll();
-    for (User user : users) {
-        System.out.println(user);
+    for (User u : users) {
+        System.out.println(u.getUsername());
     }
 
     Admin admin = new Admin(
@@ -106,11 +119,6 @@ public static void main(String[] args) {
     adminService.createAdmin(admin);
 
     
-
-
-
-
-
     //    ProductService productService = new ProductService();
 //    CartService cartService = new CartService();
 //

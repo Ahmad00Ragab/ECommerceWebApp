@@ -1,7 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,5 +31,12 @@
 
     </section>
 
+<<<<<<< HEAD
+=======
+<!-- You can add more links as needed -->
+
+<p><a href="<c:url value='/cart?action=listByUser&userId=3'/>">View Cart of User with ID 3</a></p>
+
+>>>>>>> 89090999f01f92703f2815d14b6f9c8b258546aa
 </body>
 </html>

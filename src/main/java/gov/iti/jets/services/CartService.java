@@ -39,9 +39,6 @@ public class CartService {
             throw new IllegalArgumentException("Quantity must be greater than 0");
         }
 
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ObjectNotFoundException("User", userId));
-
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new ObjectNotFoundException("Product", productId));
 
@@ -49,15 +46,15 @@ public class CartService {
             throw new ObjectNotFoundException("Product", productId);
         }
 
-        Optional<CartItem> existingCartItem = cartRepository.findById(new CartKey(userId, productId));
+        Optional<CartItem> existingCartItem = cartRepository.findCartByUserId(userId).stream().filter(cartItem -> cartItem.getProductId().equals(productId)).findFirst();
 
         if(existingCartItem.isPresent()) {
             CartItem cartItem = existingCartItem.get();
             cartItem.setQuantity(cartItem.getQuantity() + quantity);
-            cartRepository.save(cartItem);
+            cartRepository.update(cartItem);
         }
         else{
-            cartRepository.save(new CartItem(user, product, 1));
+            cartRepository.addCartItem(userId, productId, quantity);
         }
     }
 
@@ -78,11 +75,13 @@ public class CartService {
 
     // 4. Remove an item from the cart
     public void removeItem(Long userId, Long productId) {
-        CartKey cartKey = new CartKey(userId, productId);
-        if (!cartRepository.exists(cartKey)) {
-            throw new IllegalArgumentException("Item not found in the cart");
+        Set<CartItem> cart = cartRepository.findCartByUserId(userId);
+        for (CartItem item : cart) {
+            if (item.getProductId().equals(productId)) {
+                cartRepository.deleteCartItem(new CartKey(userId, productId));
+                break;
+            }
         }
-        cartRepository.deleteCartItem(cartKey);
     }
 
     // 5. Clear the cart
