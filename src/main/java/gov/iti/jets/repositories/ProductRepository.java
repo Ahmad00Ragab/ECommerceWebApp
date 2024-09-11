@@ -208,16 +208,30 @@ public class ProductRepository extends GenericDaoImpl<Product>{
         }
     }
 
-
-    public Set<Product> sortProductsByCategoryAndPriceUsingProductDTO(String category) {
+    public Set<ProductDto> sortProductsByCategoryAndPriceUsingProductDTO(String category, int pageNumber, int pageSize) {
         EntityManager em = null;
         try {
             em = emf.createEntityManager();
-            String sortProductCat = "SELECT " +
-                    "new gov.iti.jets.dtos.ProductDto(p.id,p.name,p.description,p.imageUrl,p.price) " +
-                    "FROM Product p JOIN p.category c WHERE c.name = :category ORDER BY p.price ASC";
-            TypedQuery<Product> query = em.createQuery(sortProductCat, Product.class);
-            query.setParameter("category", category);
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<ProductDto> cq = cb.createQuery(ProductDto.class);
+            Root<Product> productRoot = cq.from(Product.class);
+            Join<Product, Category> categoryJoin = productRoot.join("category");
+
+            cq.select(cb.construct(
+                            ProductDto.class,
+                            productRoot.get("id"),
+                            productRoot.get("name"),
+                            productRoot.get("description"),
+                            productRoot.get("imageUrl"),
+                            productRoot.get("price")
+                    ))
+                    .where(cb.equal(categoryJoin.get("name"), category))
+                    .orderBy(cb.asc(productRoot.get("price")));
+
+            TypedQuery<ProductDto> query = em.createQuery(cq);
+            query.setFirstResult((pageNumber - 1) * pageSize);
+            query.setMaxResults(pageSize);
+
             return new HashSet<>(query.getResultList());
         } finally {
             if (em != null) {
@@ -225,6 +239,7 @@ public class ProductRepository extends GenericDaoImpl<Product>{
             }
         }
     }
+
 
 
     ///  counting products processes
