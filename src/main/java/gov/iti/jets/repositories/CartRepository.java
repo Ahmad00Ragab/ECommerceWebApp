@@ -3,6 +3,7 @@ package gov.iti.jets.repositories;
 import gov.iti.jets.genericDao.GenericDaoImpl;
 import gov.iti.jets.models.CartItem;
 import gov.iti.jets.models.CartKey;
+import gov.iti.jets.models.Product;
 import gov.iti.jets.models.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.*;
@@ -77,16 +78,17 @@ public class CartRepository extends GenericDaoImpl<CartItem> {
         return true;
     }
 
+    //not working...........
     public Optional<CartItem> findById(CartKey cartId) {
         EntityManager em = null;
         try {
             em = emf.createEntityManager();
-            CriteriaBuilder cb = em.getCriteriaBuilder();
-            CriteriaQuery<CartItem> q = cb.createQuery(CartItem.class);
-            Root<CartItem> cartItem = q.from(CartItem.class);
-            q.where(cb.equal(cartItem.get("cartId"), cartId));
-            q.select(cartItem).distinct(true);
-            return Optional.ofNullable(em.createQuery(q).getSingleResult());
+
+            // Simply use `find()` method with the composite key (CartKey)
+            CartItem cartItem = em.find(CartItem.class, cartId);
+
+            // Return as an Optional
+            return Optional.ofNullable(cartItem);
         } catch (Exception e) {
             throw new RuntimeException("Error occurred while fetching cart item with cartId: " + cartId, e);
         } finally {
@@ -96,15 +98,25 @@ public class CartRepository extends GenericDaoImpl<CartItem> {
         }
     }
 
-    public void addCartItem(CartItem cartItem) {
+
+    public void addCartItem(Long userId, Long productId, int quantity) {
         EntityManager em = null;
         try {
             em = emf.createEntityManager();
             em.getTransaction().begin();
+            User user = em.find(User.class, userId);
+            Product product = em.find(Product.class, productId);
+
+            CartItem cartItem = new CartItem();
+            cartItem.setCartId(new CartKey(userId, productId));
+            cartItem.setUser(user);
+            cartItem.setProduct(product);
+            cartItem.setQuantity(quantity);
+
             em.persist(cartItem);
             em.getTransaction().commit();
         } catch (Exception e) {
-            throw new RuntimeException("Error occurred while adding cart item: " + cartItem, e);
+            throw new RuntimeException("Error occurred while adding cart item: " + e);
         } finally {
             if (em != null) {
                 em.close();
@@ -152,7 +164,8 @@ public class CartRepository extends GenericDaoImpl<CartItem> {
         }
     }
 
-    public boolean exists(CartKey cartId) {
-        return findById(cartId).isPresent();
-    }
+    // findById not working
+//    public boolean exists(CartKey cartId) {
+//        return findById(cartId).isPresent();
+//    }
 }
