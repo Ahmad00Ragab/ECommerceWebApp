@@ -1,255 +1,135 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="gov.iti.jets.dtos.ProductDto" %>
-<%@ page import="java.util.Set" %>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Products</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        /* General styling */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f5f5;
-        }
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="img/fav.png">
+    <meta charset="UTF-8">
+    <title>Shoesly</title>
 
-        /* Navbar and search bar */
-        .navbar {
-            background-color: #fff;
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .navbar h2 {
-            margin: 0;
-            font-size: 24px;
-        }
-
-        .navbar form {
-            width: 50%;
-        }
-
-        .navbar input[type="search"] {
-            width: 80%;
-            padding: 8px;
-            font-size: 16px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-
-        .navbar button {
-            padding: 8px 16px;
-            font-size: 16px;
-            background-color: #000;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-        }
-
-        /* Filter section */
-        .filters {
-            display: flex;
-            justify-content: space-between;
-            padding: 20px;
-            align-items: center;
-            background-color: #fff;
-        }
-
-        .filters select {
-            padding: 10px;
-            font-size: 16px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-
-        /* Product grid styling */
-        .product-category {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
-            padding: 20px;
-            margin: 0 auto;
-            max-width: 1200px;
-        }
-
-        .product-item {
-            background-color: #fff;
-            border-radius: 10px;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .product-item img {
-            width: 100%;
-            height: auto;
-            border-radius: 10px;
-        }
-
-        .product-name {
-            font-size: 18px;
-            margin: 10px 0;
-            font-weight: bold;
-        }
-
-        .product-price, .product-old-price, .product-discount {
-            font-size: 16px;
-        }
-
-        .product-old-price {
-            text-decoration: line-through;
-            color: #999;
-        }
-
-        .product-discount {
-            color: red;
-        }
-
-        .product-actions {
-            margin-top: 10px;
-        }
-
-        .product-actions a {
-            text-decoration: none;
-            color: #007BFF;
-            font-weight: bold;
-        }
-
-        .no-products {
-            text-align: center;
-            font-size: 18px;
-            color: #999;
-            padding: 50px;
-        }
-
-        /* Pagination styling */
-        .pagination {
-            display: flex;
-            justify-content: center;
-            padding: 20px;
-            background-color: #fff;
-        }
-
-        .pagination a {
-            margin: 0 5px;
-            padding: 10px 15px;
-            background-color: #000;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-
-        .pagination a.disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
-
-    </style>
+    <!-- Include external CSS files -->
+    <link rel="stylesheet" href="css/linearicons.css">
+    <link rel="stylesheet" href="css/owl.carousel.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/themify-icons.css">
+    <link rel="stylesheet" href="css/nice-select.css">
+    <link rel="stylesheet" href="css/nouislider.min.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/main.css">
 </head>
-<body>
 
-<!-- Navbar with search bar -->
-<div class="navbar">
-    <h2>ECommerceWebApp</h2>
-    <form action="home" method="POST">
-        <input type="search" name="productName" placeholder="Search products...">
-        <button type="submit">Search</button>
-    </form>
-</div>
+<body id="category">
+<div class="container">
+    <div class="row">
+        <div class="col-xl-3 col-lg-4 col-md-5">
+            <!-- Dynamic categories -->
 
-<!-- Filters Section -->
-<div class="filters">
-    <!-- Category Filter -->
-    <form method="post" action="home">
-        <select name="category">
-            <option value="All">All Categories</option>
-            <option value="Foods">Foods</option>
-            <option value="Electronics">Electronics</option>
-            <option value="Clothes">Clothes</option>
-            <option value="Shoes">Shoes</option>
-            <option value="Furniture">Furniture</option>
-        </select>
 
-        <!-- Sort by Price -->
-        <select name="priceSorting">
-            <option value="lowToHigh">Price: Low to High</option>
-            <option value="highToLow">Price: High to Low</option>
-        </select>
-
-        <button type="submit">Apply</button>
-    </form>
-</div>
-
-<!-- Products Section -->
-<div class="product-category">
-    <%
-        Set<ProductDto> products = (Set<ProductDto>) request.getAttribute("homeProducts");
-        if (products != null && !products.isEmpty()) {
-            for (ProductDto product : products) {
-    %>
-    <div class="product-item">
-        <img src="<%= product.imageUrl() %>" alt="<%= product.name() %>"/>
-        <div class="product-name"><%= product.name() %></div>
-        <div class="product-price">
-            <span class="product-discount">EGP <%= product.price() %></span>
+            <!-- Product Filters -->
+            <div class="sidebar-filter mt-50">
+                <div class="top-filter-head">Product Filters</div>
+                <!-- Shoe Sizes -->
+                <div class="common-filter">
+                    <div class="head">Size</div>
+                    <form action="#">
+                        <ul>
+                            <li class="filter-list">
+                                <input class="pixel-radio" type="radio" id="size7" name="size"><label for="size7">7<span>(20)</span></label>
+                            </li>
+                            <li class="filter-list">
+                                <input class="pixel-radio" type="radio" id="size8" name="size"><label for="size8">8<span>(25)</span></label>
+                            </li>
+                            <li class="filter-list">
+                                <input class="pixel-radio" type="radio" id="size9" name="size"><label for="size9">9<span>(18)</span></label>
+                            </li>
+                            <li class="filter-list">
+                                <input class="pixel-radio" type="radio" id="size10" name="size"><label for="size10">10<span>(30)</span></label>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div class="product-actions">
-            <a href="add_to_cart.jsp?productId=<%= product.id() %>">Add to Cart</a>
+
+        <div class="col-xl-9 col-lg-8 col-md-7">
+            <!-- Filter Bar -->
+            <div class="filter-bar d-flex flex-wrap align-items-center">
+                <div class="sorting">
+                    <select>
+                        <option value="1">Default sorting</option>
+                        <!-- Add sorting logic here -->
+                    </select>
+                </div>
+                <div class="sorting mr-auto">
+                    <select>
+                        <option value="12">Show 12</option>
+                        <option value="24">Show 24</option>
+                        <!-- Add logic to show a different number of products -->
+                    </select>
+                </div>
+
+                <!-- Pagination Controls -->
+                <div class="pagination">
+                    <c:if test="${page > 1}">
+                        <a href="?page=${page - 1}" class="prev-arrow"><i class="fa fa-long-arrow-left" aria-hidden="true"></i></a>
+                    </c:if>
+                    <c:forEach var="i" begin="1" end="${totalPages}">
+                        <a href="?page=${i}" class="${page == i ? 'active' : ''}">${i}</a>
+                    </c:forEach>
+                    <c:if test="${page < totalPages}">
+                        <a href="?page=${page + 1}" class="next-arrow"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+                    </c:if>
+                </div>
+            </div>
+
+            <!-- Dynamic Product Listing -->
+            <section class="lattest-product-area pb-40 category-list">
+                <div class="row">
+                    <c:forEach var="product" items="${homeProducts}">
+                        <div class="col-lg-4 col-md-6">
+                            <div class="single-product">
+                                <img class="img-fluid" src="${product.imageUrl}" alt="${product.name}">
+                                <div class="product-details">
+                                    <h6>${product.name}</h6>
+                                    <div class="price">
+                                        <h6><fmt:formatNumber value="${product.price}" type="currency"/></h6>
+                                    </div>
+                                    <div class="prd-bottom">
+                                        <a href="#" class="social-info"><span class="ti-bag"></span><p class="hover-text">add to bag</p></a>
+                                        <a href="#" class="social-info"><span class="lnr lnr-heart"></span><p class="hover-text">Wishlist</p></a>
+                                        <a href="#" class="social-info"><span class="lnr lnr-sync"></span><p class="hover-text">compare</p></a>
+                                        <a href="#" class="social-info"><span class="lnr lnr-move"></span><p class="hover-text">view more</p></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </c:forEach>
+                </div>
+            </section>
+
+            <!-- Pagination (duplicate for bottom) -->
+            <div class="filter-bar d-flex flex-wrap align-items-center">
+                <div class="sorting mr-auto">
+                    <select>
+                        <option value="12">Show 12</option>
+                        <option value="24">Show 24</option>
+                    </select>
+                </div>
+                <div class="pagination">
+                    <c:if test="${page > 1}">
+                        <a href="?page=${page - 1}" class="prev-arrow"><i class="fa fa-long-arrow-left" aria-hidden="true"></i></a>
+                    </c:if>
+                    <c:forEach var="i" begin="1" end="${totalPages}">
+                        <a href="?page=${i}" class="${page == i ? 'active' : ''}">${i}</a>
+                    </c:forEach>
+                    <c:if test="${page < totalPages}">
+                        <a href="?page=${page + 1}" class="next-arrow"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+                    </c:if>
+                </div>
+            </div>
         </div>
     </div>
-    <%
-        }
-    } else {
-    %>
-    <p class="no-products">No products available at the moment.</p>
-    <%
-        }
-    %>
-</div>
-
-<!-- Pagination -->
-<div class="pagination">
-    <%
-        int currentPage = (int) request.getAttribute("currentPage");
-        int totalPages = (int) request.getAttribute("totalPages");
-
-        if (currentPage > 1) {
-    %>
-    <a href="home?pageNumber=<%= currentPage - 1 %>" class="prev-page">Previous</a>
-    <%
-    } else {
-    %>
-    <a class="prev-page disabled">Previous</a>
-    <%
-        }
-
-        for (int i = 1; i <= totalPages; i++) {
-            if (i == currentPage) {
-    %>
-    <a href="home?pageNumber=<%= i %>" class="current-page"><%= i %></a>
-    <%
-    } else {
-    %>
-    <a href="home?pageNumber=<%= i %>"><%= i %></a>
-    <%
-            }
-        }
-
-        if (currentPage < totalPages) {
-    %>
-    <a href="home?pageNumber=<%= currentPage + 1 %>" class="next-page">Next</a>
-    <%
-    } else {
-    %>
-    <a class="next-page disabled">Next</a>
-    <%
-        }
-    %>
 </div>
 
 </body>

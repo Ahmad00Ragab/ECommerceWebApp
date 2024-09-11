@@ -2,13 +2,21 @@ package gov.iti.jets.services;
 
 
 import gov.iti.jets.dtos.ProductDto;
+import gov.iti.jets.models.Category;
 import gov.iti.jets.models.Product;
 import gov.iti.jets.repositories.ProductRepository;
 import gov.iti.jets.system.exceptions.ProductNotFoundException;
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 
 
@@ -55,7 +63,6 @@ public class ProductService {
         productRepository.save(product);
     }
 
-
     public boolean deleteProduct(Long id) {
         System.out.println("inside ProductService.deleteProduct");
         return productRepository.delete(id);
@@ -78,8 +85,6 @@ public class ProductService {
         return productRepository.countWithNamedQuery(paramName, paramValue);
     }
 
-
-
     public Product getProductByName(String name) {
         Optional<Product> optProduct=productRepository.getProductByName(name);
         Product product=null;
@@ -90,7 +95,6 @@ public class ProductService {
         }
         return product;
     }
-
 
 
     public Set<Product> findProductsByCategory(String category) {
@@ -117,7 +121,6 @@ public class ProductService {
 
     public Set<ProductDto> findProductsByCategoryUsingProductDTO(String category, int pageNumber, int pageSize) {
         return productRepository.findProductsByCategoryUsingProductDTO(category, pageNumber, pageSize);//String /
-
     }
 
 
@@ -125,10 +128,6 @@ public class ProductService {
        return productRepository.findProductByNameUsingProductDTO(name, pageNumber,pageSize);
     }
 
-
-    public Set<Product> sortProductsByCategoryAndPriceUsingProductDTO(String category) {
-       return productRepository.sortProductsByCategoryAndPriceUsingProductDTO(category);
-    }
 
     public int countByName(String name) {
         return productRepository.countProductsByName(name);
@@ -141,5 +140,9 @@ public class ProductService {
 
     public int countAllProducts(){
         return productRepository.countAllProducts();
+    }
+
+    public Set<ProductDto> sortProductsByCategoryAndPriceUsingProductDTO(String category, int pageNumber, int pageSize) {
+        return productRepository.sortProductsByCategoryAndPriceUsingProductDTO(category,pageNumber,pageSize);
     }
 }

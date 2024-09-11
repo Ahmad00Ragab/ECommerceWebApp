@@ -73,8 +73,7 @@ public class Product {
         cart=new HashSet<>();
     }
 
-    
-     // Constructor that accepts categoryId as a String
+
      public Product(String name, BigDecimal price, int stock, String categoryId) {
         this.name = name;
         this.price = price;
