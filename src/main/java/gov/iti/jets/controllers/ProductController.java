@@ -33,6 +33,7 @@ public class ProductController extends HttpServlet {
 
     private final ProductService productService = new ProductService();
 
+    
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");

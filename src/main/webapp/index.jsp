@@ -18,12 +18,19 @@
             <button type="submit">Go to Product Management</button>
         </form>
 
-<!-- Link to list users -->
-<p><a href="<c:url value='/user?action=list'/>">List Users</a></p>
+        <!-- Button to go to admin-login.jsp -->
+        <form action="GoToAdminLogin" method="get">
+            <button type="submit">Go to Admin Login</button>
+        </form>
 
-<!-- Link to view a specific user, you might need to replace 'userId' with an actual ID or provide an input form -->
-<p><a href="<c:url value='/user?action=view&userId=3'/>">View User with ID 3</a></p>
+        <!-- Link to list users -->
+        <p><a href="<c:url value='/user?action=list'/>">List Users</a></p>
 
-<!-- You can add more links as needed -->
+        <!-- Link to view a specific user -->
+        <p><a href="<c:url value='/user?action=view&userId=3'/>">View User with ID 3</a></p>
+
+
+    </section>
+
 </body>
 </html>

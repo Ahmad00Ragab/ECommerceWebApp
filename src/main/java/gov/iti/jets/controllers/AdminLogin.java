@@ -5,9 +5,6 @@ import java.io.PrintWriter;
 import java.util.Optional;
 import java.util.Set;
 
-
-import gov.iti.jets.models.CartItem;
-import gov.iti.jets.models.User;
 import gov.iti.jets.services.AdminService;
 import gov.iti.jets.services.CartService;
 import gov.iti.jets.services.UserService;
@@ -19,7 +16,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import gov.iti.jets.models.*;
 
 
-
 @WebServlet("/AdminLogin")
 public class AdminLogin extends HttpServlet {
 
@@ -27,21 +23,28 @@ public class AdminLogin extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
+        Optional<Admin> admin = adminService.checkLogin(email, password);
+
         try {
-            Optional<Admin> admin = adminService.login(email, password);
             System.out.println(admin.get().getName());
             log(admin.get().getName());
             request.getSession().setAttribute("id", admin.get().getId());
-
             // Redirect to the cart page after successful login
-            response.sendRedirect(request.getContextPath() + "WEB-INF/views/admin/admin-panel.jsp");
+            response.sendRedirect(request.getContextPath() + "/ProductController");
         } catch (Exception e) {
             // Set error message as an attribute and forward it to the login JSP page
             request.setAttribute("errorMessage", "Login Unauthorized!");
-            request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
+            request.getRequestDispatcher("WEB-INF/views/admin/admin-login.jsp").forward(request, response);
         }
+    }
+
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doPost(request, response); 
     }
 }

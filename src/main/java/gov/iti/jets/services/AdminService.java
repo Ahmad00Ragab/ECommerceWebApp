@@ -5,10 +5,11 @@ import gov.iti.jets.models.User;
 import gov.iti.jets.repositories.AdminRepository;
 import gov.iti.jets.repositories.ProductRepository;
 import gov.iti.jets.system.exceptions.ObjectNotFoundException;
+import jakarta.persistence.EntityManager;
+
 import java.util.Optional;
 
 import org.mindrot.jbcrypt.BCrypt;
-
 
 public class AdminService {
     private final AdminRepository adminRepository;
@@ -17,7 +18,7 @@ public class AdminService {
     public AdminService(AdminRepository adminRepository) {
         this.adminRepository = adminRepository;
     }
-    
+
     // Constructor to inject AdminRepository
     public AdminService() {
         this.adminRepository = new AdminRepository();
@@ -40,11 +41,11 @@ public class AdminService {
 
     // 4. Update admin information
     public void updateAdmin(Admin admin) {
-        Optional<Admin> existingAdmin = adminRepository.findById((long)admin.getId());
+        Optional<Admin> existingAdmin = adminRepository.findById((long) admin.getId());
         if (existingAdmin.isPresent()) {
             adminRepository.save(admin);
         } else {
-            throw new ObjectNotFoundException("Admin",(long) admin.getId());
+            throw new ObjectNotFoundException("Admin", (long) admin.getId());
         }
     }
 
@@ -58,16 +59,41 @@ public class AdminService {
         }
     }
 
-        // Login
-        public Optional<Admin> login(String email, String password) {
+    // Login
+    public Optional<Admin> login(String email, String password) {
         Admin admin = adminRepository.findByEmail(email)
                 .orElseThrow(() -> new ObjectNotFoundException("Admin", email));
 
         // Use BCrypt to check the password against the stored hash
         if (!BCrypt.checkpw(password, admin.getPassword())) {
-            throw new ObjectNotFoundException("Admin", email);  // Password doesn't match, user unauthorized
+            throw new ObjectNotFoundException("Admin", email); // Password doesn't match, user unauthorized
         } else {
-            return Optional.of(admin);  // Password matches, return the user
+            return Optional.of(admin); // Password matches, return the user
         }
+
+    }
+
+    
+    /*=================================================================================== */
+    /* checkEmail method that check if the Admin Exists                                   */                                                                       
+    /*=================================================================================== */
+    public Admin checkEmail(String email) {
+        Admin admin = null;
+        try {
+            admin = adminRepository.findByEmail(email)
+            .orElseThrow(() -> new ObjectNotFoundException("Admin", email));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return admin;
+    }
+
+
+    /*=================================================================================== */
+    /* checkLogin method that check if the email and password that user entered        */
+    /* existed or not, and if it existed , returns the user and if not, returns null      */                                                                       
+    /*=================================================================================== */
+    public Optional<Admin> checkLogin(String email, String password){
+        return adminRepository.findByEmailAndPassword(email,password);
     }
 }

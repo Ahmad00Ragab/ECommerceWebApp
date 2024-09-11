@@ -1,9 +1,11 @@
 package gov.iti.jets.app;
 
+import gov.iti.jets.models.Admin;
 import gov.iti.jets.models.CartItem;
 import gov.iti.jets.models.Category;
 import gov.iti.jets.models.Product;
 import gov.iti.jets.models.User;
+import gov.iti.jets.services.AdminService;
 import gov.iti.jets.services.CartService;
 import gov.iti.jets.services.ProductService;
 import gov.iti.jets.services.UserService;
@@ -15,6 +17,7 @@ import jakarta.persistence.PersistenceException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
+import org.mindrot.jbcrypt.BCrypt;
 
 
 public class App {
@@ -89,6 +92,24 @@ public static void main(String[] args) {
     for (User user : users) {
         System.out.println(user);
     }
+
+    Admin admin = new Admin(
+        "Haroun",
+        "haroun@gmail.com",
+        BCrypt.hashpw("1234", BCrypt.gensalt()), // Encrypt the password
+        LocalDateTime.now(),
+        LocalDateTime.now(),
+        "Haroun"
+    );
+    
+    AdminService adminService = new AdminService();
+    adminService.createAdmin(admin);
+
+    
+
+
+
+
 
     //    ProductService productService = new ProductService();
 //    CartService cartService = new CartService();
