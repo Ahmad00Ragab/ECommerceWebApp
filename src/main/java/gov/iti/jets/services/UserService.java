@@ -49,8 +49,7 @@ public class UserService {
         User foundUser = this.userRepository.findById(userId)
                 .orElseThrow(() -> new ObjectNotFoundException("user", userId));
 
-        // Perform validation at the service layer
-        List<String> validationErrors = createUserValidation(user);
+        List<String> validationErrors = validateUserInput(user); // Call the validateUserInput
 
         if (!validationErrors.isEmpty()) {
             throw new ValidationException(validationErrors); // Custom exception for validation failures
@@ -70,6 +69,13 @@ public class UserService {
         return userRepository.update(foundUser);
     }
 
+    public List<String> validateUserInput(User user) {
+        // Perform validation at the service layer
+        List<String> validationErrors = createUserValidation(user);
+
+        return validationErrors;
+    }
+
     public Set<User> findAll() {
         return userRepository.findAll();
     }
@@ -83,6 +89,8 @@ public class UserService {
         return Optional.ofNullable(this.userRepository.findByEmail(email)
                 .orElseThrow(() -> new ObjectNotFoundException("user", email)));
     }
+
+
 
     // Login
     public Optional<User> login(String email, String password) {
@@ -102,6 +110,18 @@ public class UserService {
     // Exists
     public boolean existsById(Long userId) {
         return userRepository.existsById(userId);
+    }
+
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    public boolean existsByPhoneNumber(String phoneNumber) {
+        return userRepository.existsByPhoneNumber(phoneNumber);
+    }
+
+    public boolean existsByUsername(String username) {
+        return userRepository.existsByUsername(username);
     }
 
 

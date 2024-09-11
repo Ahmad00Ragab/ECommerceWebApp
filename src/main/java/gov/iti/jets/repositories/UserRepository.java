@@ -30,7 +30,7 @@ public class UserRepository extends GenericDaoImpl<User> {
             Root<User> user = q.from(User.class);
             q.where(cb.equal(user.get("username"), username));
             q.select(user).distinct(true);
-            return Optional.ofNullable(em.createQuery(q).getSingleResult());
+            return (em.createQuery(q).getSingleResult()) == null ? Optional.empty() : Optional.ofNullable(em.createQuery(q).getSingleResult());
         } catch (Exception e) {
             throw new RuntimeException("Error occurred while fetching " + username, e);
         } finally {
@@ -39,6 +39,39 @@ public class UserRepository extends GenericDaoImpl<User> {
             }
         }
     }
+    public boolean existsByEmail(String email) {
+        EntityManager em = null;
+        try {
+            em = emf.createEntityManager();
+            return em.createQuery("SELECT COUNT(u) FROM User u WHERE u.email = :email", Long.class).setParameter("email", email).getSingleResult() > 0;
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Error occurred while fetching " + email, e);
+        }
+    }
+
+    public boolean existsByPhoneNumber(String phone) {
+        EntityManager em = null;
+        try {
+            em = emf.createEntityManager();
+            return em.createQuery("SELECT COUNT(u) FROM User u WHERE u.phone = :phone", Long.class).setParameter("phone", phone).getSingleResult() > 0;
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Error occurred while fetching " + phone, e);
+        }
+    }
+
+    public boolean existsByUsername(String username) {
+        EntityManager em = null;
+        try {
+            em = emf.createEntityManager();
+            return em.createQuery("SELECT COUNT(u) FROM User u WHERE u.username = :username", Long.class).setParameter("username", username).getSingleResult() > 0;
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Error occurred while fetching " + username, e);
+        }
+    }
+
 
     public Optional<User> findByEmail(String email) {
         EntityManager em = null;

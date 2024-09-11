@@ -31,13 +31,16 @@ public class EmailVerification extends HttpServlet {
     public void verificationProcess(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String verificationCode = req.getParameter("verificationCode");
         HttpSession session = req.getSession();
-        String verify= (String) session.getAttribute("verifyCode");
         User user = (User) session.getAttribute("user");
+        String verify= (String) session.getAttribute("verifyCode");
+
         System.out.println(user.getUsername());
         if(verificationCode.equals(verify)){
             User newUser=  userService.save(user);
             System.out.println(newUser.getEmail());
-            RequestDispatcher rd =req.getRequestDispatcher("/welcome.jsp");
+
+            session.setAttribute("id",user.getId());
+            RequestDispatcher rd =req.getRequestDispatcher("/index.jsp");
             rd.forward(req, resp);
         }else {
             resp.sendRedirect("/ECommerceWebApp_war/verifyEmail.jsp");
