@@ -62,12 +62,12 @@
 
     <!-- Sidebar Section -->
     <div class="sidebar">
-    
+
         <h2>Admin Panel</h2>
         
-        <a href="/adminHome">Home</a>
+        <a href="/AdminHome">Manage Products</a>
 
-        <a href="/adminServlet">my profile</a>
+        <a href="/">my profile</a>
         
         <%-- action : list --%>
         <a href="/user">Customer Profile</a> 

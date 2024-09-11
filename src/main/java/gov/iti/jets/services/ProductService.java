@@ -1,10 +1,10 @@
 package gov.iti.jets.services;
 
 
+import gov.iti.jets.dtos.ProductDto;
 import gov.iti.jets.models.Product;
 import gov.iti.jets.repositories.ProductRepository;
 import gov.iti.jets.system.exceptions.ProductNotFoundException;
-
 import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.Set;
@@ -13,10 +13,10 @@ import jakarta.transaction.Transactional;
 
 public class ProductService {
 
-    private final ProductRepository productRepository  ;
+    private final ProductRepository productRepository;
 
     public ProductService() {
-        this.productRepository =  new ProductRepository(Product.class);
+        this.productRepository = new ProductRepository();
     }
 
 
@@ -108,6 +108,14 @@ public class ProductService {
 
     public Set<Product> sortProductsByCategoryAndPrice(String category) {
         return productRepository.sortProductsByCategoryAndPrice(category);
+    }
+
+    public Set<ProductDto> findAllProductsUsingDTO() {
+       return productRepository.findAllProductsUsingDTO();
+    }
+
+    public Set<ProductDto> findProductsByCategoryUsingProductDTO(String category) {
+        return productRepository.findProductsByCategoryUsingProductDTO(category);
     }
 
 }

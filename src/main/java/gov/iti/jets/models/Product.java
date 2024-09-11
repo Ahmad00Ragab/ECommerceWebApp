@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+
 @Entity
 @Table(name = "product")
 @Getter
@@ -70,7 +71,6 @@ public class Product {
     }
 
     
-    
      // Constructor that accepts categoryId as a String
      public Product(String name, BigDecimal price, int stock, String categoryId) {
         this.name = name;
@@ -97,6 +97,4 @@ public class Product {
         this.category    = category;
         this.cart = new HashSet<>();
     }
-
-
 }

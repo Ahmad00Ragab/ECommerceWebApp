@@ -15,5 +15,11 @@
     <button type="submit">Delete</button>
     <a href="${pageContext.request.contextPath}/user/list">Cancel</a>
 </form>
+
+<c:if test="${not empty error}">
+    <div class="alert alert-danger">
+            ${error}
+    </div>
+</c:if>
 </body>
 </html>

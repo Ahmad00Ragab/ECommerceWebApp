@@ -1,19 +1,15 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Index</title>
+    <title>Index Page</title>
 </head>
-
 <body>
-    <header>
-        <h1>Welcome to the Admin Panel</h1>
-    </header>
+
+<h2>Hello World!</h2>
 
     <section>
         <!-- Form to send a GET request to ProductController -->
@@ -22,12 +18,12 @@
             <button type="submit">Go to Product Management</button>
         </form>
 
-        <!-- Form to send a GET request to ReviewCustomerProfile -->
-        <form action="ProductController" method="get">
-            <input type="hidden" name="action" value="viewProfile">
-            <button type="submit">Go to Customer Profile</button>
-        </form>
+<!-- Link to list users -->
+<p><a href="<c:url value='/user?action=list'/>">List Users</a></p>
 
-    </section>
+<!-- Link to view a specific user, you might need to replace 'userId' with an actual ID or provide an input form -->
+<p><a href="<c:url value='/user?action=view&userId=3'/>">View User with ID 3</a></p>
+
+<!-- You can add more links as needed -->
 </body>
 </html>

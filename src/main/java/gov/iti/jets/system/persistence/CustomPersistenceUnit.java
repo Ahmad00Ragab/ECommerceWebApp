@@ -39,11 +39,23 @@ public class CustomPersistenceUnit implements PersistenceUnitInfo {
         try {
             HikariDataSource dataSource = new HikariDataSource();
             dataSource.setJdbcUrl("jdbc:mysql://localhost:3306/ecommerce");
-            dataSource.setUsername("projectUser");
-            dataSource.setPassword("user");
+            dataSource.setUsername("root");
+//            dataSource.setPassword("user");
             dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-            dataSource.setMaximumPoolSize(10);
-            dataSource.setConnectionTimeout(30000);
+            dataSource.setMaximumPoolSize(50);
+            dataSource.setConnectionTimeout(30000);  // 30 seconds
+            dataSource.setIdleTimeout(60000);  // 1 minute
+            dataSource.setMaxLifetime(180000); // 30 minutes
+            dataSource.setMinimumIdle(5);  // Minimum number of idle connections in the pool
+
+            // Log the configuration values for debugging
+            System.out.println("HikariCP DataSource initialized with settings:");
+            System.out.println("Max Pool Size: " + dataSource.getMaximumPoolSize());
+            System.out.println("Connection Timeout: " + dataSource.getConnectionTimeout());
+            System.out.println("Idle Timeout: " + dataSource.getIdleTimeout());
+            System.out.println("Max Lifetime: " + dataSource.getMaxLifetime());
+            System.out.println("Minimum Idle: " + dataSource.getMinimumIdle());
+
             return dataSource;
         } catch (Exception e) {
             throw new RuntimeException("Failed to configure HikariDataSource", e);
@@ -81,20 +93,20 @@ public class CustomPersistenceUnit implements PersistenceUnitInfo {
         );
     }
 
-    @Override
-    public boolean excludeUnlistedClasses() {
-        return false;
-    }
+     @Override
+     public boolean excludeUnlistedClasses() {
+         return false;
+     }
 
-    @Override
-    public SharedCacheMode getSharedCacheMode() {
-        return SharedCacheMode.ENABLE_SELECTIVE;
-    }
+     @Override
+     public SharedCacheMode getSharedCacheMode() {
+         return SharedCacheMode.ENABLE_SELECTIVE;
+     }
 
-    @Override
-    public ValidationMode getValidationMode() {
-        return ValidationMode.NONE;
-    }
+     @Override
+     public ValidationMode getValidationMode() {
+         return ValidationMode.NONE;
+     }
 
     @Override
     public  Properties getProperties() {
@@ -106,22 +118,22 @@ public class CustomPersistenceUnit implements PersistenceUnitInfo {
         return properties;
     }
 
-    @Override
-    public String getPersistenceXMLSchemaVersion() {
-        return "2.2";
-    }
+     @Override
+     public String getPersistenceXMLSchemaVersion() {
+         return "2.2";
+     }
 
-    @Override
-    public ClassLoader getClassLoader() {
-        return Thread.currentThread().getContextClassLoader();
-    }
+     @Override
+     public ClassLoader getClassLoader() {
+         return Thread.currentThread().getContextClassLoader();
+     }
 
-    @Override
-    public void addTransformer(ClassTransformer classTransformer) {
-    }
+     @Override
+     public void addTransformer(ClassTransformer classTransformer) {
+     }
 
-    @Override
-    public ClassLoader getNewTempClassLoader() {
-        return Thread.currentThread().getContextClassLoader();
-    }
-}
+     @Override
+     public ClassLoader getNewTempClassLoader() {
+         return Thread.currentThread().getContextClassLoader();
+     }
+ }

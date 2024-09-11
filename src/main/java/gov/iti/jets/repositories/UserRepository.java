@@ -40,6 +40,24 @@ public class UserRepository extends GenericDaoImpl<User> {
         }
     }
 
+    public Optional<User> findByEmail(String email) {
+        EntityManager em = null;
+        try {
+            em = emf.createEntityManager();
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<User> q = cb.createQuery(User.class);
+            Root<User> user = q.from(User.class);
+            q.where(cb.equal(user.get("email"), email));
+            q.select(user).distinct(true);
+            System.out.println(((em.createQuery(q).getSingleResult()).getEmail()));
+            return Optional.ofNullable(em.createQuery(q).getSingleResult());
+        } catch (Exception e) {
+            throw new RuntimeException("Error occurred while fetching " + email, e);
+        } finally {
+            em.close();
+        }
+    }
+
     public Set<Category> findInterestsByUserId(Long userId) {
         User user = findById(userId)
                 .orElseThrow(() -> new ObjectNotFoundException("User", userId));
