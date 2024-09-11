@@ -15,7 +15,6 @@
         <h1>Welcome to the Admin Panel</h1>
     </header>
 
-
     <section>
         <!-- Form to send a GET request to ProductController -->
         <form action="ProductController" method="get">
