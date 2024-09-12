@@ -65,17 +65,16 @@
 
         <h2>Admin Panel</h2>
         
-        <a href="/ProductController">Manage Products</a>
+        <a href="${pageContext.request.contextPath}/ProductController">Manage Products</a>
 
-        <a href="/">my profile</a>
-        
-        <%-- action : list --%>
-        <a href="/user">Customer Profile</a> 
-        
-        <%-- action :  --%>
-        <a href="/AdminLogin">Logout</a>
+        <a href="${pageContext.request.contextPath}/AdminController">my profile</a>
+
+        <a href="<c:url value='/user?action=list'/>">Customer Profile</a>
+    
+        <a href="${pageContext.request.contextPath}/LogoutServlet">Logout</a>
 
     </div>
+
 
     <!-- Main Content Section -->
     <div class="main-content">

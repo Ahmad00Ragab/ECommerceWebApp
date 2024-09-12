@@ -17,6 +17,7 @@ import java.util.Set;
 public class UserService {
     UserRepository userRepository;
     UserValidator userValidator;
+
     public UserService() {
         userRepository = new UserRepository();
         userValidator = new UserValidator();
@@ -27,6 +28,7 @@ public class UserService {
                 .orElseThrow(() -> new ObjectNotFoundException(username)));
     }
 
+    
     public User save(User user) {
         user.setPassword(PasswordEncryptionUtil.encryptPassword(user.getPassword()));
         return userRepository.save(user);

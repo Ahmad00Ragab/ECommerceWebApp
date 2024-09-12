@@ -15,6 +15,7 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceException;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 import org.mindrot.jbcrypt.BCrypt;
@@ -86,17 +87,14 @@ public static void main(String[] args) {
 //        }
 //
 //    }
-    UserService userService = new UserService();
 
-    Set<User> users = userService.findAll();
-    for (User user : users) {
-        System.out.println(user);
-    }
+
+
 
     Admin admin = new Admin(
         "Haroun",
         "haroun@gmail.com",
-        BCrypt.hashpw("1234", BCrypt.gensalt()), // Encrypt the password
+        "1234", // Encrypt the password
         LocalDateTime.now(),
         LocalDateTime.now(),
         "Haroun"
@@ -108,6 +106,38 @@ public static void main(String[] args) {
     
 
 
+
+
+    UserService userService = new UserService();
+
+    // Create 5 user objects
+    User user1 = new User("john_doe", "John", "Doe", "john.doe@gmail.com", "Password123",
+            "USA", "New York", "5th Ave", new BigDecimal("5000.00"),
+            LocalDate.of(1985, 10, 10), "1234567890", LocalDate.now(), LocalDate.now());
+
+    User user2 = new User("jane_smith", "Jane", "Smith", "jane.smith@outlook.com", "Password456",
+            "UK", "London", "Oxford Street", new BigDecimal("3000.00"),
+            LocalDate.of(1990, 3, 15), "0987654321", LocalDate.now(), LocalDate.now());
+
+    User user3 = new User("mike_brown", "Mike", "Brown", "mike.brown@gmail.com", "Password789",
+            "Canada", "Toronto", "Bloor Street", new BigDecimal("4000.00"),
+            LocalDate.of(1988, 7, 22), "1112223333", LocalDate.now(), LocalDate.now());
+
+    User user4 = new User("susan_clark", "Susan", "Clark", "susan.clark@outlook.com", "Password101",
+            "Australia", "Sydney", "George Street", new BigDecimal("3500.00"),
+            LocalDate.of(1995, 5, 12), "2223334444", LocalDate.now(), LocalDate.now());
+
+    User user5 = new User("dan_lee", "Dan", "Lee", "dan.lee@gmail.com", "Password202",
+            "USA", "San Francisco", "Market Street", new BigDecimal("4500.00"),
+            LocalDate.of(1992, 8, 5), "3334445555", LocalDate.now(), LocalDate.now());
+
+
+
+    userService.save(user1);
+    userService.save(user2);
+    userService.save(user3);
+    userService.save(user4);
+    userService.save(user5);
 
 
 

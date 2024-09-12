@@ -6,6 +6,7 @@
 </head>
 <body>
 
+
 <!-- Display error message if exists -->
 <c:if test="${not empty errorMessage}">
     <span style="color:red;">${errorMessage}</span><br>
