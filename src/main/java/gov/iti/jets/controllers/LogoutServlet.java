@@ -8,6 +8,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+
+
+
 @WebServlet("/LogoutServlet")
 public class LogoutServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -16,12 +19,12 @@ public class LogoutServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         // Invalidate the current session, if it exists
-        HttpSession session = request.getSession(false); // false means don't create a new session
+        HttpSession session = request.getSession(false); 
         if (session != null) {
             session.invalidate(); // Ends the session
         }
 
         // Redirect to the login page
-        response.sendRedirect(request.getContextPath() + "/AdminLogin"); // Redirect to the login page
+        response.sendRedirect(request.getContextPath() + "/GoToAdminLogin"); // Redirect to the login page
     }
 }

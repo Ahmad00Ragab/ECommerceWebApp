@@ -10,6 +10,7 @@ import gov.iti.jets.models.Admin;
 import jakarta.persistence.criteria.*;
 
 
+
 public class AdminRepository extends GenericDaoImpl<Admin> {
 
     // Remove EntityManager Instantiation: The AdminRepository class no longer directly
@@ -21,6 +22,8 @@ public class AdminRepository extends GenericDaoImpl<Admin> {
     public AdminRepository() {
         super(Admin.class);
     }
+
+
     public Optional<Admin> findByEmail(String email) {
         EntityManager em = null;
         try {
@@ -44,6 +47,8 @@ public class AdminRepository extends GenericDaoImpl<Admin> {
         }
     }
 
+
+    
     /* find Admin by Email and Passowrd  */
     public Optional<Admin> findByEmailAndPassword(String email, String password) {
         
@@ -71,9 +76,6 @@ public class AdminRepository extends GenericDaoImpl<Admin> {
             }
         }
     }
-    
-
-
     
 }
 
