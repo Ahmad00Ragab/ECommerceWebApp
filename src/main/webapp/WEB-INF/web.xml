@@ -4,29 +4,42 @@
                              http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
+
   <!-- Display Name -->
   <display-name>Archetype Created Web Application</display-name>
 
   <!-- Context Parameters -->
-  <context-param>
+  <!-- <context-param>
     <param-name>appName</param-name>
     <param-value>MyECommerceApp</param-value>
-  </context-param>
+  </context-param> -->
 
   <!-- Session Configuration -->
-  <session-config>
+  <!-- <session-config>
     <session-timeout>30</session-timeout>
-  </session-config>
+  </session-config> -->
 
   <!-- Welcome File -->
   <welcome-file-list>
-    <welcome-file>index2.jsp</welcome-file>
-  </welcome-file-list>
+    <welcome-file>template/index.html</welcome-file>
+</welcome-file-list>
 
-  <servlet-mapping>
+
+  <!-- <servlet-mapping>
     <servlet-name>default</servlet-name>
     <url-pattern>/css/*</url-pattern>
-  </servlet-mapping>
+  </servlet-mapping> -->
+
+  <servlet>
+    <servlet-name>default</servlet-name>
+    <servlet-class>org.apache.catalina.servlets.DefaultServlet</servlet-class>
+    <init-param>
+        <param-name>listings</param-name>
+        <param-value>false</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+</servlet>
+
 
   <!-- Optional: Filter Configuration -->
   <!-- Uncomment these if you want to use filters -->
@@ -65,5 +78,7 @@
 <!--    <error-code>500</error-code>-->
 <!--    <location>/jsp/error500.jsp</location>-->
 <!--  </error-page>-->
+
+
 
 </web-app>
