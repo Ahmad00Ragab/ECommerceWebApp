@@ -45,6 +45,20 @@ public class CartItem {
         this.cartId.setProductId(product.getId());
     }
 
+    public CartItem(Long userId, Long productId, Long quantity) {
+        this.cartId = new CartKey();
+        this.cartId.setUserId(userId);
+        this.cartId.setProductId(productId);
+        this.quantity = quantity.intValue();
+    }
+
+    public CartItem(Long userId, Long productId) {
+        this.cartId = new CartKey();
+        this.cartId.setUserId(userId);
+        this.cartId.setProductId(productId);
+        this.quantity = 1;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(cartId, quantity);
@@ -57,5 +71,9 @@ public class CartItem {
         CartItem cart = (CartItem) obj;
         return quantity == cart.quantity &&
                 Objects.equals(cartId, cart.cartId);
+    }
+
+    public Object getProductId() {
+        return cartId.getProductId();
     }
 }

@@ -5,21 +5,25 @@ import gov.iti.jets.genericDao.GenericDaoImpl;
 import gov.iti.jets.models.Category;
 import gov.iti.jets.models.Product;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.Root;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-public class ProductRepository extends GenericDaoImpl<Product> {
+public class ProductRepository extends GenericDaoImpl<Product>{
 
     public ProductRepository() {
         super(Product.class);
     }
+
 
     public Optional<Product> getProductByName(String name) {
         EntityManager em = null;
@@ -28,8 +32,12 @@ public class ProductRepository extends GenericDaoImpl<Product> {
             CriteriaBuilder cb = em.getCriteriaBuilder();
             CriteriaQuery<Product> q = cb.createQuery(Product.class);
             Root<Product> productRoot = q.from(Product.class);
-            q.where(cb.equal(productRoot.get("name"), name));
+
+            q.select(productRoot).where(cb.equal(productRoot.get("name"), name));
+
             return Optional.of(em.createQuery(q).getSingleResult());
+        } catch (NoResultException e) {
+            return Optional.empty();
         } finally {
             if (em != null) {
                 em.close();
@@ -82,7 +90,7 @@ public class ProductRepository extends GenericDaoImpl<Product> {
         }
     }
 
-    //$ git commit -m "Added two methods, the user can see all products in the "
+
     public Set<Product> sortProductsByCategoryAndPrice(String category) {
         EntityManager em = null;
         try {
@@ -98,15 +106,13 @@ public class ProductRepository extends GenericDaoImpl<Product> {
         }
     }
 
-    public Set<ProductDto> findAllProductsUsingDTO() {
+    public Set<ProductDto> findAllProductsUsingDTO(int pageNumber, int pageSize) {
         EntityManager em = null;
         try {
             em = emf.createEntityManager();
 
             CriteriaBuilder cb = em.getCriteriaBuilder();
-
             CriteriaQuery<ProductDto> cq = cb.createQuery(ProductDto.class);
-
             Root<Product> productRoot = cq.from(Product.class);
 
             cq.select(cb.construct(ProductDto.class,
@@ -118,6 +124,10 @@ public class ProductRepository extends GenericDaoImpl<Product> {
             ));
 
             TypedQuery<ProductDto> query = em.createQuery(cq);
+
+            query.setFirstResult((pageNumber - 1) * pageSize);
+            query.setMaxResults(pageSize);
+
             return new HashSet<>(query.getResultList());
         } finally {
             if (em != null) {
@@ -126,18 +136,21 @@ public class ProductRepository extends GenericDaoImpl<Product> {
         }
     }
 
-    public Set<ProductDto> findProductsByCategoryUsingProductDTO(String category) {
+
+
+    // criteria query converted
+    public Set<ProductDto> findProductsByCategoryUsingProductDTO(String category, int pageNumber, int pageSize) {
         EntityManager em = null;
         try {
             em = emf.createEntityManager();
 
             CriteriaBuilder cb = em.getCriteriaBuilder();
-
             CriteriaQuery<ProductDto> cq = cb.createQuery(ProductDto.class);
-
             Root<Product> productRoot = cq.from(Product.class);
 
+
             Join<Product, Category> categoryJoin = productRoot.join("category");
+
 
             cq.select(cb.construct(ProductDto.class,
                     productRoot.get("id"),
@@ -150,6 +163,9 @@ public class ProductRepository extends GenericDaoImpl<Product> {
 
             TypedQuery<ProductDto> query = em.createQuery(cq);
 
+            query.setFirstResult((pageNumber - 1) * pageSize);
+            query.setMaxResults(pageSize);
+
             return new HashSet<>(query.getResultList());
         } finally {
             if (em != null) {
@@ -157,6 +173,139 @@ public class ProductRepository extends GenericDaoImpl<Product> {
             }
         }
     }
+
+
+
+    public Set<ProductDto> findProductByNameUsingProductDTO(String name, int pageNumber, int pageSize) {
+        EntityManager em = null;
+        try {
+            em = emf.createEntityManager();
+
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<ProductDto> cq = cb.createQuery(ProductDto.class);
+            Root<Product> productRoot = cq.from(Product.class);
+
+            cq.select(cb.construct(ProductDto.class,
+                    productRoot.get("id"),
+                    productRoot.get("name"),
+                    productRoot.get("description"),
+                    productRoot.get("imageUrl"),
+                    productRoot.get("price")
+            ));
+
+            cq.where(cb.like(cb.lower(productRoot.get("name")), "%" + name.toLowerCase() + "%"));
+
+            TypedQuery<ProductDto> query = em.createQuery(cq);
+
+            query.setFirstResult((pageNumber - 1) * pageSize);
+            query.setMaxResults(pageSize);
+
+            return new HashSet<>(query.getResultList());
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+    }
+
+    public Set<ProductDto> sortProductsByCategoryAndPriceUsingProductDTO(String category, int pageNumber, int pageSize) {
+        EntityManager em = null;
+        try {
+            em = emf.createEntityManager();
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<ProductDto> cq = cb.createQuery(ProductDto.class);
+            Root<Product> productRoot = cq.from(Product.class);
+            Join<Product, Category> categoryJoin = productRoot.join("category");
+
+            cq.select(cb.construct(
+                            ProductDto.class,
+                            productRoot.get("id"),
+                            productRoot.get("name"),
+                            productRoot.get("description"),
+                            productRoot.get("imageUrl"),
+                            productRoot.get("price")
+                    ))
+                    .where(cb.equal(categoryJoin.get("name"), category))
+                    .orderBy(cb.asc(productRoot.get("price")));
+
+            TypedQuery<ProductDto> query = em.createQuery(cq);
+            query.setFirstResult((pageNumber - 1) * pageSize);
+            query.setMaxResults(pageSize);
+
+            return new HashSet<>(query.getResultList());
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+    }
+
+
+
+    ///  counting products processes
+
+    public int countProductsByName(String name) {
+        EntityManager em = null;
+        try {
+            em = emf.createEntityManager();
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+
+            CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+            Root<Product> productRoot = cq.from(Product.class);
+
+            cq.select(cb.count(productRoot));
+            cq.where(cb.like(cb.lower(productRoot.get("name")), "%" + name.toLowerCase() + "%"));
+
+            TypedQuery<Long> query = em.createQuery(cq);
+            return query.getSingleResult().intValue();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+    }
+
+    public int countProductsByCategory(String category) {
+        EntityManager em = null;
+        try {
+            em = emf.createEntityManager();
+
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+            Root<Product> productRoot = cq.from(Product.class);
+
+            Join<Product, Category> categoryJoin = productRoot.join("category");
+            cq.select(cb.count(productRoot)).where(cb.equal(categoryJoin.get("name"), category));
+
+            return em.createQuery(cq).getSingleResult().intValue();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+    }
+
+
+    public int countAllProducts() {
+        EntityManager em = null;
+        try {
+            em = emf.createEntityManager();
+
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+            Root<Product> productRoot = cq.from(Product.class);
+
+            cq.select(cb.count(productRoot));
+
+            return em.createQuery(cq).getSingleResult().intValue();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+    }
+
+
 
 
 

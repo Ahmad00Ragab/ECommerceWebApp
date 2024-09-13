@@ -90,7 +90,7 @@ public static void main(String[] args) {
 
 
 
-
+    // Create an Admin
     Admin admin = new Admin(
         "Haroun",
         "haroun@gmail.com",
@@ -104,10 +104,6 @@ public static void main(String[] args) {
     adminService.createAdmin(admin);
 
     
-
-
-
-
     UserService userService = new UserService();
 
     // Create 5 user objects
@@ -130,8 +126,6 @@ public static void main(String[] args) {
     User user5 = new User("dan_lee", "Dan", "Lee", "dan.lee@gmail.com", "Password202",
             "USA", "San Francisco", "Market Street", new BigDecimal("4500.00"),
             LocalDate.of(1992, 8, 5), "3334445555", LocalDate.now(), LocalDate.now());
-
-
 
     userService.save(user1);
     userService.save(user2);
