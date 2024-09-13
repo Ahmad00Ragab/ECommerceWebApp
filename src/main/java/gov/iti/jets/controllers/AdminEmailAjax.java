@@ -54,11 +54,11 @@ public class AdminEmailAjax extends HttpServlet {
      
             response.setContentType("text/html");
            
-            response.getWriter().println("valid username");            
+            response.getWriter().println("valid Email");            
 
         } else {
             response.setContentType("text/html");
-            response.getWriter().println("invlid username");
+            response.getWriter().println("invlid Email");
         }
     }
 }

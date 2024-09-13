@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -40,7 +41,7 @@ public class UserController extends HttpServlet {
                     showUpdateForm(req, resp);
                     break;
                 case "confirmDelete":
-                    req.getRequestDispatcher("/jsp/user/delete.jsp").forward(req, resp);
+                    deleteUser(req, resp);
                     break;
                 case "view":
                     viewUser(req, resp);
@@ -115,6 +116,7 @@ public class UserController extends HttpServlet {
         }
     }
 
+
     private void updateUser(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         Long userId = Long.parseLong(req.getParameter("userId"));
         Optional<User> existingUserOpt = userService.findById(userId);
@@ -132,6 +134,16 @@ public class UserController extends HttpServlet {
         existingUser.setCity(req.getParameter("city"));
         existingUser.setCountry(req.getParameter("country"));
         existingUser.setStreet(req.getParameter("street"));
+        
+        /* Update the Rest of user Attributes : Haroun */
+        // Convert the string to LocalDate
+        LocalDate birthdate = LocalDate.parse(req.getParameter("birthdate"), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        existingUser.setBirthdate(birthdate);
+        existingUser.setEmail(req.getParameter("email"));
+        existingUser.setCreditLimit(new BigDecimal(req.getParameter("creditLimit")));
+
+
+
 
         // Perform validation
         System.out.println("just before validation");
@@ -139,9 +151,12 @@ public class UserController extends HttpServlet {
         try {
             // Call the service to update the user
             userService.update(userId, existingUser);
-
             req.setAttribute("successMessage", "User updated successfully.");
-            req.getRequestDispatcher("/jsp/user/success.jsp").forward(req, resp);
+            req.setAttribute("user", existingUser);
+            req.getRequestDispatcher("/jsp/user/update.jsp").forward(req, resp);
+            
+            /* Commented :  After Updating, Display the message "User updated Successfuly" in the same page, no need to go success page*/
+            //req.getRequestDispatcher("/jsp/user/success.jsp").forward(req, resp);
         } catch (ValidationException e) {
             // Set validation errors and user data in request
             req.setAttribute("errors", e.getValidationErrors());
@@ -154,6 +169,8 @@ public class UserController extends HttpServlet {
         }
     }
 
+    
+
     private void deleteUser(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         Long userId = Long.parseLong(req.getParameter("userId"));
         System.out.println("here in delete user");
@@ -165,7 +182,11 @@ public class UserController extends HttpServlet {
                 userService.delete(userId);
                 System.out.println("found and deleted");
                 req.setAttribute("successMessage", "User deleted successfully.");
-                req.getRequestDispatcher("/jsp/user/success.jsp").forward(req, resp);
+                listUsers(req,resp);
+               
+                /* Not Required to go to success page : Now When the user is deleted, the page is updated automatically ==> Haroun */
+                //req.getRequestDispatcher("/jsp/user/success.jsp").forward(req, resp);
+                
             } else {
                 req.setAttribute("error", "User not found.");
                 req.getRequestDispatcher("/jsp/error.jsp").forward(req, resp);

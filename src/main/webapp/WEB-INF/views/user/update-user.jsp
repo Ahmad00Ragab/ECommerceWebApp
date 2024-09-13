@@ -37,73 +37,16 @@
         .btn-custom:hover {
             background-color: #495057;
         }
-
-        /* Sidebar Style */
-        .sidebar {
-            width: 250px;
-            background-color: #343a40;
-            position: fixed;
-            height: 100vh;
-            left: 0;
-            top: 0;
-            padding-top: 20px;
-            color: white;
-        }
-        .sidebar a {
-            color: white;
-            padding: 10px;
-            display: block;
-            text-decoration: none;
-        }
-        .sidebar a:hover {
-            background-color: #495057;
-        }
-        .main-content {
-            margin-left: 250px;
-            padding: 20px;
-        }
-        .card {
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-
-        /* Footer Styling */
-        footer {
-            text-align: center;
-            background-color: #343a40;
-            color: white;
-            padding: 10px 0;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
-        }
     </style>
 </head>
 
 <body>
-
- <!-- Sidebar Section -->
-    <div class="sidebar">
-        <h2>Admin Panel</h2>
-        <a href="${pageContext.request.contextPath}/ProductController">Manage Products</a>
-        <a href="${pageContext.request.contextPath}/AdminController">My Profile</a>
-        <a href="<c:url value='/user?action=list'/>">Customer Profile</a>
-        <a href="${pageContext.request.contextPath}/LogoutServlet">Logout</a>
-    </div>
 
 <div class="main-content">
     <div class="container">
         <!-- User Update Form -->
         <div class="form-container">
             <h2 class="form-header">Update User Information</h2>
-
-            <!-- Display success message, if any -->
-            <c:if test="${not empty successMessage}">
-                <div class="alert alert-success text-center">
-                    ${successMessage}
-                </div>
-            </c:if>
 
             <!-- Display validation errors, if any -->
             <c:if test="${not empty errors}">
@@ -115,6 +58,7 @@
                     </ul>
                 </div>
             </c:if>
+
 
             <!-- User update form -->
             <form action="${pageContext.request.contextPath}/user" method="post">
@@ -129,6 +73,11 @@
                 <div class="form-group">
                     <label for="email">Email:</label>
                     <input type="email" id="email" name="email" class="form-control" value="${user.email}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" class="form-control" required>
                 </div>
 
                 <div class="form-group">
@@ -166,11 +115,6 @@
         </div>
     </div>
 </div>
-
-<!-- Footer Section -->
-<footer>
-    <p>&copy; 2024 Shoesly. All Rights Reserved.</p>
-</footer>
 
 <!-- Bootstrap JS, Popper.js, and jQuery -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>

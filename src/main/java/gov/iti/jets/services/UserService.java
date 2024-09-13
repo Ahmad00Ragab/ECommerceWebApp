@@ -69,6 +69,12 @@ public class UserService {
         foundUser.setCreditLimit(user.getCreditLimit());
         foundUser.setBirthdate(user.getBirthdate());
         foundUser.setPhone(user.getPhone());
+        /* update Rest of Attributes : Haroun */
+        foundUser.setUsername(user.getUsername());
+        foundUser.setEmail(user.getEmail());
+
+
+
 
         // Save the updated user
         return userRepository.update(foundUser);

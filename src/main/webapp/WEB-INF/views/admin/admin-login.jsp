@@ -101,7 +101,7 @@
         </c:if>
 
         <!-- User Name Verification With AJAX -->
-        <form id="loginForm" action="AdminLogin" method="POST">
+        <%-- <form id="loginForm" action="AdminLogin" method="POST">
             <div class="form-group">
                 <label for="email">Email</label>
                 <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" onblur="validateUsername()" required>
@@ -114,7 +114,23 @@
             </div>
 
             <button type="submit" class="btn btn-submit btn-primary">Submit</button>
+        </form> --%>
+
+        <form id="loginForm" action="AdminLogin" method="POST">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" onfocusout="validateUsername()" required>
+                <span id="err"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+
+            <button type="submit" class="btn btn-submit btn-primary">Submit</button>
         </form>
+
 
         <!-- Home Page Button -->
         <a href="/ECommerceWebApp/template/index.html" class="btn btn-home">Back to Home Page</a>
