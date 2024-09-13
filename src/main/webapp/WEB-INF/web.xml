@@ -7,12 +7,6 @@
   <!-- Display Name -->
   <display-name>Archetype Created Web Application</display-name>
 
-  <!-- Context Parameters -->
-  <context-param>
-    <param-name>appName</param-name>
-    <param-value>MyECommerceApp</param-value>
-  </context-param>
-
   <!-- Session Configuration -->
   <session-config>
     <session-timeout>30</session-timeout>
@@ -20,13 +14,28 @@
 
   <!-- Welcome File -->
   <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
 
+  <!-- Default Servlet for Static Files -->
+  <servlet>
+      <servlet-name>default</servlet-name>
+      <servlet-class>org.apache.catalina.servlets.DefaultServlet</servlet-class>
+      <load-on-startup>1</load-on-startup>
+  </servlet>
+
   <servlet-mapping>
-    <servlet-name>default</servlet-name>
-    <url-pattern>/css/*</url-pattern>
+      <servlet-name>default</servlet-name>
+      <url-pattern>*.html</url-pattern>
   </servlet-mapping>
+
+  <!-- Static Files Servlet Mapping (CSS, JS, etc.) -->
+  <servlet-mapping>
+      <servlet-name>default</servlet-name>
+      <url-pattern>/template/*</url-pattern>
+  </servlet-mapping>
+
 
   <!-- Optional: Filter Configuration -->
   <!-- Uncomment these if you want to use filters -->
