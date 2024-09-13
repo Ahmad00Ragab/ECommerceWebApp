@@ -1,8 +1,9 @@
 package gov.iti.jets.controllers;
 
 import gov.iti.jets.dtos.ProductDto;
+import gov.iti.jets.models.Category;
+import gov.iti.jets.services.CategoryService;
 import gov.iti.jets.services.ProductService;
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -10,19 +11,28 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Set;
 
 @WebServlet(name = "homeServlet", urlPatterns ={"/home", "/products"} )
 public class HomeController extends HttpServlet {
-    private ProductService productService = new ProductService();
+    private ProductService productService;
+    private CategoryService categoryService;
+
+    public HomeController(){
+       this.productService = new ProductService();
+        this.categoryService = new CategoryService();
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
           String category = req.getParameter("category");
-          String productName = req.getParameter("productName");
-          if(category!=null && !category.isBlank() && !category.isEmpty())
-          handleSearchByCategory(req,resp,category);
-          else if (productName!=null && !productName.isBlank() && !productName.isEmpty() ) handleSearchForProducts(req,resp,productName);
-          else  handleProducts(req,resp);
+          String shoeColor = req.getParameter("color");
+          String shoeSize = req.getParameter("size");
+          String minPrice = req.getParameter("minPrice");
+          String maxPrice = req.getParameter("maxPrice");
+          handleFiltration(req,resp,category,shoeSize,shoeColor, productService.parseBigDecimal(minPrice), productService.parseBigDecimal(maxPrice));
+
     }
 
     @Override
@@ -30,68 +40,38 @@ public class HomeController extends HttpServlet {
         doGet(req,resp);
     }
 
-    public void handleProducts(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String pageNumberParam = request.getParameter("pageNumber");
-        int pageNumber = (pageNumberParam == null || pageNumberParam.isEmpty()) ? 1 : Integer.parseInt(pageNumberParam);
-        int pageSize = 3;
 
-        Set<ProductDto> products = productService.findAllProductsUsingDTO(pageNumber, pageSize);
+     public void handleFiltration(HttpServletRequest request, HttpServletResponse response, String category,
+                                  String size, String color, BigDecimal minPrice, BigDecimal maxPrice) throws ServletException, IOException {
+         try {
+             displayAllCategories(request, response);
 
-        request.setAttribute("homeProducts", products);
+             String pageNumberParam = request.getParameter("pageNumber");
+             int pageNumber = (pageNumberParam == null || pageNumberParam.isEmpty()) ? 1 : Integer.parseInt(pageNumberParam);
+             int pageSize = 10;
 
-        int totalProducts = productService.countAllProducts();
-        int totalPages = (int) Math.ceil((double) totalProducts / pageSize);
+             Set<ProductDto> homeProducts = productService.filterProducts(category, size, color, minPrice, maxPrice, pageNumber, pageSize);
+             request.setAttribute("homeProducts", homeProducts);
 
-        request.setAttribute("currentPage", pageNumber);
-        request.setAttribute("totalPages", totalPages);
+             int totalProducts = productService.countFilteredProducts(category, size, color, minPrice, maxPrice);
+             int totalPages = (int) Math.ceil((double) totalProducts / pageSize);
 
-        request.getRequestDispatcher("/home.jsp").forward(request, response);
+             request.setAttribute("currentPage", pageNumber);
+             request.setAttribute("totalPages", totalPages);
+
+             request.getRequestDispatcher("/home.jsp").forward(request, response);
+         } catch (NumberFormatException e) {
+             throw new ServletException("Invalid page number format", e);
+         } catch (Exception e) {
+             throw new ServletException("Error while filtering products", e);
+         }
+     }
+
+
+    private  void displayAllCategories(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Set<Category> categories= categoryService.findAllCategories();
+        request.setAttribute("categories", categories);
     }
 
 
-
-
-    public void handleSearchByCategory(HttpServletRequest request, HttpServletResponse response, String category) throws ServletException, IOException {
-        String pageNumberParam = request.getParameter("pageNumber");
-        int pageNumber = (pageNumberParam == null || pageNumberParam.isEmpty()) ? 1 : Integer.parseInt(pageNumberParam);
-        int pageSize = 3;
-
-        Set<ProductDto> products = productService.findProductsByCategoryUsingProductDTO(category, pageNumber, pageSize);
-
-        request.setAttribute("homeProducts", products);
-
-
-        int totalProducts = productService.countProductsByCategory(category);
-        int totalPages = (int) Math.ceil((double) totalProducts / pageSize);
-
-        request.setAttribute("currentPage", pageNumber);
-        request.setAttribute("totalPages", totalPages);
-
-
-        request.getRequestDispatcher("/home.jsp").forward(request, response);
-    }
-
-
-    private  void handleSearchForProducts(HttpServletRequest req, HttpServletResponse resp, String name) throws ServletException, IOException {
-        int pageNumber = req.getParameter("pageNumber") != null? Integer.parseInt(req.getParameter("pageNumber")) : 1;
-        int pageSize = 3;
-        Set<ProductDto> products = productService.findProductByNameUsingProductDTO(name, pageNumber, pageSize);
-
-        int totalProducts = productService.countByName(name);
-        int totalPages = (int) Math.ceil((double) totalProducts / pageSize);
-
-        req.setAttribute("homeProducts", products);
-        req.setAttribute("currentPage", pageNumber);
-        req.setAttribute("totalPages", totalPages);
-
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/home.jsp");
-        dispatcher.forward(req, resp);
-    }
-
-    /*private void handleSortProductsByCategoryAndPrice(HttpServletRequest req, HttpServletResponse resp, String category) throws ServletException, IOException {
-        Set<ProductDto> productsByCategory=productService.findProductsByCategoryUsingProductDTO(category);
-        req.setAttribute("homeProducts", productsByCategory);
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/home.jsp");
-        dispatcher.forward(req,resp);
-    }*/
 }
