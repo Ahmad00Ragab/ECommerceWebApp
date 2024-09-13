@@ -81,8 +81,12 @@
 						</ul>
 						<ul class="nav navbar-nav navbar-right">
 							<li class="nav-item"><a href="#" class="cart"><span class="ti-bag"></span></a></li>
-							<li class="nav-item">
-								<button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
+							<li class="nav-item dropdown">
+								<a href="#" class="profile"><span class="lnr lnr-user"></span></a>
+								<ul class="dropdown-menu">
+									<li class="nav-item"><a class="nav-link" href="assets/login.jsp">Login</a></li>
+									<li class="nav-item"><a class="nav-link" href="../My-Account.jsp">My Account</a></li>
+								</ul>
 							</li>
 						</ul>
 					</div>
@@ -108,7 +112,6 @@
 				<div class="col-first">
 					<h1>Login/Register</h1>
 					<nav class="d-flex align-items-center">
-						<a href="../index.jsp">Home<span class="lnr lnr-arrow-right"></span></a>
 						<a href="category.html">Login/Register</a>
 					</nav>
 				</div>
