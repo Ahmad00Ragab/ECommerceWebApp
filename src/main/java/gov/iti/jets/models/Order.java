@@ -19,7 +19,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -30,7 +30,7 @@ public class Order {
     private LocalDateTime dateCreated;
 
     // Initialize orderItems
-    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER) /* when adding the order, add with it the order items, in order_items table */
     private Set<OrderItem> orderItems = new HashSet<>();
 
     public Order(User user, BigDecimal totalPrice, LocalDateTime dateCreated) {

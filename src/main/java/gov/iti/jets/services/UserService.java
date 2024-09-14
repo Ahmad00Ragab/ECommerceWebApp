@@ -56,6 +56,10 @@ public class UserService {
         userRepository.update(user);
     }
 
+    public void update(User user) {
+        userRepository.update(user);
+    }
+
     public User update(Long userId, User user) {
         // Find the user in the repository
         User foundUser = this.userRepository.findById(userId)

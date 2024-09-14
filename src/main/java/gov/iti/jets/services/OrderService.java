@@ -6,11 +6,14 @@ import gov.iti.jets.system.exceptions.ObjectNotFoundException;
 import java.util.Optional;
 
 public class OrderService {
-    private final OrderRepository orderRepository;
+    private  OrderRepository orderRepository;
 
     // Constructor to inject OrderRepository
     public OrderService(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
+    }
+    public OrderService(){
+        orderRepository = new OrderRepository();
     }
 
     // 1. Find order by ID

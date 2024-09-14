@@ -44,7 +44,7 @@ public class Product {
     private Set<CartItem> cart;
 
     @ManyToOne
-    @JoinColumn(name = "category_id", nullable = false)
+    @JoinColumn(name = "category_id", nullable = false )
     private Category category;
 
     @Column(name = "date_created", nullable = false)
@@ -116,4 +116,5 @@ public class Product {
         this.category    = category;
         this.cart = new HashSet<>();
     }
+
 }
