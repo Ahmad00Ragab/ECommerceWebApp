@@ -59,7 +59,7 @@ public class HomeController extends HttpServlet {
             request.setAttribute("currentPage", pageNumber);
             request.setAttribute("totalPages", totalPages);
 
-            request.getRequestDispatcher("/home.jsp").forward(request, response);
+            request.getRequestDispatcher("/shop.jsp").forward(request, response);
         } catch (NumberFormatException e) {
             throw new ServletException("Invalid page number format", e);
         } catch (Exception e) {
