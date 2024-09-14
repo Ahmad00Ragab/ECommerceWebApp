@@ -46,16 +46,6 @@
                 case "checkCart":
                     checkCart(request, response);
                     break;
-                default:
-                    request.setAttribute("error", "Invalid action");
-                    request.getRequestDispatcher("/jsp/error.jsp").forward(request, response);
-            }
-        }
-
-        @Override
-        protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-            String action = request.getParameter("action");
-            switch (action) {
                 case "add":
                     saveCartItem(request, response);
                     break;
@@ -72,6 +62,11 @@
                     request.setAttribute("error", "Invalid action");
                     request.getRequestDispatcher("/jsp/error.jsp").forward(request, response);
             }
+        }
+
+        @Override
+        protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+             doGet(request, response);
         }
 
         private void checkCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -98,7 +93,7 @@
             int quantity = 1;
 
             cartService.addProductToCart(userId, productId, quantity);
-            response.sendRedirect("cart?action=list");
+            response.sendRedirect("cart?action=listByUser");
         }
 
         private void updateCartItem(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -107,19 +102,19 @@
             Long userId = (Long) request.getSession().getAttribute("userId");
 
             cartService.updateQuantity(userId, productId, quantity);
-            response.sendRedirect("cart?action=list");
+            response.sendRedirect("cart?action=listByUser");
         }
 
         private void deleteCartItem(HttpServletRequest request, HttpServletResponse response) throws IOException {
             Long userId = (Long) request.getSession().getAttribute("userId");
             Long productId = Long.parseLong(request.getParameter("productId"));
             cartService.removeItem(userId, productId);
-            response.sendRedirect("cart?action=list");
+            response.sendRedirect("cart?action=listByUser");
         }
 
         private void clearCart(HttpServletRequest request, HttpServletResponse response) throws IOException {
             Long userId = (Long) request.getSession().getAttribute("userId");
             cartService.clearCart(userId);
-            response.sendRedirect("cart?action=list");
+            response.sendRedirect("cart?action=listByUser");
         }
     }

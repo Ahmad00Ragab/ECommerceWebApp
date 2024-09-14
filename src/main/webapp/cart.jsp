@@ -130,7 +130,7 @@
                         <tr>
                             <th scope="col">Product</th>
                             <th scope="col">Price</th>
-                            <th scope="col">Quantity</th>
+                            <th scope="col">Total</th>
                             <th scope="col">Total</th>
                         </tr>
                         </thead>
@@ -171,7 +171,7 @@
                             <td>
                                 <h5>
                                     <c:forEach var="item" items="${cartItems}" varStatus="status">
-                                        ${status.index == 0 ? 0 : ''}
+<%--                                        ${status.index == 0 ? 0 : ''}--%>
                                         <c:out value="${item.product.price * item.quantity}" />
                                     </c:forEach>
                                 </h5>
