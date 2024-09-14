@@ -40,7 +40,7 @@ public class UserController extends HttpServlet {
                     showUpdateForm(req, resp);
                     break;
                 case "confirmDelete":
-                    req.getRequestDispatcher("/jsp/user/delete.jsp").forward(req, resp);
+                    deleteUser(req,resp);
                     break;
                 case "view":
                     viewUser(req, resp);

@@ -2,17 +2,13 @@ package gov.iti.jets.app;
 
 import gov.iti.jets.models.Admin;
 import gov.iti.jets.models.CartItem;
-import gov.iti.jets.models.Category;
 import gov.iti.jets.models.Product;
 import gov.iti.jets.models.User;
 import gov.iti.jets.services.AdminService;
 import gov.iti.jets.services.CartService;
 import gov.iti.jets.services.ProductService;
 import gov.iti.jets.services.UserService;
-import gov.iti.jets.util.CreateEntityManagerFactory;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.PersistenceException;
+
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -23,6 +19,7 @@ import org.mindrot.jbcrypt.BCrypt;
 
 public class App {
 public static void main(String[] args) {
+
 
 //    EntityManagerFactory emf = CreateEntityManagerFactory.getInstance();
 //    EntityManager em = emf.createEntityManager();
@@ -99,11 +96,11 @@ public static void main(String[] args) {
         LocalDateTime.now(),
         "Haroun"
     );
-    
+
     AdminService adminService = new AdminService();
     adminService.createAdmin(admin);
 
-    
+
     UserService userService = new UserService();
 
     // Create 5 user objects
@@ -133,7 +130,12 @@ public static void main(String[] args) {
     userService.save(user4);
     userService.save(user5);
 
-
+    //User user = new User("tony", "tony@gmail.com", "123", LocalDate.now(), LocalDate.now());
+//    User user = userService.findUserByUsername("tony").get();
+//    Product product = productService.findProductById(1L).get();
+//    CartItem cartItem = new CartItem(user, product, 2);
+//
+//    cartService.addProductToCart(user.getId(), product.getId(), 3);
 
     //    ProductService productService = new ProductService();
 //    CartService cartService = new CartService();
@@ -173,4 +175,5 @@ public static void main(String[] args) {
         // }
     }
 }
+
 
