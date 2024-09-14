@@ -118,7 +118,7 @@ public class App {
                 adminService.createAdmin(admin);
 
                 
-
+                
                 // Create Users with additional fields from the new User model
                 User haroun = new User("Haroun00Smith", "Haroun", "Smith", "haroun@example.com", "Password123",
                                 "USA", "New York", "5th Avenue", new BigDecimal("5000"), LocalDate.of(1990, 1, 1),

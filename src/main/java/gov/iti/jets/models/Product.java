@@ -80,6 +80,7 @@ public class Product {
         this.name = name;
     }
 
+
     public Product(String name, BigDecimal price, int stock, Category category, LocalDateTime dateCreated, LocalDateTime lastUpdated) {
         this.name = name;
         this.price = price;

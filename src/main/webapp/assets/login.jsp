@@ -28,6 +28,36 @@
 	<link rel="stylesheet" href="css/nouislider.min.css">
 	<link rel="stylesheet" href="css/bootstrap.css">
 	<link rel="stylesheet" href="css/main.css">
+	<!-- Added For Login as Admin Button  -->
+	<style>
+		.admin-login-btn {
+			display: inline-block;
+			background: #ffba00;
+			border: none;
+			color: #fff;
+			text-transform: uppercase;
+			padding: 12px 30px;
+			font-size: 14px;
+			font-weight: 600;
+			letter-spacing: 1px;
+			cursor: pointer;
+			transition: all 0.3s ease;
+			border-radius: 5px;
+			text-align: center;
+			box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
+		}
+	
+		.admin-login-btn:hover {
+			background: #ff9900;
+			box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.2);
+			transform: translateY(-3px);
+		}
+	
+		.admin-login-container {
+			text-align: center;
+			margin-top: 20px;
+		}
+	</style>
 </head>
 
 <body>
@@ -155,6 +185,10 @@
 								<a href="#">Forgot Password?</a>
 							</div>
 						</form>
+					<!-- Add "Login As Admin" Button -->
+					<div class="col-md-12 form-group admin-login-container">
+						<a href="/ECommerceWebApp/GoToAdminLogin" class="admin-login-btn">Login As Admin</a>
+					</div>
 					</div>
 				</div>
 			</div>

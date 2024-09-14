@@ -39,9 +39,9 @@ public class CustomPersistenceUnit implements PersistenceUnitInfo {
         try {
             HikariDataSource dataSource = new HikariDataSource();
             dataSource.setJdbcUrl("jdbc:mysql://localhost:3306/ecommerce");
-             dataSource.setUsername("root");
-//            dataSource.setUsername("projectUser");
-//            dataSource.setPassword("user");
+            //  dataSource.setUsername("root");
+           dataSource.setUsername("projectUser");
+           dataSource.setPassword("user");
             dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
             dataSource.setMaximumPoolSize(50);
             dataSource.setConnectionTimeout(30000);  // 30 seconds
@@ -113,7 +113,7 @@ public class CustomPersistenceUnit implements PersistenceUnitInfo {
     public  Properties getProperties() {
         Properties properties = new Properties();
         properties.setProperty(AvailableSettings.DIALECT, "org.hibernate.dialect.MySQLDialect");
-        properties.setProperty(AvailableSettings.HBM2DDL_AUTO, "none");
+        properties.setProperty(AvailableSettings.HBM2DDL_AUTO, "update");
         properties.setProperty(AvailableSettings.SHOW_SQL, "true");
         properties.setProperty(AvailableSettings.FORMAT_SQL, "true");
 
