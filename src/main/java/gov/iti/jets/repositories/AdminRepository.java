@@ -22,6 +22,8 @@ public class AdminRepository extends GenericDaoImpl<Admin> {
     public AdminRepository() {
         super(Admin.class);
     }
+
+
     public Optional<Admin> findByEmail(String email) {
         EntityManager em = null;
         try {
@@ -32,6 +34,36 @@ public class AdminRepository extends GenericDaoImpl<Admin> {
             Root<Admin> adminRoot = cq.from(Admin.class);
             Predicate emailPredicate = cb.equal(adminRoot.get("email"), email);
             cq.where(emailPredicate);
+            
+            TypedQuery<Admin> query = em.createQuery(cq);
+            
+            return Optional.ofNullable(query.getSingleResult());
+        } catch (NoResultException e) {
+            return Optional.empty();
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
+        }
+    }
+
+
+    
+    /* find Admin by Email and Passowrd  */
+    public Optional<Admin> findByEmailAndPassword(String email, String password) {
+        
+        EntityManager em = null;
+        
+        try {
+            em = emf.createEntityManager();
+            
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<Admin> cq = cb.createQuery(Admin.class);
+            Root<Admin> adminRoot = cq.from(Admin.class);
+            
+            Predicate emailPredicate = cb.equal(adminRoot.get("email"), email);
+            Predicate passwordPredicate = cb.equal(adminRoot.get("password"), password);
+            cq.where(cb.and(emailPredicate, passwordPredicate));
             
             TypedQuery<Admin> query = em.createQuery(cq);
             

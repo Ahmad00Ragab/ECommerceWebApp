@@ -24,6 +24,7 @@ import java.time.LocalDateTime;
 
 
 
+
 /* ======================================================================================== */
 /*    This is Servlet Enables the Admin to View, Add, Edit and Delete Products              */
 /* ======================================================================================== */
@@ -32,6 +33,7 @@ public class ProductController extends HttpServlet {
 
     private final ProductService productService = new ProductService();
 
+    
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
@@ -87,6 +89,7 @@ public class ProductController extends HttpServlet {
         }
     }
 
+
     private void handleCreateOrUpdate(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String productId = req.getParameter("productId");
         String name = req.getParameter("name");
@@ -102,8 +105,10 @@ public class ProductController extends HttpServlet {
             return;
         }
 
+
         String categoryId = req.getParameter("category");
 
+        
         if (categoryId == null || categoryId.isEmpty()) {
             req.setAttribute("error", "Please select a valid category.");
             req.getRequestDispatcher("WEB-INF/views/admin/admin-panel.jsp").forward(req, resp);

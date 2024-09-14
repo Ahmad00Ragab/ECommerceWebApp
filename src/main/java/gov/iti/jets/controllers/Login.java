@@ -43,7 +43,7 @@ public class Login extends HttpServlet {
         } catch (Exception e) {
             // Set error message as an attribute and forward it to the login JSP page
             request.setAttribute("errorMessage", "Login Unauthorized!");
-            request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/login.html").forward(request, response);
         }
     }
 }

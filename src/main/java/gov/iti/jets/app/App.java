@@ -1,9 +1,11 @@
 package gov.iti.jets.app;
 
+import gov.iti.jets.models.Admin;
 import gov.iti.jets.models.CartItem;
 import gov.iti.jets.models.Category;
 import gov.iti.jets.models.Product;
 import gov.iti.jets.models.User;
+import gov.iti.jets.services.AdminService;
 import gov.iti.jets.services.CartService;
 import gov.iti.jets.services.ProductService;
 import gov.iti.jets.services.UserService;
@@ -13,8 +15,10 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceException;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
+import org.mindrot.jbcrypt.BCrypt;
 
 
 public class App {
@@ -83,12 +87,53 @@ public static void main(String[] args) {
 //        }
 //
 //    }
+
+
+
+    // Create an Admin
+    Admin admin = new Admin(
+        "Haroun",
+        "haroun@gmail.com",
+        "1234", // Encrypt the password
+        LocalDateTime.now(),
+        LocalDateTime.now(),
+        "Haroun"
+    );
+    
+    AdminService adminService = new AdminService();
+    adminService.createAdmin(admin);
+
+    
     UserService userService = new UserService();
 
-    Set<User> users = userService.findAll();
-    for (User user : users) {
-        System.out.println(user);
-    }
+    // Create 5 user objects
+    User user1 = new User("john_doe", "John", "Doe", "john.doe@gmail.com", "Password123",
+            "USA", "New York", "5th Ave", new BigDecimal("5000.00"),
+            LocalDate.of(1985, 10, 10), "1234567890", LocalDate.now(), LocalDate.now());
+
+    User user2 = new User("jane_smith", "Jane", "Smith", "jane.smith@outlook.com", "Password456",
+            "UK", "London", "Oxford Street", new BigDecimal("3000.00"),
+            LocalDate.of(1990, 3, 15), "0987654321", LocalDate.now(), LocalDate.now());
+
+    User user3 = new User("mike_brown", "Mike", "Brown", "mike.brown@gmail.com", "Password789",
+            "Canada", "Toronto", "Bloor Street", new BigDecimal("4000.00"),
+            LocalDate.of(1988, 7, 22), "1112223333", LocalDate.now(), LocalDate.now());
+
+    User user4 = new User("susan_clark", "Susan", "Clark", "susan.clark@outlook.com", "Password101",
+            "Australia", "Sydney", "George Street", new BigDecimal("3500.00"),
+            LocalDate.of(1995, 5, 12), "2223334444", LocalDate.now(), LocalDate.now());
+
+    User user5 = new User("dan_lee", "Dan", "Lee", "dan.lee@gmail.com", "Password202",
+            "USA", "San Francisco", "Market Street", new BigDecimal("4500.00"),
+            LocalDate.of(1992, 8, 5), "3334445555", LocalDate.now(), LocalDate.now());
+
+    userService.save(user1);
+    userService.save(user2);
+    userService.save(user3);
+    userService.save(user4);
+    userService.save(user5);
+
+
 
     //    ProductService productService = new ProductService();
 //    CartService cartService = new CartService();
