@@ -7,9 +7,10 @@ import gov.iti.jets.repositories.UserRepository;
 import gov.iti.jets.system.exceptions.ObjectNotFoundException;
 import gov.iti.jets.system.exceptions.ValidationException;
 import gov.iti.jets.system.utils.encryption.PasswordEncryptionUtil;
-import gov.iti.jets.util.validators.UserValidator;
+import gov.iti.jets.system.utils.validators.UserValidator;
 import org.mindrot.jbcrypt.BCrypt;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -42,6 +43,17 @@ public class UserService {
                 .orElseThrow(() -> new ObjectNotFoundException("user", userId));
         this.userRepository.delete(userId);
         return true;
+    }
+
+    public void changePassword(User user, String oldPassword, String newPassword) {
+        List<String> validationErrors = userValidator.validateChangePassword(user, oldPassword, newPassword); // Call the validatePassword() // Call the validateUserInput
+
+        if (!validationErrors.isEmpty()) {
+            throw new ValidationException(validationErrors); // Custom exception for validation failures
+        }
+
+        user.setPassword(PasswordEncryptionUtil.encryptPassword(newPassword));
+        userRepository.update(user);
     }
 
     public User update(Long userId, User user) {
@@ -89,8 +101,6 @@ public class UserService {
         return Optional.ofNullable(this.userRepository.findByEmail(email)
                 .orElseThrow(() -> new ObjectNotFoundException("user", email)));
     }
-
-
 
     // Login
     public Optional<User> login(String email, String password) {

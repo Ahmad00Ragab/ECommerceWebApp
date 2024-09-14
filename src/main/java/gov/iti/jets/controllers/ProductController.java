@@ -1,14 +1,8 @@
 package gov.iti.jets.controllers;
 
-import com.google.gson.Gson;
-
 import gov.iti.jets.repositories.CategoryRepository;
 import gov.iti.jets.services.CategoryService;
 import gov.iti.jets.services.ProductService;
-import gov.iti.jets.util.CreateEntityManagerFactory;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.PersistenceException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

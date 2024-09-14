@@ -5,7 +5,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import java.util.Optional;
-import gov.iti.jets.genericDao.GenericDaoImpl;
+import gov.iti.jets.repositories.genericDao.GenericDaoImpl;
 import gov.iti.jets.models.Admin;
 import jakarta.persistence.criteria.*;
 

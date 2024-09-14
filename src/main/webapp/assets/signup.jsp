@@ -67,7 +67,7 @@
 							<a href="#" class="profile"><span class="lnr lnr-user"></span></a>
 							<ul class="dropdown-menu">
 								<li class="nav-item"><a class="nav-link" href="login.jsp">Login</a></li>
-								<li class="nav-item"><a class="nav-link" href="../My-Account.jsp">My Account</a></li>
+								<li class="nav-item"><a class="nav-link" href="/ECommerceWebApp/assets/userAcc">My Account</a></li>
 							</ul>
 						</li>
 					</ul>
@@ -80,7 +80,7 @@
 
 <div class="wrapper" style="background-image: url('img/img.png');">
 	<div class="inner">
-		<form action="../../ECommerceWebApp/register" method="post">
+		<form action="../../ECommerceWebApp/assets/register" method="post">
 			<h3>Sign Up</h3>
 
 			<!-- First and Last Name Fields -->

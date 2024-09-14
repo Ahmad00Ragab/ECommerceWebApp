@@ -1,19 +1,12 @@
 package gov.iti.jets.app;
 
 import gov.iti.jets.models.CartItem;
-import gov.iti.jets.models.Category;
 import gov.iti.jets.models.Product;
 import gov.iti.jets.models.User;
 import gov.iti.jets.services.CartService;
 import gov.iti.jets.services.ProductService;
 import gov.iti.jets.services.UserService;
-import gov.iti.jets.util.CreateEntityManagerFactory;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.PersistenceException;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.Set;
 
 

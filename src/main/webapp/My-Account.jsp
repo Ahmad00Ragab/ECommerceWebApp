@@ -1,116 +1,223 @@
+<%@ page import="java.time.LocalDate" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="gov.iti.jets.models.User" %>
+<%
+    // Get the user object from the request
+    User user = (User) request.getAttribute("user");
+%>
+<%--<form  action="update" method="post" id="profileForm">--%>
+<%--    <input type="hidden" name="id" value="<%=user.getId()%>" />--%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Account</title>
-    <!-- Bootstrap CSS -->
+    <title>Account Settings</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            padding: 20px;
+            margin: 0;
+            padding-top: 40px;
+            color: #2e323c;
+            background: #f5f6fa;
+            position: relative;
+            height: 100%;
         }
-        .container {
-            max-width: 800px;
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        .account-settings .user-profile {
+            margin: 0 0 1rem 0;
+            padding-bottom: 1rem;
+            text-align: center;
         }
-        .form-group label {
-            font-weight: bold;
+        .account-settings .user-profile .user-avatar {
+            margin: 0 0 1rem 0;
         }
-        fieldset {
-            margin-bottom: 20px;
+        .account-settings .user-profile .user-avatar img {
+            width: 90px;
+            height: 90px;
+            border-radius: 100px;
         }
-        legend {
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            font-weight: bold;
+        .account-settings .user-profile h5.user-name {
+            margin: 0 0 0.5rem 0;
         }
-        .btn-custom {
-            background-color: #ffc107;
-            border-color: #ffc107;
-            color: white;
+        .account-settings .user-profile h6.user-email {
+            margin: 0;
+            font-size: 0.8rem;
+            font-weight: 400;
+            color: #9fa8b9;
         }
-        .btn-custom:hover {
-            background-color: #e0a800;
-            border-color: #e0a800;
+        .form-control {
+            border: 1px solid #cfd1d8;
+            border-radius: 2px;
+            font-size: .825rem;
+            background: #ffffff;
+            color: #2e323c;
+        }
+        .card {
+            background: #ffffff;
+            border-radius: 5px;
+            border: 0;
+            margin-bottom: 1rem;
         }
     </style>
 </head>
 <body>
-<div class="container mt-5">
-    <h1 class="mb-4">My Account</h1>
-    <form action="/update-account" method="POST">
-        <!-- Personal Information -->
-        <fieldset>
-            <legend>Personal Information</legend>
-            <div class="mb-3">
-                <label for="first-name" class="form-label">First Name</label>
-                <input type="text" class="form-control" id="first-name" name="first_name" value="John" required>
-            </div>
-            <div class="mb-3">
-                <label for="last-name" class="form-label">Last Name</label>
-                <input type="text" class="form-control" id="last-name" name="last_name" value="Doe" required>
-            </div>
-            <div class="mb-3">
-                <label for="username" class="form-label">Username</label>
-                <input type="text" class="form-control" id="username" name="username" value="johndoe123" required>
-            </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" name="email" value="john.doe@example.com" required>
-            </div>
-            <div class="mb-3">
-                <label for="birthdate" class="form-label">Birthdate</label>
-                <input type="date" class="form-control" id="birthdate" name="birthdate" value="1990-01-01" required>
-            </div>
-            <div class="mb-3">
-                <label for="credit-limit" class="form-label">Credit Limit</label>
-                <input type="number" class="form-control" id="credit-limit" name="credit_limit" step="0.01" value="5000.00" required>
-            </div>
-            <div class="mb-3">
-                <label for="country" class="form-label">Country</label>
-                <input type="text" class="form-control" id="country" name="country" value="USA" required>
-            </div>
-            <div class="mb-3">
-                <label for="city" class="form-label">City</label>
-                <input type="text" class="form-control" id="city" name="city" value="New York" required>
-            </div>
-            <div class="mb-3">
-                <label for="street" class="form-label">Street</label>
-                <input type="text" class="form-control" id="street" name="street" value="123 Main St" required>
-            </div>
-            <div class="mb-3">
-                <label for="phone" class="form-label">Phone</label>
-                <input type="tel" class="form-control" id="phone" name="phone" value="+1-234-567-8901" required>
-            </div>
-        </fieldset>
 
-        <!-- Password Update -->
-        <fieldset>
-            <legend>Update Password</legend>
-            <div class="mb-3">
-                <label for="current-password" class="form-label">Current Password</label>
-                <input type="password" class="form-control" id="current-password" name="current_password" required>
+<div class="container">
+    <div class="row gutters">
+        <!-- Profile Section -->
+        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="account-settings">
+                        <div class="user-profile">
+                            <div class="user-avatar">
+                                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="User Avatar">
+                            </div>
+                            <!-- Display Username and Email (Fetched from database) -->
+                            <h5 class="user-name">${user.getUsername()}</h5>
+                            <h6 class="user-email">${user.getEmail()}</h6>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="new-password" class="form-label">New Password</label>
-                <input type="password" class="form-control" id="new-password" name="new_password" required>
-            </div>
-        </fieldset>
-
-        <!-- Submit Button -->
-        <div class="d-grid">
-            <button type="submit" class="btn btn-custom">Update Account</button>
         </div>
-    </form>
+
+        <!-- Editable Personal Details Form Section -->
+        <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+            <div class="card h-100">
+                <div class="card-body">
+                    <form action="/ECommerceWebApp/assets/userAcc?action=update" method="POST">
+                        <div class="row gutters">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <h6 class="mb-2 text-primary">Personal Details</h6>
+                            </div>
+
+                            <!-- First Name and Last Name -->
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="firstName">First Name</label>
+                                    <input type="text" class="form-control" id="firstName" name="firstname" value="<%=user.getFirstName() %>">
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="lastName">Last Name</label>
+                                    <input type="text" class="form-control" id="lastName" name="lastname" value="<%=user.getLastName() %>">
+                                </div>
+                            </div>
+
+                            <!-- Date of Birth -->
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="birthdate">Date of Birth</label>
+                                    <input type="date" class="form-control" id="birthdate" name="birthdate" value="<%=user.getBirthdate() %>">
+                                </div>
+                            </div>
+
+                            <!-- Credit Limit -->
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="creditLimit">Credit Limit</label>
+                                    <input type="text" class="form-control" id="creditLimit" name="creditlimit" value="<%=user.getCreditLimit() %>">
+                                </div>
+                            </div>
+
+                            <!-- Country, City, Street, Phone -->
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="country">Country</label>
+                                    <input type="text" class="form-control" id="country" name="country" value="<%=user.getCountry() %>">
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="city">City</label>
+                                    <input type="text" class="form-control" id="city" name="city" value="<%=user.getCity() %>">
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="street">Street</label>
+                                    <input type="text" class="form-control" id="street" name="street" value="<%=user.getStreet() %>" >
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="phone">Phone</label>
+                                    <input type="text" class="form-control" id="phone" name="phone" value="<%=user.getPhone() %>">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Form Buttons -->
+                        <div class="row gutters">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <div class="text-right">
+                                    <button type="submit" class="btn btn-primary">Update Profile</button>
+                                    <button type="reset" class="btn btn-secondary">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Separate Password Form Section -->
+        <!-- Separate Password Form Section -->
+        <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12 mt-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <form action="/ECommerceWebApp/assets/userAcc?action=changePassword" method="POST">
+                        <div class="row gutters">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <h6 class="mb-2 text-primary">Change Password</h6>
+                            </div>
+
+                            <!-- Old Password Input -->
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="oldPassword">Old Password</label>
+                                    <input type="password" class="form-control" id="oldPassword" name="oldPassword" placeholder="Enter old password">
+                                </div>
+                            </div>
+
+                            <!-- New Password Input -->
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="password">New Password</label>
+                                    <input type="password" class="form-control" id="password" name="newPassword" placeholder="Enter new password">
+                                </div>
+                            </div>
+
+                            <!-- Confirm Password Input -->
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="confirmPassword">Confirm New Password</label>
+                                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm new password">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Form Buttons for Password Change -->
+                        <div class="row gutters">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <div class="text-right">
+                                    <button type="submit" class="btn btn-primary">Update Password</button>
+                                    <button type="reset" class="btn btn-secondary">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

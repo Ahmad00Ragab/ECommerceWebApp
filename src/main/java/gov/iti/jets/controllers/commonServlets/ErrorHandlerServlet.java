@@ -1,4 +1,4 @@
-package gov.iti.jets.commonServlets;
+package gov.iti.jets.controllers.commonServlets;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;

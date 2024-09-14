@@ -1,6 +1,6 @@
 package gov.iti.jets.repositories;
 
-import gov.iti.jets.genericDao.GenericDaoImpl;
+import gov.iti.jets.repositories.genericDao.GenericDaoImpl;
 import gov.iti.jets.models.Category;
 import gov.iti.jets.models.Product;
 import jakarta.persistence.EntityManager;

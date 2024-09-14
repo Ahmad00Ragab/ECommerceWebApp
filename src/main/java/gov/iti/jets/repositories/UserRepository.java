@@ -1,14 +1,11 @@
 package gov.iti.jets.repositories;
 
-import gov.iti.jets.genericDao.GenericDaoImpl;
-import gov.iti.jets.models.CartItem;
+import gov.iti.jets.repositories.genericDao.GenericDaoImpl;
 import gov.iti.jets.models.Category;
 import gov.iti.jets.models.Product;
 import gov.iti.jets.models.User;
 import gov.iti.jets.system.exceptions.ObjectNotFoundException;
-import gov.iti.jets.util.CreateEntityManagerFactory;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;

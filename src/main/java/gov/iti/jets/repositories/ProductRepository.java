@@ -1,7 +1,7 @@
 package gov.iti.jets.repositories;
 
 import gov.iti.jets.dtos.ProductDto;
-import gov.iti.jets.genericDao.GenericDaoImpl;
+import gov.iti.jets.repositories.genericDao.GenericDaoImpl;
 import gov.iti.jets.models.Category;
 import gov.iti.jets.models.Product;
 import jakarta.persistence.EntityManager;
@@ -11,7 +11,6 @@ import jakarta.persistence.criteria.*;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 

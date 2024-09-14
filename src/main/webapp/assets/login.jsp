@@ -72,7 +72,7 @@
 								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
 								 aria-expanded="false">Pages</a>
 								<ul class="dropdown-menu">
-									<li class="nav-item active"><a class="nav-link" href="login.html">Login</a></li>
+									<li class="nav-item active"><a class="nav-link" href="#">Login</a></li>
 									<li class="nav-item"><a class="nav-link" href="tracking.html">Tracking</a></li>
 									<li class="nav-item"><a class="nav-link" href="elements.html">Elements</a></li>
 								</ul>
@@ -84,8 +84,8 @@
 							<li class="nav-item dropdown">
 								<a href="#" class="profile"><span class="lnr lnr-user"></span></a>
 								<ul class="dropdown-menu">
-									<li class="nav-item"><a class="nav-link" href="assets/login.jsp">Login</a></li>
-									<li class="nav-item"><a class="nav-link" href="../My-Account.jsp">My Account</a></li>
+									<li class="nav-item"><a class="nav-link" href="#">Login</a></li>
+									<li class="nav-item"><a class="nav-link" href="/ECommerceWebApp/assets/userAcc">My Account</a></li>
 								</ul>
 							</li>
 						</ul>
@@ -130,14 +130,14 @@
 						<div class="hover">
 							<h4>New to our website?</h4>
 							<p>There are advances being made in science and technology everyday, and a good example of this is the</p>
-							<a class="primary-btn" href="signup.jsp">Create an Account</a>
+							<a class="primary-btn" href="/ECommerceWebApp/assets/register">Create an Account</a>
 						</div>
 					</div>
 				</div>
 				<div class="col-lg-6">
 					<div class="login_form_inner">
 						<h3>Log in to enter</h3>
-						<form class="row login_form" action="/ECommerceWebApp/login" method="POST" id="loginForm" novalidate="novalidate">
+						<form class="row login_form" action="/ECommerceWebApp/assets/login" method="POST" id="loginForm" novalidate="novalidate">
 							<div class="col-md-12 form-group">
 								<input type="text" class="form-control" id="email" name="email" placeholder="Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'email@gmail.com'">
 							</div>
@@ -181,7 +181,7 @@
 						<p>Stay update with our latest</p>
 						<div class="" id="mc_embed_signup">
 
-							<form target="_blank" novalidate="true" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
+							<form target="_blank" novalidate="" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
 							 method="get" class="form-inline">
 
 								<div class="d-flex flex-row">
