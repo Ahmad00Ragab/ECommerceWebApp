@@ -15,6 +15,7 @@ import gov.iti.jets.system.utils.validators.UserValidator;
 import org.hibernate.Hibernate;
 import org.mindrot.jbcrypt.BCrypt;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -23,7 +24,6 @@ import java.util.stream.Collectors;
 public class UserService {
     UserRepository userRepository;
     UserValidator userValidator;
-
     public UserService() {
         userRepository = new UserRepository();
         userValidator = new UserValidator();
@@ -34,10 +34,8 @@ public class UserService {
                 .orElseThrow(() -> new ObjectNotFoundException(username)));
     }
 
-    
     public User save(User user) {
         user.setPassword(PasswordEncryptionUtil.encryptPassword(user.getPassword()));
-        user.setVerificationCode(EmailStatus.VERIFIED);
         return userRepository.save(user);
     }
 
@@ -53,13 +51,23 @@ public class UserService {
         return true;
     }
 
+    public void changePassword(User user, String oldPassword, String newPassword) {
+        List<String> validationErrors = userValidator.validateChangePassword(user, oldPassword, newPassword); // Call the validatePassword() // Call the validateUserInput
+
+        if (!validationErrors.isEmpty()) {
+            throw new ValidationException(validationErrors); // Custom exception for validation failures
+        }
+
+        user.setPassword(PasswordEncryptionUtil.encryptPassword(newPassword));
+        userRepository.update(user);
+    }
+
     public User update(Long userId, User user) {
         // Find the user in the repository
         User foundUser = this.userRepository.findById(userId)
                 .orElseThrow(() -> new ObjectNotFoundException("user", userId));
 
-        // Perform validation at the service layer
-        List<String> validationErrors = createUserValidation(user);
+        List<String> validationErrors = validateUserInput(user); // Call the validateUserInput
 
         if (!validationErrors.isEmpty()) {
             throw new ValidationException(validationErrors); // Custom exception for validation failures
@@ -83,6 +91,13 @@ public class UserService {
 
         // Save the updated user
         return userRepository.update(foundUser);
+    }
+
+    public List<String> validateUserInput(User user) {
+        // Perform validation at the service layer
+        List<String> validationErrors = createUserValidation(user);
+
+        return validationErrors;
     }
 
     public Set<User> findAll() {
@@ -117,6 +132,18 @@ public class UserService {
     // Exists
     public boolean existsById(Long userId) {
         return userRepository.existsById(userId);
+    }
+
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    public boolean existsByPhoneNumber(String phoneNumber) {
+        return userRepository.existsByPhoneNumber(phoneNumber);
+    }
+
+    public boolean existsByUsername(String username) {
+        return userRepository.existsByUsername(username);
     }
 
 

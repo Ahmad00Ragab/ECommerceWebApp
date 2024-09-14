@@ -1,6 +1,5 @@
 package gov.iti.jets.system.persistence;
 
-import gov.iti.jets.system.persistence.CustomPersistenceUnit;
 import jakarta.persistence.EntityManagerFactory;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 

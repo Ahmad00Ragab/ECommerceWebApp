@@ -1,4 +1,4 @@
-package gov.iti.jets.app;
+    package gov.iti.jets.app;
 
 import gov.iti.jets.models.Admin;
 import gov.iti.jets.models.CartItem;
@@ -202,17 +202,12 @@ public class App {
                 orderService.createOrder(order4);
                 orderService.createOrder(order5);
 
-
-                // ProductService productService = new ProductService();
-                // CartService cartService = new CartService();
+                //User user = new User("tony", "tony@gmail.com", "123", LocalDate.now(), LocalDate.now());
+                //    User user = userService.findUserByUsername("tony").get();
+                //    Product product = productService.findProductById(1L).get();
+                //    CartItem cartItem = new CartItem(user, product, 2);
                 //
-                // //User user = new User("tony", "tony@gmail.com", "123", LocalDate.now(),
-                // LocalDate.now());
-                // User user = userService.findUserByUsername("tony").get();
-                // Product product = productService.findProductById(1L);
-                // CartItem cartItem = new CartItem(user, product, 2);
-                //
-                // cartService.addProductToCart(user.getId(), product.getId(), 2);
+                //    cartService.addProductToCart(user.getId(), product.getId(), 3);
 
                 // System.out.println(userService.save(user));
 

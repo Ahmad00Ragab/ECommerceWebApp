@@ -52,7 +52,7 @@ public class ProductController extends HttpServlet {
                 req.setAttribute("product", product.get());
 
                 /* Fetch and set categories */
-                CategoryService categoryService = new CategoryService(new CategoryRepository(Category.class));
+                CategoryService categoryService = new CategoryService();
                 Set<Category> categories = categoryService.findAllCategories();
                 req.setAttribute("categories", categories);
 
@@ -66,7 +66,7 @@ public class ProductController extends HttpServlet {
             req.setAttribute("productList", products);
 
             /* Fetch and set categories */
-            CategoryService categoryService = new CategoryService(new CategoryRepository(Category.class));
+            CategoryService categoryService = new CategoryService();
             Set<Category> categories = categoryService.findAllCategories();
             req.setAttribute("categories", categories);
 
@@ -115,7 +115,7 @@ public class ProductController extends HttpServlet {
             return;
         }
 
-        CategoryRepository categoryRepository = new CategoryRepository(Category.class);
+        CategoryRepository categoryRepository = new CategoryRepository();
         Category category = categoryRepository.findById(Long.parseLong(categoryId))
                 .orElseThrow(() -> new IllegalArgumentException("Invalid category ID"));
 
@@ -129,7 +129,7 @@ public class ProductController extends HttpServlet {
             product.setId(Long.parseLong(productId));
             productService.updateProduct(product);
         }
-        
+
         resp.sendRedirect("ProductController");
     }
 }

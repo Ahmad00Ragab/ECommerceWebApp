@@ -1,6 +1,9 @@
 package gov.iti.jets.system.utils.validators;
 
 import gov.iti.jets.models.User;
+import gov.iti.jets.system.exceptions.ValidationException;
+import org.mindrot.jbcrypt.BCrypt;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +75,22 @@ public class UserValidator {
         return password.length() >= 6;  // Adjust complexity requirements if needed
     }
 
+    public List<String> validateChangePassword(User user, String oldPassword, String newPassword) {
+        List<String> errors = new ArrayList<>();
+        if(oldPassword == null || oldPassword.isEmpty() || newPassword == null || newPassword.isEmpty()){
+           errors.add("Old password and new password cannot be empty");
+           return errors;
+        }
+        if (!BCrypt.checkpw(oldPassword, user.getPassword())) {
+            errors.add("Old password is incorrect.");
+            return errors;
+        }
+
+            if (!validatePassword(newPassword)) {
+            errors.add("Invalid password: must be at least 6 characters long.");
+        }
+        return errors;
+    }
     // Credit limit validation
     private boolean validateCreditLimit(BigDecimal creditLimit) {
         return creditLimit.compareTo(BigDecimal.ZERO) > 0;

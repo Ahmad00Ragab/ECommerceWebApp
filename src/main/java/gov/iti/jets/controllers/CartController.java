@@ -30,13 +30,13 @@ public class CartController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        Long userId = (Long)request.getSession().getAttribute("id");
+        Long userId = (Long)request.getSession().getAttribute("userId");
 
-//        if (userId == null) {
-//            request.setAttribute("error", "User not logged in");
-//            request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
-//            return;
-//        }
+        if (userId == null) {
+            request.setAttribute("error", "User not logged in");
+            request.getRequestDispatcher("/assets/login").include(request, response);
+            return;
+        }
 
         String action = request.getParameter("action");
         if (action == null) action = "list";
@@ -44,6 +44,9 @@ public class CartController extends HttpServlet {
         switch (action) {
             case "delete":
                 deleteCartItem(request, response);
+                break;
+            case "add":
+                saveCartItem(request, response);
                 break;
             case "update":
                 updateCartItem(request, response);
@@ -92,12 +95,14 @@ public class CartController extends HttpServlet {
     }
 
     private void saveCartItem(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        int quantity = Integer.parseInt(request.getParameter("quantity"));
         Long productId = Long.parseLong(request.getParameter("productId"));
         Long userId = (Long)request.getSession().getAttribute("userId");
+        int quantity = 1;
 
         cartService.addProductToCart(userId, productId, quantity);
-        response.sendRedirect("cart?action=list");
+
+
+        // send message to client (product added)
     }
 
     private void updateCartItem(HttpServletRequest request, HttpServletResponse response) throws IOException {

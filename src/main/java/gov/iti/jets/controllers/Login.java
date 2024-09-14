@@ -17,11 +17,16 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 
-@WebServlet("/login")
+@WebServlet("/assets/login")
 public class Login extends HttpServlet {
 
     private UserService userService = new UserService();
     private CartService cartService = new CartService();
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("/assets/login.jsp").forward(request, response);
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -32,18 +37,17 @@ public class Login extends HttpServlet {
             Optional<User> user = userService.login(email, password);
             System.out.println(user.get().getUsername());
             log(user.get().getUsername());
-            request.getSession().setAttribute("id", user.get().getId());
+            request.getSession().setAttribute("userId", user.get().getId());
 
-            // Load cart items for the user bgrb yro7 3al cart 3ashan kont bgrbha bel marra
-            Set<CartItem> cartItems = cartService.findCartByUserId(user.get().getId());
-            request.getSession().setAttribute("cartItems", cartItems);
+//            // Load cart items for the user bgrb yro7 3al cart 3ashan kont bgrbha bel marra
+//            Set<CartItem> cartItems = cartService.findCartByUserId(user.get().getId());
+//            request.getSession().setAttribute("cartItems", cartItems);
 
-            // Redirect to the cart page after successful login
-            response.sendRedirect(request.getContextPath() + "/jsp/cart/cartItemList.jsp");
+            response.sendRedirect(request.getContextPath() + "/index.jsp");
         } catch (Exception e) {
             // Set error message as an attribute and forward it to the login JSP page
             request.setAttribute("errorMessage", "Login Unauthorized!");
-            request.getRequestDispatcher("/WEB-INF/login.html").forward(request, response);
+            request.getRequestDispatcher("/assets/login.jsp").forward(request, response);
         }
     }
 }
