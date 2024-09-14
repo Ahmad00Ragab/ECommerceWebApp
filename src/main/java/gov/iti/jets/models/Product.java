@@ -33,10 +33,10 @@ public class Product {
     @Column(nullable = false)
     private int stock;
 
-    @Column(name ="shoe_color", nullable = false)
+    @Column(name ="shoe_color", nullable = true)
     private String shoeColor;
 
-    @Column(name ="shoe_size", nullable = false)
+    @Column(name ="shoe_size", nullable = true)
     private String shoeSize;
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
@@ -47,10 +47,10 @@ public class Product {
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
-    @Column(name = "date_created", nullable = false)
+    @Column(name = "date_created", nullable = true)
     private LocalDateTime dateCreated;
 
-    @Column(name = "last_updated", nullable = false)
+    @Column(name = "last_updated", nullable = true)
     private LocalDateTime lastUpdated;
 
     @Column(name = "created_by")

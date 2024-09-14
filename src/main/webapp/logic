@@ -1,7 +1,14 @@
 1- -> shop .. add to cart -> login
-2- -> shop .. add to cart while logged in -> put item in cart in database
+2- -> shop .. add to cart while logged in -> put item in cart in database ---- done
 
 -------------------------------------------
 
+1- press on checkout button go to the checkout servlet and get cart by id from database
 
+2- check all items for stock availability
 
+3- check user credit limit
+
+transaction begin
+4- if done update products in database clear cart and
+transaction end

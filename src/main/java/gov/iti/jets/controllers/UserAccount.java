@@ -15,7 +15,7 @@ import java.time.LocalDate;
 
 import java.util.Optional;
 
-@WebServlet(value = "/assets/userAcc")
+@WebServlet(value = "/userAcc")
 public class UserAccount extends HttpServlet {
 
     UserService userService = new UserService();
@@ -65,7 +65,7 @@ public class UserAccount extends HttpServlet {
             req.getRequestDispatcher("../My-Account.jsp").forward(req, resp);
         } else {
             req.setAttribute("error", "User not found.");
-            req.getRequestDispatcher("/assets/login").include(req, resp);
+            req.getRequestDispatcher("/login").include(req, resp);
         }
     }
 

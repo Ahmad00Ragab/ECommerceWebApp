@@ -33,27 +33,28 @@
 
   <servlet-mapping>
     <servlet-name>default</servlet-name>
-    <url-pattern>/assets/*</url-pattern>
+    <url-pattern>/css/main/</url-pattern>
   </servlet-mapping>
 
   <servlet-mapping>
     <servlet-name>default</servlet-name>
-    <url-pattern>/assets/img/*</url-pattern>
+    <url-pattern>/img/*</url-pattern>
   </servlet-mapping>
 
   <servlet-mapping>
     <servlet-name>default</servlet-name>
-    <url-pattern>/assets/js/*</url-pattern>
+    <url-pattern>/js/*</url-pattern>
   </servlet-mapping>
 
   <servlet-mapping>
     <servlet-name>default</servlet-name>
-    <url-pattern>/assets/css/*</url-pattern>
+    <url-pattern>/fonts/*</url-pattern>
   </servlet-mapping>
+
 
   <servlet-mapping>
     <servlet-name>default</servlet-name>
-    <url-pattern>/assets/scss/*</url-pattern>
+    <url-pattern>/scss/*</url-pattern>
   </servlet-mapping>
 
 

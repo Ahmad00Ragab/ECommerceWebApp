@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 
-@WebServlet("/assets/login")
+@WebServlet("/login")
 public class Login extends HttpServlet {
 
     private UserService userService = new UserService();
@@ -25,7 +25,7 @@ public class Login extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/assets/login.jsp").forward(request, response);
+        request.getRequestDispatcher("/login.jsp").forward(request, response);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class Login extends HttpServlet {
         } catch (Exception e) {
             // Set error message as an attribute and forward it to the login JSP page
             request.setAttribute("errorMessage", "Login Unauthorized!");
-            request.getRequestDispatcher("/assets/login.jsp").forward(request, response);
+            request.getRequestDispatcher("/login.jsp").forward(request, response);
         }
     }
 }
