@@ -117,14 +117,7 @@ public class ProductService {
 
   /*
 
-    public Set<ProductDto> findProductByNameUsingProductDTO(String name, int pageNumber, int pageSize) {
-       return productRepository.findProductByNameUsingProductDTO(name, pageNumber,pageSize);
-    }
 
-
-    public int countByName(String name) {
-        return productRepository.countProductsByName(name);
-    }
 
     public int countProductsByCategory(String category) {
        return productRepository.countProductsByCategory(category);
@@ -159,5 +152,14 @@ public class ProductService {
         } catch (NumberFormatException e) {
             return null;
         }
+    }
+
+
+    public Set<ProductDto> findProductByNameUsingProductDTO(String name, int pageNumber, int pageSize) {
+        return productRepository.findProductByNameUsingProductDTO(name, pageNumber,pageSize);
+    }
+
+     public int countProductByName(String name) {
+        return productRepository.countProductsByName(name);
     }
 }

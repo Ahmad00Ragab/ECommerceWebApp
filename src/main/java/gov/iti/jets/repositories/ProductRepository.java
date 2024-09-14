@@ -106,37 +106,6 @@ public class ProductRepository extends GenericDaoImpl<Product>{
 
 
 
-    public Set<ProductDto> findProductByNameUsingProductDTO(String name, int pageNumber, int pageSize) {
-        EntityManager em = null;
-        try {
-            em = emf.createEntityManager();
-
-            CriteriaBuilder cb = em.getCriteriaBuilder();
-            CriteriaQuery<ProductDto> cq = cb.createQuery(ProductDto.class);
-            Root<Product> productRoot = cq.from(Product.class);
-
-            cq.select(cb.construct(ProductDto.class,
-                    productRoot.get("id"),
-                    productRoot.get("name"),
-                    productRoot.get("description"),
-                    productRoot.get("imageUrl"),
-                    productRoot.get("price")
-            ));
-
-            cq.where(cb.like(cb.lower(productRoot.get("name")), "%" + name.toLowerCase() + "%"));
-
-            TypedQuery<ProductDto> query = em.createQuery(cq);
-
-            query.setFirstResult((pageNumber - 1) * pageSize);
-            query.setMaxResults(pageSize);
-
-            return new HashSet<>(query.getResultList());
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
-    }
 
     public Set<ProductDto> sortProductsByCategoryAndPriceUsingProductDTO(String category, int pageNumber, int pageSize) {
         EntityManager em = null;
@@ -174,6 +143,43 @@ public class ProductRepository extends GenericDaoImpl<Product>{
 
 
    */
+
+
+    public Set<ProductDto> findProductByNameUsingProductDTO(String name, int pageNumber, int pageSize) {
+        EntityManager em = null;
+        try {
+            em = emf.createEntityManager();
+
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<ProductDto> cq = cb.createQuery(ProductDto.class);
+            Root<Product> productRoot = cq.from(Product.class);
+
+            cq.select(cb.construct(ProductDto.class,
+                    productRoot.get("id"),
+                    productRoot.get("name"),
+                    productRoot.get("description"),
+                    productRoot.get("imageUrl"),
+                    productRoot.get("price")
+            ));
+
+            cq.where(cb.like(cb.lower(productRoot.get("name")), "%" + name.toLowerCase() + "%"));
+
+            TypedQuery<ProductDto> query = em.createQuery(cq);
+
+            query.setFirstResult((pageNumber - 1) * pageSize);
+            query.setMaxResults(pageSize);
+
+            return new HashSet<>(query.getResultList());
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+    }
+
+
+
+
 
 
     public Set<ProductDto> filterProducts(String category, String size, String color,

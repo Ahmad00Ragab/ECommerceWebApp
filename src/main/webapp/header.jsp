@@ -22,7 +22,6 @@
 								<li class="nav-item"><a class="nav-link" href="single-product.jsp">Product Details</a></li>
 								<li class="nav-item"><a class="nav-link" href="checkout.jsp">Product Checkout</a></li>
 								<li class="nav-item"><a class="nav-link" href="cart.jsp">Shopping Cart</a></li>
-								<li class="nav-item"><a class="nav-link" href="confirmation.jsp">Confirmation</a></li>
 							</ul>
 						</li>
 						<li class="nav-item submenu dropdown">
@@ -30,7 +29,6 @@
 							   aria-expanded="false">Blog</a>
 							<ul class="dropdown-menu">
 								<li class="nav-item"><a class="nav-link" href="blog.jsp">Blog</a></li>
-								<li class="nav-item"><a class="nav-link" href="single-blog.jsp">Blog Details</a></li>
 							</ul>
 						</li>
 						<li class="nav-item submenu dropdown">
@@ -38,8 +36,6 @@
 							   aria-expanded="false">Pages</a>
 							<ul class="dropdown-menu">
 								<li class="nav-item"><a class="nav-link" href="login.jsp">Login</a></li>
-								<li class="nav-item"><a class="nav-link" href="tracking.jsp">Tracking</a></li>
-								<li class="nav-item"><a class="nav-link" href="elements.jsp">Elements</a></li>
 							</ul>
 						</li>
 						<li class="nav-item"><a class="nav-link" href="contact.jsp">Contact</a></li>
@@ -57,7 +53,7 @@
 	<div class="search_input" id="search_input_box">
 		<div class="container">
 			<form class="d-flex justify-content-between">
-				<input type="text" class="form-control" id="search_input" placeholder="Search Here">
+				<input type="text" name="searchShoes" class="form-control" id="search_input" placeholder="Search Here">
 				<button type="submit" class="btn"></button>
 				<span class="lnr lnr-cross" id="close_search" title="Close Search"></span>
 			</form>
