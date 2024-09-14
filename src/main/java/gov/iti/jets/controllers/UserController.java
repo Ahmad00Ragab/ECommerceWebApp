@@ -64,7 +64,7 @@ public class UserController extends HttpServlet {
         Optional<User> userOpt = findUserById(req);
         if (userOpt.isPresent()) {
             req.setAttribute("user", userOpt.get());
-            req.getRequestDispatcher("jsp/user/view.jsp").forward(req, resp);
+            req.getRequestDispatcher("WEB-INF/views/user/view.jsp").forward(req, resp);
         } else {
             req.setAttribute("error", "User not found.");
             req.getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
@@ -82,7 +82,7 @@ public class UserController extends HttpServlet {
         String error = (String) req.getAttribute("error");  // Optional error
         req.setAttribute("error", error);
 
-        req.getRequestDispatcher("jsp/user/list.jsp").forward(req, resp);
+        req.getRequestDispatcher("WEB-INF/views/user/list.jsp").forward(req, resp);
     }
 
 
@@ -117,7 +117,7 @@ public class UserController extends HttpServlet {
         Optional<User> userOpt = findUserById(req);
         if (userOpt.isPresent()) {
             req.setAttribute("user", userOpt.get());
-            req.getRequestDispatcher("/jsp/user/update.jsp").forward(req, resp);
+            req.getRequestDispatcher("WEB-INF/views/user/update.jsp").forward(req, resp);
         } else {
             req.setAttribute("error", "User not found.");
             req.getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
@@ -161,7 +161,7 @@ public class UserController extends HttpServlet {
             userService.update(userId, existingUser);
             req.setAttribute("successMessage", "User updated successfully.");
             req.setAttribute("user", existingUser);
-            req.getRequestDispatcher("/jsp/user/update.jsp").forward(req, resp);
+            req.getRequestDispatcher("WEB-INF/views/user/update.jsp").forward(req, resp);
             
             /* Commented :  After Updating, Display the message "User updated Successfuly" in the same page, no need to go success page*/
             //req.getRequestDispatcher("/jsp/user/success.jsp").forward(req, resp);
@@ -217,7 +217,7 @@ public class UserController extends HttpServlet {
             List<Order> orders = user.getOrders(); // Retrieve the user's orders
             req.setAttribute("orders", orders);
             req.setAttribute("user", user);
-            req.getRequestDispatcher("/jsp/user/orderHistory.jsp").forward(req, resp); // Forward to order history page
+            req.getRequestDispatcher("WEB-INF/views/user/orderHistory.jsp").forward(req, resp); // Forward to order history page
         } else {
             req.setAttribute("error", "User not found.");
             req.getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
