@@ -29,7 +29,7 @@
 </head>
 
 <body lang="en" class="no-js">
-<%@include file="header.jsp" %>
+<%@include file="common/header.jsp" %>
 
 <!-- Start Banner Area -->
 <section class="banner-area organic-breadcrumb">
@@ -53,7 +53,8 @@
             <!-- Dynamic categories -->
             <div class="sidebar-categories">
                 <div class="head">Browse Categories</div>
-                <form action="home" method="get" id="filterForm">
+                <form action="home" method="GET" id="filterForm">
+                    <input type="hidden" name="searchShoes" value="${param.searchShoes}" />
                     <ul class="main-categories">
                         <li class="main-nav-list">
 
@@ -246,4 +247,4 @@
         </div>
 </div>
 </div>
-<%@include file="footer.jsp" %>
+<%@include file="common/footer.jsp" %>

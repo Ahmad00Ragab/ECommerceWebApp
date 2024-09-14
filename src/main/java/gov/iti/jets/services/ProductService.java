@@ -134,9 +134,6 @@ public class ProductService {
 
 
 
-
-
-
     public Set<ProductDto> filterProducts(String category, String size, String color,BigDecimal minPrice, BigDecimal maxPrice, int pageNumber, int pageSize) {
         return productRepository.filterProducts(category, size, color,minPrice,maxPrice ,pageNumber, pageSize);
     }
@@ -162,4 +159,5 @@ public class ProductService {
      public int countProductByName(String name) {
         return productRepository.countProductsByName(name);
     }
-}
+
+    }

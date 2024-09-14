@@ -16,8 +16,8 @@ import java.util.Set;
 @WebServlet("/cart")
 public class CartController extends HttpServlet {
 
-    private CartService cartService;
-    private UserService userService;
+    private  CartService cartService;
+    private  UserService userService;
     private ProductService productService;
 
     @Override
@@ -37,7 +37,6 @@ public class CartController extends HttpServlet {
 //            request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
 //            return;
 //        }
-
         String action = request.getParameter("action");
         if (action == null) action = "list";
         System.out.println(action);

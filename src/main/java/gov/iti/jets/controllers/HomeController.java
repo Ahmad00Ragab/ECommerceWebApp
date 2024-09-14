@@ -44,7 +44,6 @@ public class HomeController extends HttpServlet {
         doGet(req, resp);
     }
 
-
     public void handleFiltration(HttpServletRequest request, HttpServletResponse response, String category,
                                  String size, String color, BigDecimal minPrice, BigDecimal maxPrice) throws ServletException, IOException {
         try {
@@ -77,8 +76,6 @@ public class HomeController extends HttpServlet {
             throw new ServletException("Error while filtering products", e);
         }
     }
-
-
     public void handleSearch(HttpServletRequest request, HttpServletResponse response, String name) throws ServletException, IOException {
         try {
             displayAllCategories(request, response);
@@ -104,10 +101,23 @@ public class HomeController extends HttpServlet {
         }
     }
 
+
+
     private void displayAllCategories(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Set<Category> categories = categoryService.findAllCategories();
-        request.setAttribute("categories", categories);
+       try {
+           Set<Category> categories = categoryService.findAllCategories();
+           request.setAttribute("categories", categories);
+       }catch (NumberFormatException e) {
+           throw new ServletException("Invalid page number format", e);
+       } catch (Exception e) {
+           throw new ServletException("Error while filtering products", e);
+       }
     }
+
+
+
+
+
 
 
 }
