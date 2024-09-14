@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class OrderService {
-    private final OrderRepository orderRepository;
+    private  OrderRepository orderRepository;
 
     // Constructor to inject OrderRepository
     public OrderService(OrderRepository orderRepository) {
