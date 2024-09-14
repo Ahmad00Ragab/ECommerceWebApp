@@ -54,7 +54,7 @@
 								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
 								 aria-expanded="false">Shop</a>
 								<ul class="dropdown-menu">
-									<li class="nav-item"><a class="nav-link" href="assets/category.html">Shop Category</a></li>
+									<li class="nav-item"><a class="nav-link" href="home">Shop Category</a></li>
 									<li class="nav-item"><a class="nav-link" href="assets/single-product.html">Product Details</a></li>
 									<li class="nav-item"><a class="nav-link" href="assets/checkout.html">Product Checkout</a></li>
 									<li class="nav-item"><a class="nav-link" href="assets/cart.html">Shopping Cart</a></li>
@@ -73,7 +73,7 @@
 								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
 								 aria-expanded="false">Pages</a>
 								<ul class="dropdown-menu">
-									<li class="nav-item"><a class="nav-link" href="assets/login.jsp">Login</a></li>
+									<li class="nav-item"><a class="nav-link" href="/ECommerceWebApp/assets/login">Login</a></li>
 									<li class="nav-item"><a class="nav-link" href="assets/tracking.html">Tracking</a></li>
 									<li class="nav-item"><a class="nav-link" href="assets/elements.html">Elements</a></li>
 								</ul>

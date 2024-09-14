@@ -65,7 +65,7 @@ public class UserAccount extends HttpServlet {
             req.getRequestDispatcher("../My-Account.jsp").forward(req, resp);
         } else {
             req.setAttribute("error", "User not found.");
-            req.getRequestDispatcher("/assets/login").forward(req, resp);
+            req.getRequestDispatcher("/assets/login").include(req, resp);
         }
     }
 
