@@ -207,6 +207,7 @@ public class UserController extends HttpServlet {
             req.getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
         }
     }
+    
     private void viewOrderHistory(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Long userId = Long.parseLong(req.getParameter("userId"));
         Optional<User> userOpt = userService.findById(userId);
@@ -222,8 +223,5 @@ public class UserController extends HttpServlet {
             req.getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
         }
     }
-    
-    
-    
-    
+
 }

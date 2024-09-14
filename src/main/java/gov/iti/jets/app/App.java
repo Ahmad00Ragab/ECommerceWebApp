@@ -110,7 +110,7 @@ public class App {
                 Admin admin = new Admin(
                                 "Haroun",
                                 "haroun@gmail.com",
-                                "1234", // Encrypt the password
+                                "1234", 
                                 LocalDateTime.now(),
                                 LocalDateTime.now(),
                                 "Haroun");
@@ -180,6 +180,7 @@ public class App {
                 Order order1 = new Order(haroun, new BigDecimal("300"), LocalDateTime.now());
                 Order order2 = new Order(tony, new BigDecimal("150"), LocalDateTime.now());
                 Order order3 = new Order(ghandy, new BigDecimal("250"), LocalDateTime.now());
+                
                 Order order4 = new Order(alice, new BigDecimal("400"), LocalDateTime.now());
                 Order order5 = new Order(bob, new BigDecimal("500"), LocalDateTime.now());
 

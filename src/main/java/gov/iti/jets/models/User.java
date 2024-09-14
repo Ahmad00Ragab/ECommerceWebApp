@@ -73,6 +73,7 @@ public class User {
     @Column(name="last_updated", nullable = false)
     private LocalDate lastUpdated;
 
+    
     // Initialize cartItems
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private Set<CartItem> cartItems = new HashSet<>();
