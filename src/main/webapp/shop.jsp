@@ -20,6 +20,7 @@
 </head>
 
 <body id="category">
+<%@include file="/common/header.jsp"%>
 <div class="container">
     <div class="row">
         <div class="col-xl-3 col-lg-4 col-md-5">
