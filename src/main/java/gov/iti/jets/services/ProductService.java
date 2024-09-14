@@ -1,7 +1,7 @@
 package gov.iti.jets.services;
 
 
-import gov.iti.jets.dtos.ProductDto;
+import gov.iti.jets.services.dtos.ProductDto;
 import gov.iti.jets.models.Category;
 import gov.iti.jets.models.Product;
 import gov.iti.jets.repositories.ProductRepository;

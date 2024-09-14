@@ -1,14 +1,14 @@
 package gov.iti.jets.controllers;
 
-import gov.iti.jets.converters.UserToUserDtoConverter;
+import gov.iti.jets.services.converters.UserToUserDtoConverter;
 import gov.iti.jets.models.User;
 import gov.iti.jets.models.Order;
 import gov.iti.jets.services.UserService;
 import gov.iti.jets.system.exceptions.ObjectNotFoundException;
 import gov.iti.jets.system.exceptions.ValidationException;
-import gov.iti.jets.converters.UserDtoToUserConverter;
-import gov.iti.jets.dtos.UserDto;
-import gov.iti.jets.dtos.UserOrderDto;
+import gov.iti.jets.services.converters.UserDtoToUserConverter;
+import gov.iti.jets.services.dtos.UserDto;
+import gov.iti.jets.services.dtos.UserOrderDto;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

@@ -13,7 +13,7 @@ import gov.iti.jets.services.CategoryService;
 import gov.iti.jets.services.OrderService;
 import gov.iti.jets.services.ProductService;
 import gov.iti.jets.services.UserService;
-import gov.iti.jets.util.CreateEntityManagerFactory;
+import gov.iti.jets.system.persistence.CreateEntityManagerFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceException;

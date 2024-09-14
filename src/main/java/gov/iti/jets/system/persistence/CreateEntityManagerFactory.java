@@ -1,4 +1,4 @@
-package gov.iti.jets.util;
+package gov.iti.jets.system.persistence;
 
 import gov.iti.jets.system.persistence.CustomPersistenceUnit;
 import jakarta.persistence.EntityManagerFactory;

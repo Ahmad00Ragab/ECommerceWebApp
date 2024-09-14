@@ -1,4 +1,4 @@
-package gov.iti.jets.util.validators;
+package gov.iti.jets.system.utils.validators;
 
 import gov.iti.jets.models.User;
 import java.math.BigDecimal;

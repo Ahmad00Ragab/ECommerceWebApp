@@ -1,4 +1,4 @@
-package gov.iti.jets.genericDao;
+package gov.iti.jets.repositories.genericDao;
 
 import java.util.Optional;
 import java.util.Set;

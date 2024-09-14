@@ -1,6 +1,7 @@
 package gov.iti.jets.controllers;
 
-import gov.iti.jets.dtos.ProductDto;
+
+import gov.iti.jets.services.dtos.*;
 import gov.iti.jets.services.ProductService;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;

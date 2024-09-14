@@ -1,7 +1,7 @@
-package gov.iti.jets.genericDao;
+package gov.iti.jets.repositories.genericDao;
 
 import gov.iti.jets.system.persistence.CustomPersistenceUnit;
-import gov.iti.jets.util.CreateEntityManagerFactory;
+import gov.iti.jets.system.persistence.CreateEntityManagerFactory;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -13,7 +13,6 @@ import org.hibernate.ObjectNotFoundException;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 
 import gov.iti.jets.models.Product;
-import gov.iti.jets.util.CreateEntityManagerFactory;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 
 import java.util.HashSet;

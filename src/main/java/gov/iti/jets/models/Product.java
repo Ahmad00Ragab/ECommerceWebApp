@@ -86,7 +86,7 @@ public class Product {
         Long categoryIdLong = Long.parseLong(categoryId); 
         this.category = (new CategoryRepository(Category.class)).findById(categoryIdLong)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid category ID: " + categoryId));
-    } 
+        } 
     
 
      /* Constructor that accepts categoryId as a String */

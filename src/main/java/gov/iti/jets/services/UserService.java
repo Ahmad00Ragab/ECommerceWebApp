@@ -1,7 +1,7 @@
 package gov.iti.jets.services;
 
-import gov.iti.jets.dtos.OrderDTO;
-import gov.iti.jets.dtos.UserOrderDto;
+import gov.iti.jets.services.dtos.OrderDTO;
+import gov.iti.jets.services.dtos.UserOrderDto;
 import gov.iti.jets.models.Category;
 import gov.iti.jets.models.Product;
 import gov.iti.jets.models.User;
@@ -10,7 +10,7 @@ import gov.iti.jets.system.exceptions.ObjectNotFoundException;
 import gov.iti.jets.system.exceptions.ValidationException;
 import gov.iti.jets.system.utils.encryption.PasswordEncryptionUtil;
 import gov.iti.jets.system.utils.verification.EmailStatus;
-import gov.iti.jets.util.validators.UserValidator;
+import gov.iti.jets.system.utils.validators.UserValidator;
 
 import org.hibernate.Hibernate;
 import org.mindrot.jbcrypt.BCrypt;

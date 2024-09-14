@@ -3,7 +3,7 @@ package gov.iti.jets.repositories;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
-import gov.iti.jets.genericDao.GenericDaoImpl;
+import gov.iti.jets.repositories.genericDao.GenericDaoImpl;
 import gov.iti.jets.models.Order;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
