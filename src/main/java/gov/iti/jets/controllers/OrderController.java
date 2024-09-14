@@ -1,5 +1,7 @@
 package gov.iti.jets.controllers;
 
+import java.util.List;
+
 import gov.iti.jets.models.Order;
 import gov.iti.jets.services.OrderService;
 import gov.iti.jets.system.exceptions.ObjectNotFoundException;
@@ -18,10 +20,14 @@ public class OrderController {
                 .orElseThrow(() -> new ObjectNotFoundException("Order", orderId));
     }
 
+
     // 2. Get orders by User ID
-    public Order getOrderByUserId(Long userId) {
-        return orderService.findOrderByUserId(userId)
-                .orElseThrow(() -> new ObjectNotFoundException("Order for User", userId));
+    public List<Order> getOrderByUserId(Long userId) {
+        List<Order> orders = orderService.getOrdersByUserId(userId);
+        if (orders.isEmpty()) {
+            throw new ObjectNotFoundException("Orders for User", userId);
+        }
+        return orders;
     }
 
     // 3. Create a new order

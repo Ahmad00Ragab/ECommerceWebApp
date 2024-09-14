@@ -10,6 +10,7 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -93,7 +94,8 @@ public class User {
     )
     private Set<Category> categories = new HashSet<>();
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    // @OneToMany(mappedBy = "user", fetch = FetchType.LAZY) // Gives Error in code 
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<Order> orders;
 
     @Column(name = "email_status")
@@ -120,6 +122,7 @@ public class User {
         this.cartItems = new HashSet<>();  // Initialize cartItems
         this.wishlist = new HashSet<>();  // Initialize wishlist
         this.categories = new HashSet<>();  // Initialize categories
+        this.orders = new ArrayList<>();
     }
 
     // Constructor to initialize required fields and collections
@@ -143,6 +146,8 @@ public class User {
         this.cartItems = new HashSet<>(); // Initialize cartItems
         this.wishlist = new HashSet<>();  // Initialize wishlist
         this.categories = new HashSet<>(); // Initialize categories
+        this.orders = new ArrayList<>();
+
     }
 
     public Set<Category> getInterests() {

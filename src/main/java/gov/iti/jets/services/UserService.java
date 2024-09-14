@@ -1,5 +1,7 @@
 package gov.iti.jets.services;
 
+import gov.iti.jets.dtos.OrderDTO;
+import gov.iti.jets.dtos.UserOrderDto;
 import gov.iti.jets.models.Category;
 import gov.iti.jets.models.Product;
 import gov.iti.jets.models.User;
@@ -9,11 +11,14 @@ import gov.iti.jets.system.exceptions.ValidationException;
 import gov.iti.jets.system.utils.encryption.PasswordEncryptionUtil;
 import gov.iti.jets.system.utils.verification.EmailStatus;
 import gov.iti.jets.util.validators.UserValidator;
+
+import org.hibernate.Hibernate;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class UserService {
     UserRepository userRepository;
@@ -147,4 +152,34 @@ public class UserService {
     public List<String> createUserValidation(User user){
         return userValidator.validateUserInput(user, false, true);
     }
+
+
+    // Fetch user and orders and map to UserOrderDto
+    public Optional<UserOrderDto> getUserOrderDto(Long userId) {
+        Optional<User> userOpt = userRepository.findById(userId);
+        
+                
+
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+
+            // Initialize the lazy-loaded orders collection
+            Hibernate.initialize(user.getOrders());
+            
+            // Map the user's orders to OrderDTO
+            List<OrderDTO> orderDTOs = user.getOrders().stream()
+            .map(order -> new OrderDTO(order.getId(), order.getOrderDetails()))
+            .collect(Collectors.toList());
+
+
+            // Map the User to UserOrderDto
+            UserOrderDto userOrderDto = new UserOrderDto(user.getId(), user.getUsername(), orderDTOs);
+            return Optional.of(userOrderDto);
+        }
+        return Optional.empty();
+    }
 }
+
+
+
+    

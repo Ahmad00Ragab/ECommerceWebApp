@@ -2,11 +2,13 @@ package gov.iti.jets.controllers;
 
 import gov.iti.jets.converters.UserToUserDtoConverter;
 import gov.iti.jets.models.User;
+import gov.iti.jets.models.Order;
 import gov.iti.jets.services.UserService;
 import gov.iti.jets.system.exceptions.ObjectNotFoundException;
 import gov.iti.jets.system.exceptions.ValidationException;
 import gov.iti.jets.converters.UserDtoToUserConverter;
 import gov.iti.jets.dtos.UserDto;
+import gov.iti.jets.dtos.UserOrderDto;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -21,6 +23,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import org.hibernate.Hibernate;
+
 
 
 
@@ -49,6 +54,9 @@ public class UserController extends HttpServlet {
                 case "list":
                     listUsers(req, resp);
                     break;
+                case "viewOrderHistory":  // New action to view order history
+                    viewOrderHistory(req, resp);
+                break;
             }
     }
 
@@ -199,4 +207,23 @@ public class UserController extends HttpServlet {
             req.getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
         }
     }
+    private void viewOrderHistory(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Long userId = Long.parseLong(req.getParameter("userId"));
+        Optional<User> userOpt = userService.findById(userId);
+        
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            List<Order> orders = user.getOrders(); // Retrieve the user's orders
+            req.setAttribute("orders", orders);
+            req.setAttribute("user", user);
+            req.getRequestDispatcher("/jsp/user/orderHistory.jsp").forward(req, resp); // Forward to order history page
+        } else {
+            req.setAttribute("error", "User not found.");
+            req.getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
+        }
+    }
+    
+    
+    
+    
 }

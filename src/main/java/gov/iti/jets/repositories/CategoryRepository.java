@@ -20,6 +20,10 @@ public class CategoryRepository extends GenericDaoImpl<Category> {
         super(entityClass);
     }
 
+    public CategoryRepository() {
+        super(Category.class);
+    }
+
     public List<Product> getProductsByCategory(String category) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Product> q = cb.createQuery(Product.class);

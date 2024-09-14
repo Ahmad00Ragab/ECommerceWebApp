@@ -23,6 +23,10 @@ public class CategoryService {
 
     public CategoryService(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
+    }    
+    
+    public CategoryService() {
+        this.categoryRepository = new CategoryRepository(Category.class);
     }
 
 

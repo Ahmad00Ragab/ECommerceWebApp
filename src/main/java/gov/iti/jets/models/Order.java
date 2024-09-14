@@ -30,7 +30,8 @@ public class Order {
     private LocalDateTime dateCreated;
 
     // Initialize orderItems
-    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
+    // @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
     private Set<OrderItem> orderItems = new HashSet<>();
 
     public Order(User user, BigDecimal totalPrice, LocalDateTime dateCreated) {
@@ -39,4 +40,12 @@ public class Order {
         this.dateCreated = dateCreated;
         this.orderItems = new HashSet<>(); // Initialize orderItems
     }
+
+    // Method to get order details as a string
+    public String getOrderDetails() {
+        return "Order ID: " + id + 
+               ", Total Price: $" + totalPrice + 
+               ", Date: " + dateCreated;
+    }
+
 }
