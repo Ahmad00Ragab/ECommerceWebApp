@@ -1,12 +1,9 @@
 package gov.iti.jets.controllers;
 
-import gov.iti.jets.converters.UserToUserDtoConverter;
 import gov.iti.jets.models.User;
 import gov.iti.jets.services.UserService;
 import gov.iti.jets.system.exceptions.ObjectNotFoundException;
 import gov.iti.jets.system.exceptions.ValidationException;
-import gov.iti.jets.converters.UserDtoToUserConverter;
-import gov.iti.jets.dtos.UserDto;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -15,12 +12,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.List;
 
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @WebServlet(value = "/assets/userAcc")
 public class UserAccount extends HttpServlet {

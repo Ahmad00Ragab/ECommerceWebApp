@@ -1,22 +1,14 @@
 package gov.iti.jets.services;
 
 
-import gov.iti.jets.dtos.ProductDto;
-import gov.iti.jets.models.Category;
+import gov.iti.jets.services.dtos.ProductDto;
 import gov.iti.jets.models.Product;
 import gov.iti.jets.repositories.ProductRepository;
 import gov.iti.jets.system.exceptions.ProductNotFoundException;
 import java.math.BigDecimal;
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Join;
-import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 
 

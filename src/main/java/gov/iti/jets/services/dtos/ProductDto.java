@@ -1,4 +1,4 @@
-package gov.iti.jets.dtos;
+package gov.iti.jets.services.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

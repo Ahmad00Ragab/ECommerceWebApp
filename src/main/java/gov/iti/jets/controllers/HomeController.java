@@ -1,6 +1,6 @@
 package gov.iti.jets.controllers;
 
-import gov.iti.jets.dtos.ProductDto;
+import gov.iti.jets.services.dtos.ProductDto;
 import gov.iti.jets.models.Category;
 import gov.iti.jets.services.CategoryService;
 import gov.iti.jets.services.ProductService;
