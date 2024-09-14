@@ -2,12 +2,21 @@ package gov.iti.jets.services;
 
 
 import gov.iti.jets.dtos.ProductDto;
+import gov.iti.jets.models.Category;
 import gov.iti.jets.models.Product;
 import gov.iti.jets.repositories.ProductRepository;
 import gov.iti.jets.system.exceptions.ProductNotFoundException;
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 
 
@@ -26,10 +35,10 @@ public class ProductService {
 
     public Optional<Product> findProductById(Long id) {
         Optional<Product> optProduct = productRepository.findById(id);
-        Product product=null;
-        if(optProduct.isPresent()) {
-            product=optProduct.get();
-        }else {
+        Product product = null;
+        if (optProduct.isPresent()) {
+            product = optProduct.get();
+        } else {
             throw new ProductNotFoundException();
         }
         return optProduct;
@@ -37,7 +46,7 @@ public class ProductService {
 
     public Product saveProduct(Product product) {
         productRepository.save(product);
-        return product ;
+        return product;
     }
 
     public Product updateProduct(Product product) {
@@ -53,7 +62,6 @@ public class ProductService {
         System.out.println("Saving product: " + product);
         productRepository.save(product);
     }
-
 
     public boolean deleteProduct(Long id) {
         System.out.println("inside ProductService.deleteProduct");
@@ -77,23 +85,20 @@ public class ProductService {
         return productRepository.countWithNamedQuery(paramName, paramValue);
     }
 
-
-
     public Product getProductByName(String name) {
-        Optional<Product> optProduct=productRepository.getProductByName(name);
-        Product product=null;
-        if(optProduct.isPresent()){
-            product=optProduct.get();
-        }else {
-            throw  new ProductNotFoundException();
+        Optional<Product> optProduct = productRepository.getProductByName(name);
+        Product product = null;
+        if (optProduct.isPresent()) {
+            product = optProduct.get();
+        } else {
+            throw new ProductNotFoundException();
         }
         return product;
     }
 
 
-
     public Set<Product> findProductsByCategory(String category) {
-        return  productRepository.findProductsByCategory(category);
+        return productRepository.findProductsByCategory(category);
     }
 
 
@@ -110,12 +115,49 @@ public class ProductService {
         return productRepository.sortProductsByCategoryAndPrice(category);
     }
 
-    public Set<ProductDto> findAllProductsUsingDTO() {
-       return productRepository.findAllProductsUsingDTO();
+  /*
+
+    public Set<ProductDto> findProductByNameUsingProductDTO(String name, int pageNumber, int pageSize) {
+       return productRepository.findProductByNameUsingProductDTO(name, pageNumber,pageSize);
     }
 
-    public Set<ProductDto> findProductsByCategoryUsingProductDTO(String category) {
-        return productRepository.findProductsByCategoryUsingProductDTO(category);
+
+    public int countByName(String name) {
+        return productRepository.countProductsByName(name);
     }
 
+    public int countProductsByCategory(String category) {
+       return productRepository.countProductsByCategory(category);
+    }
+
+
+    public int countAllProducts(){
+        return productRepository.countAllProducts();
+    }
+
+    public Set<ProductDto> sortProductsByCategoryAndPriceUsingProductDTO(String category, int pageNumber, int pageSize) {
+        return productRepository.sortProductsByCategoryAndPriceUsingProductDTO(category,pageNumber,pageSize);
+    }*/
+
+
+
+
+
+
+    public Set<ProductDto> filterProducts(String category, String size, String color,BigDecimal minPrice, BigDecimal maxPrice, int pageNumber, int pageSize) {
+        return productRepository.filterProducts(category, size, color,minPrice,maxPrice ,pageNumber, pageSize);
+    }
+
+    public int countFilteredProducts(String category, String size, String color,
+                                     BigDecimal minPrice, BigDecimal maxPrice) {
+        return productRepository.countFilteredProducts(category,size, color, minPrice, maxPrice);
+    }
+
+    public BigDecimal parseBigDecimal(String value) {
+        try {
+            return value != null && !value.isEmpty() ? new BigDecimal(value) : null;
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
 }

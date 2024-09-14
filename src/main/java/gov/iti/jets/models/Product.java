@@ -33,7 +33,14 @@ public class Product {
     @Column(nullable = false)
     private int stock;
 
+    @Column(name ="shoe_color", nullable = false)
+    private String shoeColor;
+
+    @Column(name ="shoe_size", nullable = false)
+    private String shoeSize;
+
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    @ToString.Exclude
     private Set<CartItem> cart;
 
     @ManyToOne
@@ -49,6 +56,9 @@ public class Product {
     @Column(name = "created_by")
     private String createdBy;
 
+    @Column(name= "product_image")
+    private String imageUrl;
+
     public Product(String name, BigDecimal price, String description, int stock, Category category, LocalDateTime dateCreated, LocalDateTime lastUpdated) {
         this.name = name;
         this.price = price;
@@ -58,6 +68,16 @@ public class Product {
         this.dateCreated = dateCreated;
         this.lastUpdated = lastUpdated;
         cart=new HashSet<>();
+    }
+
+    public Product(String imageUrl, String shoeSize, String shoeColor, int stock, String description, BigDecimal price, String name) {
+        this.imageUrl = imageUrl;
+        this.shoeSize = shoeSize;
+        this.shoeColor = shoeColor;
+        this.stock = stock;
+        this.description = description;
+        this.price = price;
+        this.name = name;
     }
 
     public Product(String name, BigDecimal price, int stock, Category category, LocalDateTime dateCreated, LocalDateTime lastUpdated) {
@@ -70,27 +90,26 @@ public class Product {
         cart=new HashSet<>();
     }
 
-    
-     // Constructor that accepts categoryId as a String
-     public Product(String name, BigDecimal price, int stock, String categoryId) {
+
+    public Product(String name, BigDecimal price, int stock, String categoryId) {
         this.name = name;
-        this.price = price;  // Convert double to BigDecimal
+        this.price = price;
         this.stock = stock;
         this.dateCreated = LocalDateTime.now();
         this.lastUpdated = LocalDateTime.now();
         this.cart = new HashSet<>();
 
-        // Fetch Category from repository using the categoryId
-        Long categoryIdLong = Long.parseLong(categoryId); 
-        this.category = (new CategoryRepository(Category.class)).findById(categoryIdLong)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid category ID: " + categoryId));
-    } 
-    
 
-     /* Constructor that accepts categoryId as a String */
-     public Product(String name, BigDecimal price, int stock, Category category) {
+        Long categoryIdLong = Long.parseLong(categoryId);
+        this.category = new CategoryRepository().findById(categoryIdLong)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid category ID: " + categoryId));
+    }
+
+
+    /* Constructor that accepts categoryId as a String */
+    public Product(String name, BigDecimal price, int stock, Category category) {
         this.name        = name;
-        this.price       = price;  
+        this.price       = price;
         this.stock       = stock;
         this.dateCreated = LocalDateTime.now();
         this.lastUpdated = LocalDateTime.now();

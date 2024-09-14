@@ -49,11 +49,6 @@
   </servlet-mapping>
 
 
-
-  <servlet-mapping>
-    <servlet-name>jsp</servlet-name>
-    <url-pattern>*.jsp</url-pattern>
-  </servlet-mapping>
   <!-- Optional: Filter Configuration -->
   <!-- Uncomment these if you want to use filters -->
   <!--

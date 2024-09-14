@@ -1,8 +1,13 @@
 package gov.iti.jets.controllers;
 
+import com.google.gson.Gson;
+
 import gov.iti.jets.repositories.CategoryRepository;
 import gov.iti.jets.services.CategoryService;
 import gov.iti.jets.services.ProductService;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.PersistenceException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -44,7 +49,7 @@ public class ProductController extends HttpServlet {
                 req.setAttribute("product", product.get());
 
                 /* Fetch and set categories */
-                CategoryService categoryService = new CategoryService(new CategoryRepository(Category.class));
+                CategoryService categoryService = new CategoryService();
                 Set<Category> categories = categoryService.findAllCategories();
                 req.setAttribute("categories", categories);
 
@@ -58,11 +63,11 @@ public class ProductController extends HttpServlet {
             req.setAttribute("productList", products);
 
             /* Fetch and set categories */
-            CategoryService categoryService = new CategoryService(new CategoryRepository(Category.class));
+            CategoryService categoryService = new CategoryService();
             Set<Category> categories = categoryService.findAllCategories();
             req.setAttribute("categories", categories);
 
-            req.getRequestDispatcher("WEB-INF/views/admin/manage-products.jsp").forward(req, resp);
+            req.getRequestDispatcher("WEB-INF/views/admin/admin-panel.jsp").forward(req, resp);
         }
     }
 
@@ -92,7 +97,7 @@ public class ProductController extends HttpServlet {
             quantity = Integer.parseInt(req.getParameter("quantity"));
         } catch (NumberFormatException e) {
             req.setAttribute("error", "Invalid number format for price or quantity.");
-            req.getRequestDispatcher("WEB-INF/views/admin/manage-products.jsp").forward(req, resp);
+            req.getRequestDispatcher("WEB-INF/views/admin/admin-panel.jsp").forward(req, resp);
             return;
         }
 
@@ -100,11 +105,11 @@ public class ProductController extends HttpServlet {
 
         if (categoryId == null || categoryId.isEmpty()) {
             req.setAttribute("error", "Please select a valid category.");
-            req.getRequestDispatcher("WEB-INF/views/admin/manage-products.jsp").forward(req, resp);
+            req.getRequestDispatcher("WEB-INF/views/admin/admin-panel.jsp").forward(req, resp);
             return;
         }
 
-        CategoryRepository categoryRepository = new CategoryRepository(Category.class);
+        CategoryRepository categoryRepository = new CategoryRepository();
         Category category = categoryRepository.findById(Long.parseLong(categoryId))
                 .orElseThrow(() -> new IllegalArgumentException("Invalid category ID"));
 
@@ -118,7 +123,7 @@ public class ProductController extends HttpServlet {
             product.setId(Long.parseLong(productId));
             productService.updateProduct(product);
         }
-        
+
         resp.sendRedirect("ProductController");
     }
 }
