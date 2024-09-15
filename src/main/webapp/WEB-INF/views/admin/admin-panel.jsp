@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -106,7 +107,8 @@
             <div class="card mt-4">
                 <div class="card-body">
                     <h2>Manage Products</h2>
-                    <button class="btn btn-primary mb-3" id="addProductBtn">Add New Product</button>
+                    <%-- <button class="btn btn-primary mb-3" id="addProductBtn">Add New Product</button> --%>
+                    <button class="btn btn-primary mb-3" id="addProductBtn" onclick="window.location.href='${pageContext.request.contextPath}/ProductController?action=create'">Add New Product</button>
 
                     <table class="table table-bordered table-hover">
                         <thead class="thead-dark">
@@ -153,7 +155,7 @@
 
 
   <!-- Product Modal -->
-<div id="productModal" class="modal">
+<%-- <div id="productModal" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
         <form id="productForm" action="ProductController" method="post">
@@ -184,7 +186,7 @@
             </div>
         </form>
     </div>
-</div>
+</div> --%>
 
     <footer>
         &copy; 2024 Your Admin Panel. All Rights Reserved for shoesly.

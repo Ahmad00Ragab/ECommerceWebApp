@@ -53,8 +53,8 @@
 							<ul class="dropdown-menu">
 								<% 
 									// Check if user is logged in
-									User user = (User) session.getAttribute("userId");
-									if (user != null) { 
+									Long userId = (Long) session.getAttribute("userId");
+									if (userId != null) { 
 								%>
 									<li class="nav-item"><a class="nav-link" href="userAcc">My Account</a></li>
 									<li class="nav-item"><a class="nav-link" href="logout">Logout</a></li>
