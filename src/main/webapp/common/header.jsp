@@ -1,3 +1,5 @@
+<%@ page import="gov.iti.jets.models.User" %>
+
 <header class="header_area sticky-header">
 	<div class="main_menu">
 		<nav class="navbar navbar-expand-lg navbar-light main_box">
@@ -15,8 +17,7 @@
 					<ul class="nav navbar-nav menu_nav ml-auto">
 						<li class="nav-item submenu dropdown active">
 							<a href="products" class="nav-link dropdown-toggle">Shop</a>
-							<ul class="dropdown-menu">
-							</ul>
+							<ul class="dropdown-menu"></ul>
 						</li>
 						<li class="nav-item submenu dropdown">
 							<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -28,12 +29,9 @@
 						<li class="nav-item submenu dropdown">
 							<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
 							   aria-expanded="false">Pages</a>
-							<ul class="dropdown-menu">
-								<%--								<li class="nav-item"><a class="nav-link" href="login">Login</a></li>--%>
-							</ul>
+							<ul class="dropdown-menu"></ul>
 						</li>
 						<li class="nav-item"><a class="nav-link" href="contact.jsp">Contact</a></li>
-
 					</ul>
 
 					<ul class="nav navbar-nav navbar-right">
@@ -49,14 +47,26 @@
 								<li class="nav-item"><a class="nav-link" href="checkout">Checkout</a></li>
 							</ul>
 						</li>
+
 						<li class="nav-item dropdown">
 							<a href="userAcc" class="profile"><span class="lnr lnr-user"></span></a>
 							<ul class="dropdown-menu">
-								<li class="nav-item"><a class="nav-link" href="/ECommerceWebApp/login">Login</a></li>
-								<li class="nav-item"><a class="nav-link" href="userAcc">My Account</a></li>
+								<% 
+									// Check if user is logged in
+									User user = (User) session.getAttribute("userId");
+									if (user != null) { 
+								%>
+									<li class="nav-item"><a class="nav-link" href="userAcc">My Account</a></li>
+									<li class="nav-item"><a class="nav-link" href="logout">Logout</a></li>
+								<% 
+									} else { 
+								%>
+									<li class="nav-item"><a class="nav-link" href="/ECommerceWebApp/login">Login</a></li>
+								<% 
+									} 
+								%>
 							</ul>
 						</li>
-
 					</ul>
 				</div>
 			</div>
