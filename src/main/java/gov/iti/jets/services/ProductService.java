@@ -132,5 +132,5 @@ public class ProductService {
         } catch (NumberFormatException e) {
             return null;
         }
-    }
+}
 }
