@@ -121,7 +121,7 @@
 
             $.ajax({
                 url: 'cart',
-                type: 'POST',
+                type: 'GET',
                 data: {
                     productId: productId,
                     quantity: quantity,
@@ -148,7 +148,7 @@
 
             $.ajax({
                 url: 'cart',
-                type: 'POST',
+                type: 'GET',
                 data: {
                     productId: productId,
                     action: 'delete'
