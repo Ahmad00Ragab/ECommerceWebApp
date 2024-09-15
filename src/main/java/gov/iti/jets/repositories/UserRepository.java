@@ -8,9 +8,12 @@ import gov.iti.jets.models.User;
 import gov.iti.jets.system.exceptions.ObjectNotFoundException;
 import gov.iti.jets.system.persistence.CreateEntityManagerFactory;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
+import jakarta.persistence.NonUniqueResultException;
+
 
 import java.util.Optional;
 import java.util.Set;
