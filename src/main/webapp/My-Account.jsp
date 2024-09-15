@@ -11,6 +11,19 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
+<link rel="stylesheet" href="css/linearicons.css">
+<link rel="stylesheet" href="css/font-awesome.min.css">
+<link rel="stylesheet" href="css/themify-icons.css">
+<link rel="stylesheet" href="css/bootstrap.css">
+<link rel="stylesheet" href="css/owl.carousel.css">
+<link rel="stylesheet" href="css/nice-select.css">
+<link rel="stylesheet" href="css/nouislider.min.css">
+<link rel="stylesheet" href="css/ion.rangeSlider.css" />
+<link rel="stylesheet" href="css/ion.rangeSlider.skinFlat.css" />
+<link rel="stylesheet" href="css/magnific-popup.css">
+<link rel="stylesheet" href="css/main.css">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -60,9 +73,16 @@
             border: 0;
             margin-bottom: 1rem;
         }
+        body {
+            padding-top: 200px; /* Adjust this value as needed */
+        }
     </style>
 </head>
 <body>
+
+<%@ include file="/common/header.jsp" %>
+
+
 
 <div class="container">
     <div class="row gutters">
@@ -88,7 +108,7 @@
         <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
             <div class="card h-100">
                 <div class="card-body">
-                    <form action="/ECommerceWebApp/assets/userAcc?action=update" method="POST">
+                    <form action="/ECommerceWebApp/userAcc?action=update" method="POST">
                         <div class="row gutters">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                 <h6 class="mb-2 text-primary">Personal Details</h6>
@@ -170,7 +190,7 @@
         <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12 mt-3">
             <div class="card h-100">
                 <div class="card-body">
-                    <form action="/ECommerceWebApp/assets/userAcc?action=changePassword" method="POST">
+                    <form action="/ECommerceWebApp/userAcc?action=changePassword" method="POST">
                         <div class="row gutters">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                 <h6 class="mb-2 text-primary">Change Password</h6>
@@ -218,6 +238,8 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<%@ include file="/common/footer.jsp" %>
 
 </body>
 </html>

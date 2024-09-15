@@ -10,21 +10,41 @@
 
     <!-- Include external CSS files -->
     <link rel="stylesheet" href="css/linearicons.css">
-    <link rel="stylesheet" href="css/owl.carousel.css">
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <link rel="stylesheet" href="css/themify-icons.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/owl.carousel.css">
     <link rel="stylesheet" href="css/nice-select.css">
     <link rel="stylesheet" href="css/nouislider.min.css">
-    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/ion.rangeSlider.css" />
+    <link rel="stylesheet" href="css/ion.rangeSlider.skinFlat.css" />
+    <link rel="stylesheet" href="css/magnific-popup.css">
     <link rel="stylesheet" href="css/main.css">
 </head>
 
 <body id="category">
+
+<!-- Include header -->
+<%@ include file="/common/header.jsp" %>
+
+<section class="banner-area organic-breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+            <div class="col-first">
+                <h1>Shop Category page</h1>
+                <nav class="d-flex align-items-center">
+                    <a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
+                    <a href="products">Shop<span class="lnr lnr-arrow-right"></span></a>
+                    <a href="products">Fashon Category</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
 <div class="container">
     <div class="row">
         <div class="col-xl-3 col-lg-4 col-md-5">
             <!-- Dynamic categories -->
-
 
             <!-- Product Filters -->
             <div class="sidebar-filter mt-50">
@@ -58,14 +78,12 @@
                 <div class="sorting">
                     <select>
                         <option value="1">Default sorting</option>
-                        <!-- Add sorting logic here -->
                     </select>
                 </div>
                 <div class="sorting mr-auto">
                     <select>
                         <option value="12">Show 12</option>
                         <option value="24">Show 24</option>
-                        <!-- Add logic to show a different number of products -->
                     </select>
                 </div>
 
@@ -129,6 +147,9 @@
         </div>
     </div>
 </div>
+
+<!-- Include footer -->
+<%@ include file="/common/footer.jsp" %>
 
 </body>
 </html>

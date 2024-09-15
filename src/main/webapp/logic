@@ -12,3 +12,15 @@
 transaction begin
 4- if done update products in database clear cart and
 transaction end
+
+
+
+front end:
+
+1- header and footer
+
+2- add interests on sign up
+
+3- add interests on update user
+
+4- ajax on register for email and username

@@ -11,6 +11,7 @@
     import jakarta.servlet.http.HttpServletResponse;
 
     import java.io.IOException;
+    import java.math.BigDecimal;
     import java.util.Set;
 
     @WebServlet(urlPatterns = "/cart")
@@ -76,14 +77,17 @@
         private void listCartItemsByUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
             Long userId = (Long) request.getSession().getAttribute("userId");
 
-//            if (userId == null) {
-//                request.setAttribute("error", "User not logged in");
-//                request.getRequestDispatcher("/login").include(request, response);
-//                return;
-//            }
-
+            // Get cart items
             Set<CartItem> cartItems = cartService.findCartByUserId(userId);
             request.setAttribute("cartItems", cartItems);
+
+            // Calculate total price
+            BigDecimal totalPrice = cartItems.stream()
+                    .map(cartItem -> cartItem.getProduct().getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity())))
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+            request.setAttribute("totalPrice", totalPrice);
+
             request.getRequestDispatcher("/cart.jsp").forward(request, response);
         }
 

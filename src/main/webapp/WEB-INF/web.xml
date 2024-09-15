@@ -20,12 +20,6 @@
   </welcome-file-list>
 
   <!-- Default Servlet for Static Files -->
-  <servlet>
-      <servlet-name>default</servlet-name>
-      <servlet-class>org.apache.catalina.servlets.DefaultServlet</servlet-class>
-      <load-on-startup>1</load-on-startup>
-  </servlet>
-
   <servlet-mapping>
       <servlet-name>default</servlet-name>
       <url-pattern>*.html</url-pattern>
@@ -34,6 +28,11 @@
   <servlet-mapping>
     <servlet-name>default</servlet-name>
     <url-pattern>/css/main/</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>/css/*</url-pattern>
   </servlet-mapping>
 
   <servlet-mapping>

@@ -22,14 +22,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@WebServlet(name = "register", urlPatterns = "/assets/register")
+@WebServlet(name = "register", urlPatterns = "/register")
 public class RegisterProcess extends HttpServlet {
 
     private UserService userService = new UserService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/assets/signup.jsp").forward(req, resp);
+        req.getRequestDispatcher("/signup.jsp").forward(req, resp);
 
     }
 
@@ -81,7 +81,7 @@ public class RegisterProcess extends HttpServlet {
             req.setAttribute("validationErrors", validationErrors);
 
             // Forward back to the registration page with errors
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/assets/signup.jsp");
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/signup.jsp");
             dispatcher.forward(req, resp);
             return;
         }
