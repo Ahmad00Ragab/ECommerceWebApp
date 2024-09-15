@@ -2,17 +2,32 @@ package gov.iti.jets.controllers;
 
 import gov.iti.jets.services.converters.UserToUserDtoConverter;
 import gov.iti.jets.models.User;
+import gov.iti.jets.models.Order;
 import gov.iti.jets.services.UserService;
 import gov.iti.jets.system.exceptions.ObjectNotFoundException;
 import gov.iti.jets.system.exceptions.ValidationException;
+import gov.iti.jets.services.converters.UserDtoToUserConverter;
+import gov.iti.jets.services.dtos.UserDto;
+import gov.iti.jets.services.dtos.UserOrderDto;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.hibernate.Hibernate;
+
+
+
 
 
 @WebServlet(name = "UserController", value = "/user")
@@ -31,7 +46,7 @@ public class UserController extends HttpServlet {
                     showUpdateForm(req, resp);
                     break;
                 case "confirmDelete":
-                    deleteUser(req,resp);
+                    deleteUser(req, resp);
                     break;
                 case "view":
                     viewUser(req, resp);
@@ -39,6 +54,9 @@ public class UserController extends HttpServlet {
                 case "list":
                     listUsers(req, resp);
                     break;
+                case "viewOrderHistory":  // New action to view order history
+                    viewOrderHistory(req, resp);
+                break;
             }
     }
 
@@ -46,7 +64,7 @@ public class UserController extends HttpServlet {
         Optional<User> userOpt = findUserById(req);
         if (userOpt.isPresent()) {
             req.setAttribute("user", userOpt.get());
-            req.getRequestDispatcher("jsp/user/view.jsp").forward(req, resp);
+            req.getRequestDispatcher("WEB-INF/views/user/view.jsp").forward(req, resp);
         } else {
             req.setAttribute("error", "User not found.");
             req.getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
@@ -64,7 +82,7 @@ public class UserController extends HttpServlet {
         String error = (String) req.getAttribute("error");  // Optional error
         req.setAttribute("error", error);
 
-        req.getRequestDispatcher("jsp/user/list.jsp").forward(req, resp);
+        req.getRequestDispatcher("WEB-INF/views/user/list.jsp").forward(req, resp);
     }
 
 
@@ -99,12 +117,13 @@ public class UserController extends HttpServlet {
         Optional<User> userOpt = findUserById(req);
         if (userOpt.isPresent()) {
             req.setAttribute("user", userOpt.get());
-            req.getRequestDispatcher("/jsp/user/update.jsp").forward(req, resp);
+            req.getRequestDispatcher("WEB-INF/views/user/update.jsp").forward(req, resp);
         } else {
             req.setAttribute("error", "User not found.");
             req.getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
         }
     }
+
 
     private void updateUser(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         Long userId = Long.parseLong(req.getParameter("userId"));
@@ -123,6 +142,16 @@ public class UserController extends HttpServlet {
         existingUser.setCity(req.getParameter("city"));
         existingUser.setCountry(req.getParameter("country"));
         existingUser.setStreet(req.getParameter("street"));
+        
+        /* Update the Rest of user Attributes : Haroun */
+        // Convert the string to LocalDate
+        LocalDate birthdate = LocalDate.parse(req.getParameter("birthdate"), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        existingUser.setBirthdate(birthdate);
+        existingUser.setEmail(req.getParameter("email"));
+        existingUser.setCreditLimit(new BigDecimal(req.getParameter("creditLimit")));
+
+
+
 
         // Perform validation
         System.out.println("just before validation");
@@ -130,9 +159,12 @@ public class UserController extends HttpServlet {
         try {
             // Call the service to update the user
             userService.update(userId, existingUser);
-
             req.setAttribute("successMessage", "User updated successfully.");
-            req.getRequestDispatcher("/jsp/user/success.jsp").forward(req, resp);
+            req.setAttribute("user", existingUser);
+            req.getRequestDispatcher("WEB-INF/views/user/update.jsp").forward(req, resp);
+            
+            /* Commented :  After Updating, Display the message "User updated Successfuly" in the same page, no need to go success page*/
+            //req.getRequestDispatcher("/jsp/user/success.jsp").forward(req, resp);
         } catch (ValidationException e) {
             // Set validation errors and user data in request
             req.setAttribute("errors", e.getValidationErrors());
@@ -145,6 +177,8 @@ public class UserController extends HttpServlet {
         }
     }
 
+    
+
     private void deleteUser(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         Long userId = Long.parseLong(req.getParameter("userId"));
         System.out.println("here in delete user");
@@ -156,7 +190,11 @@ public class UserController extends HttpServlet {
                 userService.delete(userId);
                 System.out.println("found and deleted");
                 req.setAttribute("successMessage", "User deleted successfully.");
-                req.getRequestDispatcher("/jsp/user/success.jsp").forward(req, resp);
+                listUsers(req,resp);
+               
+                /* Not Required to go to success page : Now When the user is deleted, the page is updated automatically ==> Haroun */
+                //req.getRequestDispatcher("/jsp/user/success.jsp").forward(req, resp);
+                
             } else {
                 req.setAttribute("error", "User not found.");
                 req.getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
@@ -169,4 +207,21 @@ public class UserController extends HttpServlet {
             req.getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
         }
     }
+    
+    private void viewOrderHistory(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Long userId = Long.parseLong(req.getParameter("userId"));
+        Optional<User> userOpt = userService.findById(userId);
+        
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            List<Order> orders = user.getOrders(); // Retrieve the user's orders
+            req.setAttribute("orders", orders);
+            req.setAttribute("user", user);
+            req.getRequestDispatcher("WEB-INF/views/user/orderHistory.jsp").forward(req, resp); // Forward to order history page
+        } else {
+            req.setAttribute("error", "User not found.");
+            req.getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
+        }
+    }
+
 }

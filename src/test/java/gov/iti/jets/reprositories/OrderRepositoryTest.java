@@ -142,12 +142,12 @@ class OrderRepositoryTest {
 
     @Test
     void findByUser() {
-        given(orderRepository.findByUser(1L)).willReturn(Optional.of(order1));
+        given(orderRepository.findById(1L)).willReturn(Optional.of(order1));
 
-        Optional<Order> foundOrder = orderRepository.findByUser(1L);
+        Optional<Order> foundOrder = orderRepository.findById(1L);
         assertTrue(foundOrder.isPresent());
         assertEquals(order1, foundOrder.get());
 
-        verify(orderRepository, times(1)).findByUser(1L);
+        verify(orderRepository, times(1)).findById(1L);
     }
 }

@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import gov.iti.jets.repositories.CategoryRepository;
 import gov.iti.jets.services.CategoryService;
 import gov.iti.jets.services.ProductService;
+import gov.iti.jets.system.persistence.CreateEntityManagerFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceException;

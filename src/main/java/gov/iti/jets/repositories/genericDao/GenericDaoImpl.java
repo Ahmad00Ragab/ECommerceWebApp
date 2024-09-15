@@ -1,5 +1,6 @@
 package gov.iti.jets.repositories.genericDao;
 
+import gov.iti.jets.system.persistence.CustomPersistenceUnit;
 import gov.iti.jets.system.persistence.CreateEntityManagerFactory;
 
 import jakarta.persistence.EntityManager;
@@ -9,6 +10,10 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import org.hibernate.ObjectNotFoundException;
+import org.hibernate.jpa.HibernatePersistenceProvider;
+
+import gov.iti.jets.models.Product;
+import org.hibernate.jpa.HibernatePersistenceProvider;
 
 import java.util.HashSet;
 import java.util.Optional;

@@ -40,7 +40,7 @@ public class UserAccount extends HttpServlet {
                     break;
                 default:
                     req.setAttribute("error", "Invalid action");
-                    req.getRequestDispatcher("../error.jsp").forward(req, resp);
+                    req.getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
             }
         } catch (Exception e) {
             req.setAttribute("error", "An error occurred: " + e.getMessage());
@@ -62,7 +62,7 @@ public class UserAccount extends HttpServlet {
         Optional<User> userOpt = findUserById(req);
         if (userOpt != null) {
             req.setAttribute("user", userOpt.get());
-            req.getRequestDispatcher("../My-Account.jsp").forward(req, resp);
+            req.getRequestDispatcher("/My-Account.jsp").forward(req, resp);
         } else {
             req.setAttribute("error", "User not found.");
             req.getRequestDispatcher("/login").include(req, resp);
@@ -101,7 +101,7 @@ public class UserAccount extends HttpServlet {
             userService.update(userId, existingUser);
 
             req.setAttribute("successMessage", "User updated successfully.");
-            req.getRequestDispatcher("../My-Account.jsp").forward(req, resp);
+            req.getRequestDispatcher("My-Account.jsp").forward(req, resp);
         } catch (ValidationException e) {
             // Set validation errors and user data in request
             req.setAttribute("errors", e.getValidationErrors());

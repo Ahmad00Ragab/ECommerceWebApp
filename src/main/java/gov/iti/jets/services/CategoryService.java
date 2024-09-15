@@ -21,6 +21,10 @@ public class CategoryService {
 
     private final CategoryRepository categoryRepository;
 
+    public CategoryService(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
+    }    
+    
     public CategoryService() {
         this.categoryRepository = new CategoryRepository();
     }

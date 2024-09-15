@@ -87,24 +87,26 @@ CREATE TABLE `order_items` (
                                INDEX (`product_id`)
 );
 
+
 ALTER TABLE `product`
-    ADD FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE SET NULL;
+  ADD FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE SET NULL;
 
 ALTER TABLE `user_interest`
-    ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
+  ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
   ADD FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE CASCADE;
 
 ALTER TABLE `orders`
-    ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE SET NULL;
+  ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE SET NULL;
 
 ALTER TABLE `cart`
-    ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
+  ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
   ADD FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE;
 
 ALTER TABLE `wishlist`
-    ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
+  ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
   ADD FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE;
 
+
 ALTER TABLE `order_items`
-    ADD FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE SET NULL,
+  ADD FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE SET NULL,
   ADD FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE SET NULL;

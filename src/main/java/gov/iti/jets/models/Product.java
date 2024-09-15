@@ -33,10 +33,10 @@ public class Product {
     @Column(nullable = false)
     private int stock;
 
-    @Column(name ="shoe_color", nullable = false)
+    @Column(name ="shoe_color", nullable = true)
     private String shoeColor;
 
-    @Column(name ="shoe_size", nullable = false)
+    @Column(name ="shoe_size", nullable = true)
     private String shoeSize;
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
@@ -44,13 +44,13 @@ public class Product {
     private Set<CartItem> cart;
 
     @ManyToOne
-    @JoinColumn(name = "category_id", nullable = false)
+    @JoinColumn(name = "category_id", nullable = false )
     private Category category;
 
-    @Column(name = "date_created", nullable = false)
+    @Column(name = "date_created", nullable = true)
     private LocalDateTime dateCreated;
 
-    @Column(name = "last_updated", nullable = false)
+    @Column(name = "last_updated", nullable = true)
     private LocalDateTime lastUpdated;
 
     @Column(name = "created_by")
@@ -80,6 +80,7 @@ public class Product {
         this.name = name;
     }
 
+
     public Product(String name, BigDecimal price, int stock, Category category, LocalDateTime dateCreated, LocalDateTime lastUpdated) {
         this.name = name;
         this.price = price;
@@ -103,7 +104,8 @@ public class Product {
         Long categoryIdLong = Long.parseLong(categoryId);
         this.category = new CategoryRepository().findById(categoryIdLong)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid category ID: " + categoryId));
-    }
+        } 
+    
 
 
     /* Constructor that accepts categoryId as a String */
@@ -116,4 +118,5 @@ public class Product {
         this.category    = category;
         this.cart = new HashSet<>();
     }
+
 }

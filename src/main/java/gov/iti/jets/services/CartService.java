@@ -70,7 +70,7 @@ public class CartService {
         CartItem cartItem = cartRepository.findById(new CartKey(userId, productId))
                 .orElseThrow(() -> new ObjectNotFoundException("Cart item", new CartKey(userId, productId)));
         cartItem.setQuantity(quantity);
-        cartRepository.save(cartItem);
+        cartRepository.update(cartItem);
     }
 
     // 4. Remove an item from the cart
@@ -90,6 +90,11 @@ public class CartService {
             throw new IllegalArgumentException("User not found");
         }
         cartRepository.clearCartByUserId(userId);
+    }
+
+    public CartItem findCartItem(Long userId, Long productId) {
+        return cartRepository.findById(new CartKey(userId, productId))
+                .orElseThrow(() -> new ObjectNotFoundException("Cart item", new CartKey(userId, productId)));
     }
 
     // 6. Get total price of cart

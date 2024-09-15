@@ -1,35 +1,38 @@
-<web-app xmlns= "https://jakarta.ee/xml/ns/jakartaee"
-         xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation= "https://jakarta.ee/xml/ns/jakartaee
-https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
-         version= "5.0"
-         metadata-complete= "false">
-  <display-name>ECommerceWebApp</display-name>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+                             http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
 
-  <!-- Context Parameters -->
-  <context-param>
-    <param-name>appName</param-name>
-    <param-value>MyECommerceApp</param-value>
-  </context-param>
+
+  <!-- Display Name -->
+  <display-name>Archetype Created Web Application</display-name>
 
   <!-- Session Configuration -->
-  <session-config>
+  <!-- <session-config>
     <session-timeout>30</session-timeout>
-  </session-config>
+  </session-config> -->
 
   <!-- Welcome File -->
   <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
 
+  <!-- Default Servlet for Static Files -->
   <servlet-mapping>
-    <servlet-name>default</servlet-name>
-    <url-pattern>/css/*</url-pattern>
+      <servlet-name>default</servlet-name>
+      <url-pattern>*.html</url-pattern>
   </servlet-mapping>
 
   <servlet-mapping>
     <servlet-name>default</servlet-name>
     <url-pattern>/css/main/</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>/css/*</url-pattern>
   </servlet-mapping>
 
   <servlet-mapping>

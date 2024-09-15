@@ -3,11 +3,10 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - List Users</title>
+    <title>Order History</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
     
     <style>
@@ -50,7 +49,7 @@
 
         footer {
             text-align: center;
-            background-color: #343a40;
+            background-color:  #343a40;
             color: white;
             padding: 10px 0;
             position: fixed;
@@ -67,20 +66,15 @@
             width: fit-content;
             margin: 20px auto;
         }
-
-        a.btn {
-            margin-right: 10px;
-        }
     </style>
 </head>
-
 <body>
 
     <!-- Sidebar Section -->
     <div class="sidebar">
         <h2>Admin Panel</h2>
         <a href="${pageContext.request.contextPath}/ProductController">Manage Products</a>
-        <a href="${pageContext.request.contextPath}/AdminController">my profile</a>
+        <a href="${pageContext.request.contextPath}/AdminController">My Profile</a>
         <a href="${pageContext.request.contextPath}/user?action=list">Customer Profiles</a>
         <a href="${pageContext.request.contextPath}/LogoutServlet">Logout</a>
     </div>
@@ -89,41 +83,34 @@
     <div class="main-content">
         <div class="container-fluid">
             <div class="card p-4">
-                <h1 class="text-center">Users List</h1>
+                <h1 class="text-center">Order History for ${user.username}</h1>
 
-                <!-- Error message -->
-                <c:if test="${not empty error}">
-                    <div class="alert alert-danger text-center">${error}</div>
+                <!-- No orders message -->
+                <c:if test="${empty orders}">
+                    <p class="text-center">No orders found for this user.</p>
                 </c:if>
 
-                <!-- No users message -->
-                <c:if test="${empty users}">
-                    <p class="text-center">No users available.</p>
-                </c:if>
-
-                <!-- Users Table -->
-                <c:if test="${not empty users}">
+                <!-- Orders Table -->
+                <c:if test="${not empty orders}">
                     <table class="table table-bordered table-hover mt-4">
                         <thead class="thead-dark">
                             <tr>
-                                <th>ID</th>
-                                <th>Username</th>
-                                <th>Email</th>
-                                <th>Actions</th>
+                                <th>Order ID</th>
+                                <th>Total Price</th>
+                                <th>Date Created</th>
+                                <th>Order Items</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <c:forEach var="user" items="${users}">
+                            <c:forEach var="order" items="${orders}">
                                 <tr>
-                                    <td>${user.id}</td>
-                                    <td>${user.username}</td>
-                                    <td>${user.email}</td>
+                                    <td>${order.id}</td>
+                                    <td>$${order.totalPrice}</td>
+                                    <td>${order.dateCreated}</td>
                                     <td>
-                                        <a href="${pageContext.request.contextPath}/user?action=view&userId=${user.id}" class="btn btn-info btn-sm">View</a>
-                                        <a href="${pageContext.request.contextPath}/user?action=updateForm&userId=${user.id}" class="btn btn-warning btn-sm">Update</a>
-                                        <a href="${pageContext.request.contextPath}/user?action=confirmDelete&userId=${user.id}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
-                                        <!-- Add the Order History button -->
-                                        <a href="${pageContext.request.contextPath}/user?action=viewOrderHistory&userId=${user.id}" class="btn btn-secondary btn-sm">Order History</a>
+                                        <c:forEach var="item" items="${order.orderItems}">
+                                            ${item.product.name} (x${item.quantity}) - $${item.price}<br/>
+                                        </c:forEach>
                                     </td>
                                 </tr>
                             </c:forEach>

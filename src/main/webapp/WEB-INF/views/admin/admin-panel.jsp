@@ -45,6 +45,12 @@
             margin-bottom: 20px;
         }
 
+        .price {
+            font-size: 1.2em;  /* Larger font size */
+            color: #28a745;    /* Green color for the price */
+            font-weight: bold; /* Bold font */
+        }
+
         footer {
         text-align: center;
         background-color:  #343a40;
@@ -117,7 +123,7 @@
                                 <tr>
                                     <td>${product.id}</td>
                                     <td>${product.name}</td>
-                                    <td>${product.price}</td>
+                                    <td class="price">$${product.price}</td> <!-- Styled price -->
                                     <td>${product.stock}</td>
                                     <td>${product.category.name}</td>
                                     

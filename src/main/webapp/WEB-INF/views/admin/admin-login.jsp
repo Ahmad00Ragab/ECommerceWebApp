@@ -3,7 +3,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
 <!-- ======= Head ========= -->
 <head>
     <meta charset="UTF-8">
@@ -74,6 +73,17 @@
             font-weight: bold;
             margin-bottom: 15px;
         }
+
+        .btn-home {
+            margin-top: 15px;
+            width: 100%;
+            background-color: #28a745;
+            color: white;
+        }
+
+        .btn-home:hover {
+            background-color: #218838;
+        }
     </style>
 </head>
 
@@ -90,11 +100,10 @@
             </div>
         </c:if>
 
-        <!-- User Name Verification With AJAX -->
         <form id="loginForm" action="AdminLogin" method="POST">
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" onblur="validateUsername()" required>
+                <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" onfocusout="validateUsername()" required>
                 <span id="err"></span>
             </div>
 
@@ -105,6 +114,10 @@
 
             <button type="submit" class="btn btn-submit btn-primary">Submit</button>
         </form>
+
+
+        <!-- Home Page Button -->
+        <a href="/ECommerceWebApp/template/index.html" class="btn btn-home">Back to Home Page</a>
     </div>
 
     <footer>
@@ -135,5 +148,4 @@
         }
     </script>
 </body>
-
 </html>
