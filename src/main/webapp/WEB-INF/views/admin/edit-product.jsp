@@ -9,6 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Product</title>
+    
     <style>
         /* Your CSS styles */
         body {
@@ -16,6 +17,31 @@
             margin: 0;
             padding: 0;
             background-color: #f4f7f9;
+            padding-bottom: 60px; /* Space for the footer */
+        }
+
+        footer {
+            text-align: center;
+            background-color: #3a3f51;
+            color: white;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 100; /* Ensure the footer stays above other content */
+        }
+
+        section {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 1;
         }
 
         header {
@@ -28,15 +54,6 @@
 
         header h1 {
             margin: 0;
-        }
-
-        section {
-            max-width: 600px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         label {
@@ -74,18 +91,8 @@
         button:hover {
             background-color: #2980b9;
         }
-
-        footer {
-            text-align: center;
-            background-color: #3a3f51;
-            color: white;
-            padding: 10px 0;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
-        }
     </style>
+    
 </head>
 
 <%-- ===========  Body =========== --%>
@@ -108,6 +115,11 @@
             
             <label for="quantity">Quantity:</label>
             <input type="number" id="quantity" name="quantity" value="${product.stock}" required>
+
+               
+            <label for="description">Description:</label>
+            <input type="text" id="description" name="description" value="${product.description}" required>
+
         
             <label for="category">Category:</label>
             <select id="category" name="category" required>

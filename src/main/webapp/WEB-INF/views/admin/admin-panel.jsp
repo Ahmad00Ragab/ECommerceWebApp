@@ -177,7 +177,7 @@
             
             <!-- New Product Image URL Field -->
             <label for="imageUrl">Product Image URL:</label>
-            <input type="url" id="imageUrl" name="imageUrl" required>
+            <input type="text" id="imageUrl" name="imageUrl" required>
             
             <div class="text-right" style="margin-right: 20px;">
                 <button type="submit" class="btn btn-success mt-3">Save</button>
