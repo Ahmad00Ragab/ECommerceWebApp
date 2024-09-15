@@ -1,65 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="css/signup.css">
-	<title>Registration Form</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/signup.css">
+    <title>Registration Form</title>
 
-	<link rel="stylesheet" href="css/linearicons.css">
-	<link rel="stylesheet" href="css/themify-icons.css">
-	<link rel="stylesheet" href="css/bootstrap.css">
-	<link rel="stylesheet" href="css/magnific-popup.css">
-	<link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/linearicons.css">
+    <link rel="stylesheet" href="css/themify-icons.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/magnific-popup.css">
+    <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-
-<!-- Start Header Area -->
 <%@ include file="/common/header.jsp" %>
 
-
 <div class="wrapper" style="background-image: url('img/signup.png');">
-	<div class="inner">
-		<form action="register" method="post">
-			<h3>Sign Up</h3>
+    <div class="inner">
+        <form action="register" method="post">
+            <h3>Sign Up</h3>
 
-			<!-- First and Last Name Fields -->
-			<div class="form-group">
-				<div class="form-wrapper">
-					<label for="firstName">First Name</label>
-					<div class="form-holder">
-						<i class="fas fa-user"></i>
-						<input type="text" id="firstName" name="firstName" class="form-control" required placeholder="First Name">
-					</div>
-				</div>
-				<div class="form-wrapper">
-					<label for="lastName">Last Name</label>
-					<div class="form-holder">
-						<i class="fas fa-user"></i>
-						<input type="text" id="lastName" name="lastName" class="form-control" required placeholder="Last Name">
-					</div>
-				</div>
-			</div>
+            <!-- First and Last Name Fields -->
+            <div class="form-group">
+                <div class="form-wrapper">
+                    <label for="firstName">First Name</label>
+                    <div class="form-holder">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="firstName" name="firstName" class="form-control" required placeholder="First Name">
+                    </div>
+                </div>
+                <div class="form-wrapper">
+                    <label for="lastName">Last Name</label>
+                    <div class="form-holder">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="lastName" name="lastName" class="form-control" required placeholder="Last Name">
+                    </div>
+                </div>
+            </div>
 
-			<!-- Username -->
-			<div class="form-wrapper">
-				<label for="username">Username</label>
-				<div class="form-holder">
-					<i class="fas fa-user"></i>
-					<input type="text" id="username" name="username" class="form-control" required placeholder="Username">
-				</div>
-			</div>
+            <!-- Username -->
+            <div class="form-wrapper">
+                <label for="username">Username</label>
+                <div class="form-holder">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="username" name="username" class="form-control" required placeholder="Username" oninput="checkAvailability('username', this.value)">
+                </div>
+                <small id="usernameFeedback"></small> <!-- Feedback for username -->
+            </div>
 
-			<!-- Email -->
-			<div class="form-wrapper">
-				<label for="email">Email</label>
-				<div class="form-holder">
-					<i class="fas fa-envelope"></i>
-					<input type="email" id="email" name="email" class="form-control" required placeholder="Email Address">
-				</div>
-			</div>
+            <!-- Email -->
+            <div class="form-wrapper">
+                <label for="email">Email</label>
+                <div class="form-holder">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="email" name="email" class="form-control" required placeholder="Email Address" oninput="checkAvailability('email', this.value)">
+                </div>
+                <small id="emailFeedback"></small> <!-- Feedback for email -->
+            </div>
 
+            <!-- Other fields ... -->
+			
 			<!-- Password -->
 			<div class="form-wrapper">
 				<label for="password">Password</label>
@@ -122,15 +123,29 @@
 				</div>
 			</div>
 
-			<!-- Submit Button -->
-			<div class="form-end">
-				<button type="submit">Register</button>
-			</div>
-		</form>
-	</div>
+            <div class="form-end">
+                <button type="submit">Register</button>
+            </div>
+        </form>
+    </div>
 </div>
 <%@ include file="/common/footer.jsp" %>
 
-<!-- Load Font Awesome icons (for form icons) -->
+<!-- JavaScript for AJAX-based validation -->
+<script>
+    function checkAvailability(field, value) {
+        const feedbackElement = document.getElementById(field + 'Feedback');
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "CheckUsernameEmailAjax", true);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                feedbackElement.innerText = xhr.responseText;
+                feedbackElement.style.color = xhr.responseText.includes("valid") ? "green" : "red";
+            }
+        };
+        xhr.send("field=" + field + "&value=" + value);
+    }
+</script>
 </body>
 </html>

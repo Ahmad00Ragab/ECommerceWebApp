@@ -42,8 +42,7 @@
                     <input type="hidden" name="searchShoes" value="${param.searchShoes}" />
                     <ul class="main-categories">
                         <li class="main-nav-list">
-
-                            <input  class="pixel-radio" type="radio" id="all" name="category" value="ALL">
+                            <input class="pixel-radio" type="radio" id="all" name="category" value="ALL">
                             <label for="all">ALL</label>
                         </li>
                         <c:forEach var="category" items="${categories}">
@@ -86,12 +85,10 @@
                                     <input class="pixel-radio" type="radio" id="gray" name="color" value="gray">
                                     <label for="gray">Gray</label>
                                 </li>
-
                                 <li class="filter-list">
                                     <input class="pixel-radio" type="radio" id="blue" name="color" value="blue">
                                     <label for="blue">Blue</label>
                                 </li>
-
                             </ul>
                         </div>
 
@@ -131,7 +128,6 @@
                                     <input class="pixel-radio" type="radio" id="size45" name="size" value="45">
                                     <label for="size45">45</label>
                                 </li>
-
                             </ul>
                         </div>
 
@@ -150,9 +146,24 @@
                             </ul>
                         </div>
 
-
+                        <!-- Sorting Option -->
+                        <div class="common-filter" style="margin-top: 20px;">
+                            <div class="top-filter-head">Sorting</div>
+                            <ul>
+                                <li class="filter-list">
+                                    <label for="sortOrder">Sort By</label>
+                                    <select id="sortOrder" name="sortOrder" class="form-control">
+                                        <option value="default">Default sorting</option>
+                                        <option value="asc">ASC</option>
+                                        <option value="desc">DESC</option>
+                                    </select>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="apply-filter">
+
+                    <!-- Apply Filter Button -->
+                    <div class="apply-filter" style="margin-top: 30px;">
                         <button type="submit" class="btn primary-btn">Apply Filter</button>
                     </div>
                 </form>

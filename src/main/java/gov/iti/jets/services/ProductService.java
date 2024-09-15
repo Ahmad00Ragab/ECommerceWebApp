@@ -2,7 +2,6 @@ package gov.iti.jets.services;
 
 
 import gov.iti.jets.services.dtos.ProductDto;
-import gov.iti.jets.models.Category;
 import gov.iti.jets.models.Product;
 import gov.iti.jets.repositories.ProductRepository;
 import gov.iti.jets.system.exceptions.ProductNotFoundException;
@@ -145,12 +144,22 @@ public class ProductService {
     }*/
 
 
-    public Set<ProductDto> filterProducts(String category, String size, String color, BigDecimal minPrice, BigDecimal maxPrice, int pageNumber, int pageSize) {
-        return productRepository.filterProducts(category, size, color, minPrice, maxPrice, pageNumber, pageSize);
+    public Set<ProductDto> filterProducts(String category, String size, String color,
+                                          BigDecimal minPrice, BigDecimal maxPrice,
+                                          String sortOrder, int pageNumber, int pageSize) {
+
+        // Validate the sortOrder to either be 'asc', 'desc', or default (no sorting)
+        if (sortOrder == null || (!sortOrder.equalsIgnoreCase("ASC") && !sortOrder.equalsIgnoreCase("DESC"))) {
+            sortOrder = "default";
+        }
+
+        // Call the repository method with the validated sortOrder
+        return productRepository.filterProducts(category, size, color, minPrice, maxPrice, sortOrder, pageNumber, pageSize);
     }
 
+
     public Set<ProductDto> filterProductsByName(String name, int pageNumber, int pageSize) {
-        return productRepository.filterProductsByName(name, pageNumber, pageSize);
+        return productRepository.searchShoeByName(name, pageNumber, pageSize);
     }
 
 
@@ -160,14 +169,6 @@ public class ProductService {
 
     public int countProductsByName(String name) {
         return productRepository.countProductsByName(name);
-    }
-
-    public Set<ProductDto> sortProducts(String sortOrder, int pageNumber, int pageSize) {
-        return productRepository.sortProducts(sortOrder, pageNumber, pageSize);
-    }
-
-    public long countTotalProducts() {
-        return productRepository.countTotalProducts();
     }
 
 
