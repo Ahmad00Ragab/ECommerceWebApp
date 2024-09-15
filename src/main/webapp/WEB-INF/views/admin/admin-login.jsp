@@ -103,7 +103,7 @@
         <form id="loginForm" action="AdminLogin" method="POST">
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" onfocusout="validateUsername()" required>
+                <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" required>
                 <span id="err"></span>
             </div>
 
@@ -115,7 +115,6 @@
             <button type="submit" class="btn btn-submit btn-primary">Submit</button>
         </form>
 
-
         <!-- Home Page Button -->
         <a href="/ECommerceWebApp/index.jsp" class="btn btn-home">Back to Home Page</a>
     </div>
@@ -125,27 +124,5 @@
     </footer>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script>
-        function validateUsername() {
-            var req = null;
-            var email = document.getElementById("email").value;
-
-            if (window.XMLHttpRequest) {
-                req = new XMLHttpRequest();
-            } else if (window.ActiveXObject) {
-                req = new ActiveXObject("Microsoft.XMLHTTP");
-            }
-
-            req.onreadystatechange = function () {
-                if (req.readyState == 4 && req.status == 200) {
-                    document.getElementById("err").innerHTML = req.responseText;
-                }
-            };
-
-            req.open("POST", "AdminEmailAjax", true);
-            req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            req.send("email=" + encodeURIComponent(email));
-        }
-    </script>
 </body>
 </html>
