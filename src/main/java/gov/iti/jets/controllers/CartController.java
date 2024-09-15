@@ -72,9 +72,9 @@ public class CartController extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false); // Get session without creating a new one
-        User user = (User) session.getAttribute("loggedInUser");
+        Long userId = (Long)request.getSession().getAttribute("userId");
 
-        if (user == null) {
+        if (userId == null) {
             // Return 401 Unauthorized if the user is not logged in
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
