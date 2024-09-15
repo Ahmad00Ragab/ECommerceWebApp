@@ -42,7 +42,7 @@
                     <input type="hidden" name="searchShoes" value="${param.searchShoes}" />
                     <ul class="main-categories">
                         <li class="main-nav-list">
-                            <input class="pixel-radio" type="radio" id="all" name="category" value="ALL">
+                            <input class="pixel-radio" type="radio" id="all" name="category" value="all">
                             <label for="all">ALL</label>
                         </li>
                         <c:forEach var="category" items="${categories}">
