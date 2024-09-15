@@ -31,11 +31,13 @@ public class HomeController extends HttpServlet {
         String shoeSize = req.getParameter("size");
         String minPrice = req.getParameter("minPrice");
         String maxPrice = req.getParameter("maxPrice");
-        String productName = req.getParameter("shoeName");
+        String productName = req.getParameter("searchShoes");
         String sorting = req.getParameter("sortOrder");
         if(productName != null && !productName.isEmpty() && !productName.isBlank()){
             handleSearch(req,resp,productName);
         }
+        else if("all".equals(category))
+           handleFiltration(req, resp, null, null, null, null, null, null);
         else {
             handleFiltration(req, resp, category, shoeSize, shoeColor, productService.parseBigDecimal(minPrice), productService.parseBigDecimal(maxPrice), sorting);
         }
@@ -81,7 +83,7 @@ public class HomeController extends HttpServlet {
             int pageNumber = (pageNumberParam == null || pageNumberParam.isEmpty()) ? 1 : Integer.parseInt(pageNumberParam);
             int pageSize = 15;
 
-            Set<ProductDto> homeProducts = productService.filterProductsByName(productName, pageNumber, pageSize);
+            Set<ProductDto> homeProducts = productService.searchShoeByName(productName, pageNumber, pageSize);
             request.setAttribute("homeProducts", homeProducts);
 
             int totalProducts = productService.countProductsByName(productName);
@@ -97,7 +99,6 @@ public class HomeController extends HttpServlet {
             throw new ServletException("Error while filtering products", e);
         }
     }
-
 
 
     private  void displayAllCategories(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
