@@ -19,8 +19,46 @@ front end:
 
 1- header and footer
 
+2- ajax for cart updates and delete and add product
+
 2- add interests on sign up
 
 3- add interests on update user
 
 4- ajax on register for email and username
+
+
+
+
+
+---- for uploading images ----
+
+<!-- Upload Form -->
+    <form id="uploadForm" enctype="multipart/form-data" class="form">
+        <div class="form-group">
+            <label for="fileInput">Image:</label>
+            <input type="file" name="file" id="fileInput">
+        </div>
+    </form>
+private static final String UPLOAD_DIRECTORY = "uploads";
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        // Prepare upload path
+        String uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIRECTORY;
+        File uploadDir = new File(uploadPath);
+        if (!uploadDir.exists()) {
+            uploadDir.mkdir();
+        }
+
+        // Get file part and process it
+        Part filePart = request.getPart("file");
+        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+        File file = new File(uploadPath + File.separator + fileName);
+        filePart.write(file.getAbsolutePath());
+
+        System.out.println("uploaded suceefully");
+    }
+}

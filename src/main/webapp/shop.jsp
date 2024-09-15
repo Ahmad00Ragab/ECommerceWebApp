@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="css/ion.rangeSlider.skinFlat.css" />
     <link rel="stylesheet" href="css/magnific-popup.css">
     <link rel="stylesheet" href="css/main.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body id="category">
@@ -35,7 +36,7 @@
                 <nav class="d-flex align-items-center">
                     <a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
                     <a href="products">Shop<span class="lnr lnr-arrow-right"></span></a>
-                    <a href="products">Fashon Category</a>
+                    <a href="products">Fashion Category</a>
                 </nav>
             </div>
         </div>
@@ -44,9 +45,7 @@
 <div class="container">
     <div class="row">
         <div class="col-xl-3 col-lg-4 col-md-5">
-            <!-- Dynamic categories -->
-
-            <!-- Product Filters -->
+            <!-- Sidebar with filters -->
             <div class="sidebar-filter mt-50">
                 <div class="top-filter-head">Product Filters</div>
                 <!-- Shoe Sizes -->
@@ -57,15 +56,7 @@
                             <li class="filter-list">
                                 <input class="pixel-radio" type="radio" id="size7" name="size"><label for="size7">7<span>(20)</span></label>
                             </li>
-                            <li class="filter-list">
-                                <input class="pixel-radio" type="radio" id="size8" name="size"><label for="size8">8<span>(25)</span></label>
-                            </li>
-                            <li class="filter-list">
-                                <input class="pixel-radio" type="radio" id="size9" name="size"><label for="size9">9<span>(18)</span></label>
-                            </li>
-                            <li class="filter-list">
-                                <input class="pixel-radio" type="radio" id="size10" name="size"><label for="size10">10<span>(30)</span></label>
-                            </li>
+                            <!-- More size options here -->
                         </ul>
                     </form>
                 </div>
@@ -101,7 +92,7 @@
                 </div>
             </div>
 
-            <!-- Dynamic Product Listing -->
+            <!-- Product Listing -->
             <section class="lattest-product-area pb-40 category-list">
                 <div class="row">
                     <c:forEach var="product" items="${homeProducts}">
@@ -114,7 +105,10 @@
                                         <h6><fmt:formatNumber value="${product.price}" type="currency"/></h6>
                                     </div>
                                     <div class="prd-bottom">
-                                        <a href="cart?action=add&productId=${product.id}" class="social-info"><span class="ti-bag"></span><p class="hover-text">add to bag</p></a>
+                                        <!-- Update the add-to-cart link -->
+                                        <a href="javascript:void(0);" class="social-info add-to-cart" data-product-id="${product.id}">
+                                            <span class="ti-bag"></span><p class="hover-text">add to bag</p>
+                                        </a>
                                         <a href="#" class="social-info"><span class="lnr lnr-heart"></span><p class="hover-text">Wishlist</p></a>
                                     </div>
                                 </div>
@@ -147,6 +141,38 @@
         </div>
     </div>
 </div>
+
+<!-- AJAX Script for Adding Product to Cart -->
+<script>
+    $(document).ready(function() {
+        $('.add-to-cart').click(function() {
+            var productId = $(this).data('product-id');
+
+            $.ajax({
+                url: 'cart', // Ensure this URL is correct
+                method: 'POST',
+                data: {
+                    action: 'add',
+                    productId: productId
+                },
+                success: function(response) {
+                    // Success message
+                    alert(response.message || "Item added to cart successfully!");
+                },
+                error: function(xhr, status, error) {
+                    if (xhr.status === 401) { // If status is 401 Unauthorized
+                        alert("Please log in to add items to the cart.");
+                        window.location.href = "login"; // Redirect to login page
+                    } else {
+                        // Other error
+                        alert("Error: " + (xhr.responseText || "Failed to add item to cart. Please try again."));
+                    }
+                }
+            });
+        });
+    });
+
+</script>
 
 <!-- Include footer -->
 <%@ include file="/common/footer.jsp" %>

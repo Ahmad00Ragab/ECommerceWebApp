@@ -5,13 +5,13 @@
 <html lang="en" class="no-js">
 
 <head>
-    <!-- Mobile Specific Meta -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="shortcut icon" href="img/fav.png">
     <meta charset="UTF-8">
     <title>Karma Shop</title>
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/main.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
@@ -65,24 +65,15 @@
                                 <h5>${item.product.price}</h5> <!-- Product price -->
                             </td>
                             <td>
-                                <!-- Quantity input and update form -->
-                                <form action="cart" method="post">
-                                    <input type="hidden" name="productId" value="${item.product.id}" />
-                                    <input type="number" name="quantity" value="${item.quantity}" min="1" style="width: 60px;" />
-                                    <input type="hidden" name="action" value="update" />
-                                    <button type="submit" class="btn btn-primary">Update</button>
-                                </form>
+                                <!-- Quantity input field with AJAX trigger -->
+                                <input type="number" class="quantity" data-productid="${item.product.id}" value="${item.quantity}" min="1" style="width: 60px;" />
                             </td>
                             <td>
-                                <h5>${item.product.price * item.quantity}</h5> <!-- Total price -->
+                                <h5 class="total-price">${item.product.price * item.quantity}</h5> <!-- Total price -->
                             </td>
                             <td>
-                                <!-- Remove item form -->
-                                <form action="cart" method="post">
-                                    <input type="hidden" name="productId" value="${item.product.id}" />
-                                    <input type="hidden" name="action" value="delete" />
-                                    <button type="submit" class="btn btn-danger">Remove</button>
-                                </form>
+                                <!-- Delete item button with AJAX trigger -->
+                                <button class="btn btn-danger delete-item" data-productid="${item.product.id}">Remove</button>
                             </td>
                         </tr>
                     </c:forEach>
@@ -92,7 +83,7 @@
                         <td></td>
                         <td></td>
                         <td><h5>Subtotal</h5></td>
-                        <td><h5>${totalPrice}</h5></td>
+                        <td><h5 id="total-price">${totalPrice}</h5></td>
                     </tr>
 
                     <tr class="out_button_area">
@@ -115,8 +106,67 @@
 </section>
 <!--================End Cart Area =================-->
 
-<script src="js/vendor/jquery-2.2.4.min.js"></script>
-<script src="js/vendor/bootstrap.min.js"></script>
+<!-- jQuery AJAX to handle quantity updates and delete actions -->
+<script>
+    $(document).ready(function () {
+        // When the quantity input is changed
+        $('.quantity').on('input', function () {
+            let productId = $(this).data('productid');
+            let quantity = $(this).val();
+
+            if (quantity < 1) {
+                quantity = 1; // Ensure minimum quantity is 1
+                $(this).val(1);
+            }
+
+            $.ajax({
+                url: 'cart',
+                type: 'POST',
+                data: {
+                    productId: productId,
+                    quantity: quantity,
+                    action: 'update'
+                },
+                success: function (response) {
+                    // Update total price for the row
+                    let row = $('input[data-productid="' + productId + '"]').closest('tr');
+                    row.find('.total-price').text(response.rowTotalPrice);
+
+                    // Update the overall cart total price
+                    $('#total-price').text(response.totalPrice);
+                },
+                error: function () {
+                    alert('Error updating quantity. Please try again.');
+                }
+            });
+        });
+
+        // Handle delete button click
+        $('.delete-item').on('click', function () {
+            let productId = $(this).data('productid');
+            let row = $(this).closest('tr'); // Get the table row that contains the item to be deleted
+
+            $.ajax({
+                url: 'cart',
+                type: 'POST',
+                data: {
+                    productId: productId,
+                    action: 'delete'
+                },
+                success: function (response) {
+                    // Remove the deleted item row from the cart table
+                    row.remove();
+
+                    // Update the overall cart total price
+                    $('#total-price').text(response.totalPrice);
+                },
+                error: function () {
+                    alert('Error deleting item. Please try again.');
+                }
+            });
+        });
+    });
+</script>
 
 <%@include file="common/footer.jsp"%>
 </body>
