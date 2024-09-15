@@ -6,6 +6,7 @@ import gov.iti.jets.models.Category;
 import gov.iti.jets.models.Product;
 import gov.iti.jets.repositories.ProductRepository;
 import gov.iti.jets.system.exceptions.ProductNotFoundException;
+
 import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.Set;
@@ -47,6 +48,7 @@ public class ProductService {
         }
         return product;
     }
+
     public Product saveProduct(Product product) {
         productRepository.save(product);
         return product;
@@ -143,18 +145,31 @@ public class ProductService {
     }*/
 
 
-
-
-
-
-    public Set<ProductDto> filterProducts(String category, String size, String color,BigDecimal minPrice, BigDecimal maxPrice, int pageNumber, int pageSize) {
-        return productRepository.filterProducts(category, size, color,minPrice,maxPrice ,pageNumber, pageSize);
+    public Set<ProductDto> filterProducts(String category, String size, String color, BigDecimal minPrice, BigDecimal maxPrice, int pageNumber, int pageSize) {
+        return productRepository.filterProducts(category, size, color, minPrice, maxPrice, pageNumber, pageSize);
     }
 
-    public int countFilteredProducts(String category, String size, String color,
-                                     BigDecimal minPrice, BigDecimal maxPrice) {
-        return productRepository.countFilteredProducts(category,size, color, minPrice, maxPrice);
+    public Set<ProductDto> filterProductsByName(String name, int pageNumber, int pageSize) {
+        return productRepository.filterProductsByName(name, pageNumber, pageSize);
     }
+
+
+    public int countFilteredProducts(String category, String size, String color, BigDecimal minPrice, BigDecimal maxPrice) {
+        return productRepository.countFilteredProducts(category, size, color, minPrice, maxPrice);
+    }
+
+    public int countProductsByName(String name) {
+        return productRepository.countProductsByName(name);
+    }
+
+    public Set<ProductDto> sortProducts(String sortOrder, int pageNumber, int pageSize) {
+        return productRepository.sortProducts(sortOrder, pageNumber, pageSize);
+    }
+
+    public long countTotalProducts() {
+        return productRepository.countTotalProducts();
+    }
+
 
     public BigDecimal parseBigDecimal(String value) {
         try {

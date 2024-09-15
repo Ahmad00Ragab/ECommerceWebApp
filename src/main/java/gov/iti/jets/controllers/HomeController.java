@@ -16,8 +16,8 @@ import java.util.Set;
 
 @WebServlet(name = "homeServlet", urlPatterns ={"/home", "/products"} )
 public class HomeController extends HttpServlet {
-    private ProductService productService;
-    private CategoryService categoryService;
+    private final ProductService productService;
+    private final CategoryService categoryService;
 
     public HomeController(){
         this.productService = new ProductService();
@@ -31,8 +31,13 @@ public class HomeController extends HttpServlet {
         String shoeSize = req.getParameter("size");
         String minPrice = req.getParameter("minPrice");
         String maxPrice = req.getParameter("maxPrice");
-        handleFiltration(req,resp,category,shoeSize,shoeColor, productService.parseBigDecimal(minPrice), productService.parseBigDecimal(maxPrice));
-
+        String productName = req.getParameter("shoeName");
+        if(productName != null && !productName.isEmpty() && !productName.isBlank()){
+            handleSearch(req,resp,productName);
+        }
+        else {
+            handleFiltration(req, resp, category, shoeSize, shoeColor, productService.parseBigDecimal(minPrice), productService.parseBigDecimal(maxPrice));
+        }
     }
 
     @Override
@@ -43,12 +48,11 @@ public class HomeController extends HttpServlet {
 
     public void handleFiltration(HttpServletRequest request, HttpServletResponse response, String category,
                                  String size, String color, BigDecimal minPrice, BigDecimal maxPrice) throws ServletException, IOException {
-        try {
             displayAllCategories(request, response);
-
+        try {
             String pageNumberParam = request.getParameter("pageNumber");
             int pageNumber = (pageNumberParam == null || pageNumberParam.isEmpty()) ? 1 : Integer.parseInt(pageNumberParam);
-            int pageSize = 10;
+            int pageSize = 3;
 
             Set<ProductDto> homeProducts = productService.filterProducts(category, size, color, minPrice, maxPrice, pageNumber, pageSize);
             request.setAttribute("homeProducts", homeProducts);
@@ -66,6 +70,33 @@ public class HomeController extends HttpServlet {
             throw new ServletException("Error while filtering products", e);
         }
     }
+
+
+
+    public void handleSearch(HttpServletRequest request, HttpServletResponse response, String productName) throws ServletException, IOException {
+        displayAllCategories(request, response);
+        try {
+            String pageNumberParam = request.getParameter("pageNumber");
+            int pageNumber = (pageNumberParam == null || pageNumberParam.isEmpty()) ? 1 : Integer.parseInt(pageNumberParam);
+            int pageSize = 3;
+
+            Set<ProductDto> homeProducts = productService.filterProductsByName(productName, pageNumber, pageSize);
+            request.setAttribute("homeProducts", homeProducts);
+
+            int totalProducts = productService.countProductsByName(productName);
+            int totalPages = (int) Math.ceil((double) totalProducts / pageSize);
+
+            request.setAttribute("currentPage", pageNumber);
+            request.setAttribute("totalPages", totalPages);
+
+            request.getRequestDispatcher("/shop.jsp").forward(request, response);
+        } catch (NumberFormatException e) {
+            throw new ServletException("Invalid page number format", e);
+        } catch (Exception e) {
+            throw new ServletException("Error while filtering products", e);
+        }
+    }
+
 
 
     private  void displayAllCategories(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
