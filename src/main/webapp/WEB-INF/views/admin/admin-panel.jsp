@@ -79,6 +79,7 @@
     
         <a href="${pageContext.request.contextPath}/LogoutServlet">Logout</a>
 
+
     </div>
 
 
@@ -151,32 +152,39 @@
     </div>
 
 
-    <!-- Product Modal -->
-    <div id="productModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <form id="productForm" action="ProductController" method="post">
-                <input type="hidden" name="productId" id="productId">
-                <label for="name">Product Name:</label>
-                <input type="text" id="name" name="name" required>
-                <label for="price">Price:</label>
-                <input type="number" id="price" name="price" step="0.01" required>
-                <label for="quantity">Quantity:</label>
-                <input type="number" id="quantity" name="quantity" required>
-                <label for="category">Category:</label>
-                <select id="category" name="category" required>
-                    <c:forEach var="category" items="${categories}">
-                        <option value="${category.id}">${category.name}</option>
-                    </c:forEach>
-                </select>
-
-                <div class="text-right" style="margin-right: 20px;">
-                    <button type="submit" class="btn btn-success mt-3">Save</button>
-                </div>
-
-            </form>
-        </div>
+  <!-- Product Modal -->
+<div id="productModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <form id="productForm" action="ProductController" method="post">
+            <input type="hidden" name="productId" id="productId">
+            
+            <label for="name">Product Name:</label>
+            <input type="text" id="name" name="name" required>
+            
+            <label for="price">Price:</label>
+            <input type="number" id="price" name="price" step="0.01" required>
+            
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" name="quantity" required>
+            
+            <label for="category">Category:</label>
+            <select id="category" name="category" required>
+                <c:forEach var="category" items="${categories}">
+                    <option value="${category.id}">${category.name}</option>
+                </c:forEach>
+            </select>
+            
+            <!-- New Product Image URL Field -->
+            <label for="imageUrl">Product Image URL:</label>
+            <input type="url" id="imageUrl" name="imageUrl" required>
+            
+            <div class="text-right" style="margin-right: 20px;">
+                <button type="submit" class="btn btn-success mt-3">Save</button>
+            </div>
+        </form>
     </div>
+</div>
 
     <footer>
         &copy; 2024 Your Admin Panel. All Rights Reserved for shoesly.
@@ -194,11 +202,12 @@
         });
 
         function clearFormData() {
-            document.getElementById("productId").value = '';
-            document.getElementById("name").value = '';
-            document.getElementById("price").value = '';
-            document.getElementById("quantity").value = '';
-            document.getElementById("category").value = '';
+            document.getElementById("productId").value = '';   // Clear hidden productId field
+            document.getElementById("name").value = '';        // Clear product name field
+            document.getElementById("price").value = '';       // Clear price field
+            document.getElementById("quantity").value = '';    // Clear quantity field
+            document.getElementById("category").value = '';    // Clear category selection
+            document.getElementById("imageUrl").value = '';    // Clear image URL field
         }
     </script>
 </body>

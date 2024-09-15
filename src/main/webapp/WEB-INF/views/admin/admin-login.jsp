@@ -117,7 +117,7 @@
 
 
         <!-- Home Page Button -->
-        <a href="/ECommerceWebApp/template/index.html" class="btn btn-home">Back to Home Page</a>
+        <a href="/ECommerceWebApp/index.jsp" class="btn btn-home">Back to Home Page</a>
     </div>
 
     <footer>

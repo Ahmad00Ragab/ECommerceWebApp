@@ -10,6 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Product</title>
     <style>
+        /* Your CSS styles */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
@@ -114,6 +115,10 @@
                     <option value="${category.id}" ${category.id == product.category.id ? 'selected' : ''}>${category.name}</option>
                 </c:forEach>
             </select>
+
+            <%-- New Field for Product Image URL --%>
+            <label for="imageUrl">Product Image URL:</label>
+            <input type="text" id="imageUrl" name="imageUrl" value="${product.imageUrl}" placeholder="Enter product image URL">
             
             <button type="submit" id="submitBtn">Save</button>
         </form>

@@ -14,6 +14,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -23,11 +25,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 import org.hibernate.Hibernate;
-
-
-
 
 
 @WebServlet(name = "UserController", value = "/user")
@@ -41,23 +39,40 @@ public class UserController extends HttpServlet {
         String action = req.getParameter("action");
         System.out.println("here in get");
         log("here in get");
-            switch (action) {
-                case "updateForm":
-                    showUpdateForm(req, resp);
-                    break;
-                case "confirmDelete":
-                    deleteUser(req, resp);
-                    break;
-                case "view":
-                    viewUser(req, resp);
-                    break;
-                case "list":
-                    listUsers(req, resp);
-                    break;
-                case "viewOrderHistory":  // New action to view order history
-                    viewOrderHistory(req, resp);
-                break;
+
+        // Validate session for admin or user
+        HttpSession session = req.getSession(false); // Get existing session, but don't create a new one
+
+        if (session == null || (session.getAttribute("id") == null && session.getAttribute("userId") == null)) {
+            // Neither admin nor user is logged in
+            req.setAttribute("errorMessage", "Please log in to access this page.");
+
+            // Check if the request is for an admin or a user and redirect accordingly
+            if (session.getAttribute("id") == null) {
+                req.getRequestDispatcher("/WEB-INF/views/admin/admin-login.jsp").forward(req, resp);
+            } else {
+                req.getRequestDispatcher("/login.jsp").forward(req, resp);
             }
+            return;
+        }
+
+        switch (action) {
+            case "updateForm":
+                showUpdateForm(req, resp);
+                break;
+            case "confirmDelete":
+                deleteUser(req, resp);
+                break;
+            case "view":
+                viewUser(req, resp);
+                break;
+            case "list":
+                listUsers(req, resp);
+                break;
+            case "viewOrderHistory": // New action to view order history
+                viewOrderHistory(req, resp);
+                break;
+        }
     }
 
     private void viewUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -79,15 +94,31 @@ public class UserController extends HttpServlet {
 
         System.out.println("Users: " + users);
 
-        String error = (String) req.getAttribute("error");  // Optional error
+        String error = (String) req.getAttribute("error"); // Optional error
         req.setAttribute("error", error);
 
         req.getRequestDispatcher("WEB-INF/views/user/list.jsp").forward(req, resp);
     }
 
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    
+        // Validate session for admin or user
+        HttpSession session = req.getSession(false); // Get existing session, but don't create a new one
+
+        if (session == null || (session.getAttribute("id") == null && session.getAttribute("userId") == null)) {
+            // Neither admin nor user is logged in
+            req.setAttribute("errorMessage", "Please log in to access this page.");
+
+            // Check if the request is for an admin or a user and redirect accordingly
+            if (session.getAttribute("id") == null) {
+                req.getRequestDispatcher("/WEB-INF/views/admin/admin-login.jsp").forward(req, resp);
+            } else {
+                req.getRequestDispatcher("/login.jsp").forward(req, resp);
+            }
+            return;
+        }
+
         String action = req.getParameter("action");
 
         try {
@@ -124,7 +155,6 @@ public class UserController extends HttpServlet {
         }
     }
 
-
     private void updateUser(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         Long userId = Long.parseLong(req.getParameter("userId"));
         Optional<User> existingUserOpt = userService.findById(userId);
@@ -142,16 +172,13 @@ public class UserController extends HttpServlet {
         existingUser.setCity(req.getParameter("city"));
         existingUser.setCountry(req.getParameter("country"));
         existingUser.setStreet(req.getParameter("street"));
-        
+
         /* Update the Rest of user Attributes : Haroun */
         // Convert the string to LocalDate
         LocalDate birthdate = LocalDate.parse(req.getParameter("birthdate"), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         existingUser.setBirthdate(birthdate);
         existingUser.setEmail(req.getParameter("email"));
         existingUser.setCreditLimit(new BigDecimal(req.getParameter("creditLimit")));
-
-
-
 
         // Perform validation
         System.out.println("just before validation");
@@ -162,9 +189,12 @@ public class UserController extends HttpServlet {
             req.setAttribute("successMessage", "User updated successfully.");
             req.setAttribute("user", existingUser);
             req.getRequestDispatcher("WEB-INF/views/user/update.jsp").forward(req, resp);
-            
-            /* Commented :  After Updating, Display the message "User updated Successfuly" in the same page, no need to go success page*/
-            //req.getRequestDispatcher("/jsp/user/success.jsp").forward(req, resp);
+
+            /*
+             * Commented : After Updating, Display the message "User updated Successfuly" in
+             * the same page, no need to go success page
+             */
+            // req.getRequestDispatcher("/jsp/user/success.jsp").forward(req, resp);
         } catch (ValidationException e) {
             // Set validation errors and user data in request
             req.setAttribute("errors", e.getValidationErrors());
@@ -177,8 +207,6 @@ public class UserController extends HttpServlet {
         }
     }
 
-    
-
     private void deleteUser(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         Long userId = Long.parseLong(req.getParameter("userId"));
         System.out.println("here in delete user");
@@ -190,11 +218,14 @@ public class UserController extends HttpServlet {
                 userService.delete(userId);
                 System.out.println("found and deleted");
                 req.setAttribute("successMessage", "User deleted successfully.");
-                listUsers(req,resp);
-               
-                /* Not Required to go to success page : Now When the user is deleted, the page is updated automatically ==> Haroun */
-                //req.getRequestDispatcher("/jsp/user/success.jsp").forward(req, resp);
-                
+                listUsers(req, resp);
+
+                /*
+                 * Not Required to go to success page : Now When the user is deleted, the page
+                 * is updated automatically ==> Haroun
+                 */
+                // req.getRequestDispatcher("/jsp/user/success.jsp").forward(req, resp);
+
             } else {
                 req.setAttribute("error", "User not found.");
                 req.getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
@@ -207,17 +238,19 @@ public class UserController extends HttpServlet {
             req.getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
         }
     }
-    
-    private void viewOrderHistory(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+    private void viewOrderHistory(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
         Long userId = Long.parseLong(req.getParameter("userId"));
         Optional<User> userOpt = userService.findById(userId);
-        
+
         if (userOpt.isPresent()) {
             User user = userOpt.get();
             List<Order> orders = user.getOrders(); // Retrieve the user's orders
             req.setAttribute("orders", orders);
             req.setAttribute("user", user);
-            req.getRequestDispatcher("WEB-INF/views/user/orderHistory.jsp").forward(req, resp); // Forward to order history page
+            req.getRequestDispatcher("WEB-INF/views/user/orderHistory.jsp").forward(req, resp); // Forward to order
+                                                                                                // history page
         } else {
             req.setAttribute("error", "User not found.");
             req.getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
