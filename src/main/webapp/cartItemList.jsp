@@ -8,6 +8,7 @@
 <body>
 
 <h1>Your Cart</h1>
+<%@ include file="/common/header.jsp" %>
 
 <!-- Display cart items using JSTL -->
 <table>
