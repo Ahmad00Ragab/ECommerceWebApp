@@ -32,11 +32,12 @@ public class HomeController extends HttpServlet {
         String minPrice = req.getParameter("minPrice");
         String maxPrice = req.getParameter("maxPrice");
         String productName = req.getParameter("shoeName");
+        String sorting = req.getParameter("sortOrder");
         if(productName != null && !productName.isEmpty() && !productName.isBlank()){
             handleSearch(req,resp,productName);
         }
         else {
-            handleFiltration(req, resp, category, shoeSize, shoeColor, productService.parseBigDecimal(minPrice), productService.parseBigDecimal(maxPrice));
+            handleFiltration(req, resp, category, shoeSize, shoeColor, productService.parseBigDecimal(minPrice), productService.parseBigDecimal(maxPrice), sorting);
         }
     }
 
@@ -47,14 +48,14 @@ public class HomeController extends HttpServlet {
 
 
     public void handleFiltration(HttpServletRequest request, HttpServletResponse response, String category,
-                                 String size, String color, BigDecimal minPrice, BigDecimal maxPrice) throws ServletException, IOException {
+                                 String size, String color, BigDecimal minPrice, BigDecimal maxPrice,String sortOrder) throws ServletException, IOException {
             displayAllCategories(request, response);
         try {
             String pageNumberParam = request.getParameter("pageNumber");
             int pageNumber = (pageNumberParam == null || pageNumberParam.isEmpty()) ? 1 : Integer.parseInt(pageNumberParam);
-            int pageSize = 3;
+            int pageSize = 15;
 
-            Set<ProductDto> homeProducts = productService.filterProducts(category, size, color, minPrice, maxPrice, pageNumber, pageSize);
+            Set<ProductDto> homeProducts = productService.filterProducts(category,size,color,minPrice,maxPrice,sortOrder,pageNumber,pageSize);
             request.setAttribute("homeProducts", homeProducts);
 
             int totalProducts = productService.countFilteredProducts(category, size, color, minPrice, maxPrice);
@@ -78,7 +79,7 @@ public class HomeController extends HttpServlet {
         try {
             String pageNumberParam = request.getParameter("pageNumber");
             int pageNumber = (pageNumberParam == null || pageNumberParam.isEmpty()) ? 1 : Integer.parseInt(pageNumberParam);
-            int pageSize = 3;
+            int pageSize = 15;
 
             Set<ProductDto> homeProducts = productService.filterProductsByName(productName, pageNumber, pageSize);
             request.setAttribute("homeProducts", homeProducts);
