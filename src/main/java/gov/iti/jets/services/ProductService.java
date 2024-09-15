@@ -2,10 +2,10 @@ package gov.iti.jets.services;
 
 
 import gov.iti.jets.services.dtos.ProductDto;
-import gov.iti.jets.models.Category;
 import gov.iti.jets.models.Product;
 import gov.iti.jets.repositories.ProductRepository;
 import gov.iti.jets.system.exceptions.ProductNotFoundException;
+
 import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.Set;
@@ -35,6 +35,17 @@ public class ProductService {
             throw new ProductNotFoundException();
         }
         return optProduct;
+    }
+
+    public Product findProductById2(Long id) {
+        Optional<Product> optProduct = productRepository.findById(id);
+        Product product = null;
+        if (optProduct.isPresent()) {
+            product = optProduct.get();
+        } else {
+            throw new ProductNotFoundException();
+        }
+        return product;
     }
 
     public Product saveProduct(Product product) {
@@ -133,18 +144,40 @@ public class ProductService {
     }*/
 
 
+    public Set<ProductDto> filterProducts(String category, String size, String color,
+                                          BigDecimal minPrice, BigDecimal maxPrice,
+                                          String sortOrder, int pageNumber, int pageSize) {
 
+        // Validate the sortOrder to either be 'asc', 'desc', or default (no sorting)
+        if (sortOrder == null || (!sortOrder.equalsIgnoreCase("asc") && !sortOrder.equalsIgnoreCase("desc"))) {
+            sortOrder = "default";
+        }else {
+            if(sortOrder.equalsIgnoreCase("asc")) {
+                sortOrder = "asc";
+            }else if (sortOrder.equalsIgnoreCase("desc")) {
+                sortOrder = "desc";
+            }
 
+        }
 
-
-    public Set<ProductDto> filterProducts(String category, String size, String color,BigDecimal minPrice, BigDecimal maxPrice, int pageNumber, int pageSize) {
-        return productRepository.filterProducts(category, size, color,minPrice,maxPrice ,pageNumber, pageSize);
+        // Call the repository method with the validated sortOrder
+        return productRepository.filterProducts(category, size, color, minPrice, maxPrice, sortOrder, pageNumber, pageSize);
     }
 
-    public int countFilteredProducts(String category, String size, String color,
-                                     BigDecimal minPrice, BigDecimal maxPrice) {
-        return productRepository.countFilteredProducts(category,size, color, minPrice, maxPrice);
+
+    public Set<ProductDto> filterProductsByName(String name, int pageNumber, int pageSize) {
+        return productRepository.searchShoeByName(name, pageNumber, pageSize);
     }
+
+
+    public int countFilteredProducts(String category, String size, String color, BigDecimal minPrice, BigDecimal maxPrice) {
+        return productRepository.countFilteredProducts(category, size, color, minPrice, maxPrice);
+    }
+
+    public int countProductsByName(String name) {
+        return productRepository.countProductsByName(name);
+    }
+
 
     public BigDecimal parseBigDecimal(String value) {
         try {

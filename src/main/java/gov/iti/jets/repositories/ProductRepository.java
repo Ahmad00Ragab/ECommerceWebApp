@@ -2,9 +2,7 @@ package gov.iti.jets.repositories;
 
 import gov.iti.jets.services.dtos.ProductDto;
 import gov.iti.jets.repositories.genericDao.GenericDaoImpl;
-import gov.iti.jets.models.Category;
 import gov.iti.jets.models.Product;
-import gov.iti.jets.repositories.genericDao.GenericDaoImpl;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
@@ -102,20 +100,16 @@ public class ProductRepository extends GenericDaoImpl<Product> {
         }
     }
 
-/*
 
-
-
-
-    public Set<ProductDto> findProductByNameUsingProductDTO(String name, int pageNumber, int pageSize) {
+    public Set<ProductDto> searchShoeByName(String name, int pageNumber, int pageSize) {
         EntityManager em = null;
         try {
             em = emf.createEntityManager();
-
             CriteriaBuilder cb = em.getCriteriaBuilder();
             CriteriaQuery<ProductDto> cq = cb.createQuery(ProductDto.class);
             Root<Product> productRoot = cq.from(Product.class);
 
+            // Construct the ProductDto
             cq.select(cb.construct(ProductDto.class,
                     productRoot.get("id"),
                     productRoot.get("name"),
@@ -124,7 +118,15 @@ public class ProductRepository extends GenericDaoImpl<Product> {
                     productRoot.get("price")
             ));
 
-            cq.where(cb.like(cb.lower(productRoot.get("name")), "%" + name.toLowerCase() + "%"));
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (name != null && !name.isEmpty()) {
+                predicates.add(cb.like(cb.lower(productRoot.get("name")), "%" + name.toLowerCase() + "%"));
+            }
+
+            if (!predicates.isEmpty()) {
+                cq.where(predicates.toArray(new Predicate[0]));
+            }
 
             TypedQuery<ProductDto> query = em.createQuery(cq);
 
@@ -132,53 +134,16 @@ public class ProductRepository extends GenericDaoImpl<Product> {
             query.setMaxResults(pageSize);
 
             return new HashSet<>(query.getResultList());
+
         } finally {
             if (em != null) {
                 em.close();
             }
         }
     }
-
-    public Set<ProductDto> sortProductsByCategoryAndPriceUsingProductDTO(String category, int pageNumber, int pageSize) {
-        EntityManager em = null;
-        try {
-            em = emf.createEntityManager();
-            CriteriaBuilder cb = em.getCriteriaBuilder();
-            CriteriaQuery<ProductDto> cq = cb.createQuery(ProductDto.class);
-            Root<Product> productRoot = cq.from(Product.class);
-            Join<Product, Category> categoryJoin = productRoot.join("category");
-
-            cq.select(cb.construct(
-                            ProductDto.class,
-                            productRoot.get("id"),
-                            productRoot.get("name"),
-                            productRoot.get("description"),
-                            productRoot.get("imageUrl"),
-                            productRoot.get("price")
-                    ))
-                    .where(cb.equal(categoryJoin.get("name"), category))
-                    .orderBy(cb.asc(productRoot.get("price")));
-
-            TypedQuery<ProductDto> query = em.createQuery(cq);
-            query.setFirstResult((pageNumber - 1) * pageSize);
-            query.setMaxResults(pageSize);
-
-            return new HashSet<>(query.getResultList());
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
-    }
-
-
-
-
-   */
-
 
     public Set<ProductDto> filterProducts(String category, String size, String color,
-                                          BigDecimal minPrice, BigDecimal maxPrice,
+                                          BigDecimal minPrice, BigDecimal maxPrice, String sortOrder,
                                           int pageNumber, int pageSize) {
         EntityManager em = null;
         try {
@@ -200,7 +165,7 @@ public class ProductRepository extends GenericDaoImpl<Product> {
             List<Predicate> predicates = new ArrayList<>();
 
             // Apply category filter
-            if (category != null && !category.isEmpty() || "ALL".equals(category)) {
+            if (category != null && !category.isEmpty()) {
                 predicates.add(cb.equal(productRoot.get("category").get("name"), category));
             }
 
@@ -227,10 +192,16 @@ public class ProductRepository extends GenericDaoImpl<Product> {
                 cq.where(predicates.toArray(new Predicate[0]));
             }
 
-            // Create and execute the query
+            // Apply sorting only if the user has requested it
+            if ("asc".equals(sortOrder)) {
+                cq.orderBy(cb.asc(productRoot.get("price")));  // Sort by price ascending
+            } else if ("desc".equals(sortOrder)) {
+                cq.orderBy(cb.desc(productRoot.get("price")));  // Sort by price descending
+            }
+
+
             TypedQuery<ProductDto> query = em.createQuery(cq);
 
-            // Pagination
             query.setFirstResult((pageNumber - 1) * pageSize);
             query.setMaxResults(pageSize);
 
@@ -242,6 +213,7 @@ public class ProductRepository extends GenericDaoImpl<Product> {
             }
         }
     }
+
 
 
     ///  counting products processes
@@ -267,7 +239,6 @@ public class ProductRepository extends GenericDaoImpl<Product> {
             }
         }
     }
-
 
 
     public int countFilteredProducts(String category, String size, String color,
@@ -324,4 +295,5 @@ public class ProductRepository extends GenericDaoImpl<Product> {
         }
 
     }
+
 }

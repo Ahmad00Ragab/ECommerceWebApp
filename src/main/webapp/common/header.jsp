@@ -29,7 +29,7 @@
 							<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
 							   aria-expanded="false">Pages</a>
 							<ul class="dropdown-menu">
-<%--								<li class="nav-item"><a class="nav-link" href="login">Login</a></li>--%>
+								<%--								<li class="nav-item"><a class="nav-link" href="login">Login</a></li>--%>
 							</ul>
 						</li>
 						<li class="nav-item"><a class="nav-link" href="contact.jsp">Contact</a></li>
