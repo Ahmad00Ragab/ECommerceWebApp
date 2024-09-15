@@ -103,6 +103,7 @@ public class ProductController extends HttpServlet {
         String productId = req.getParameter("productId");
         String name = req.getParameter("name");
         String imageUrl = req.getParameter("imageUrl"); // Capture the image URL
+        String description = req.getParameter("description"); // Capture the image URL
         BigDecimal price;
         int quantity;
 
@@ -127,7 +128,7 @@ public class ProductController extends HttpServlet {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid category ID"));
 
         // Create or update the product with the imageUrl
-        Product product = new Product(name, price, "Added by Admin", quantity, category, LocalDateTime.now(),
+        Product product = new Product(name, price, description, quantity, category, LocalDateTime.now(),
                 LocalDateTime.now());
         product.setImageUrl(imageUrl); // Set the image URL
 
