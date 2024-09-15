@@ -10,6 +10,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -20,37 +21,45 @@ import java.util.Optional;
 @WebServlet("/AdminController")
 public class AdminController extends HttpServlet {
 
-    private AdminService adminService = new AdminService();
+      private AdminService adminService = new AdminService();
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Object idObject = request.getSession().getAttribute("id");
-    
-        Long adminId = null;
-        if (idObject instanceof Integer) {
-            adminId = Long.valueOf((Integer) idObject); // Convert Integer to Long
-        } else if (idObject instanceof Long) {
-            adminId = (Long) idObject;
-        }
-    
-        if (adminId != null) {
-            // Retrieve admin details by adminId
-            Optional<Admin> adminOptional = adminService.findAdminById(adminId);
-    
-            if (adminOptional.isPresent()) {
-                Admin admin = adminOptional.get();  // Unwrap the Optional
-                request.setAttribute("admin", admin);  // Pass the actual Admin object to the JSP
-                request.getRequestDispatcher("/WEB-INF/views/admin/admin-profile.jsp").forward(request, response);
-            } else {
-                // Handle case where admin is not found
-                response.sendRedirect(request.getContextPath() + "/admin-login.jsp");
+        @Override
+        protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+            HttpSession session = request.getSession(false);  // Don't create a new session
+            if (session == null || session.getAttribute("id") == null) {
+                // Session is invalid or no admin ID, redirect to login with error
+                request.setAttribute("errorMessage", "Session expired or invalid. Please log in again.");
+                request.getRequestDispatcher("/WEB-INF/views/admin/admin-login.jsp").forward(request, response);
+                return;
             }
-        } else {
-            // Handle case where adminId is not found or invalid
-            response.sendRedirect(request.getContextPath() + "/admin-login.jsp");
-        }
-    }
 
+            // Retrieve adminId from session
+            Object idObject = session.getAttribute("id");
+            Long adminId = null;
+            if (idObject instanceof Integer) {
+                adminId = Long.valueOf((Integer) idObject);
+            } else if (idObject instanceof Long) {
+                adminId = (Long) idObject;
+            }
+
+            if (adminId != null) {
+                // Retrieve admin details by adminId
+                Optional<Admin> adminOptional = adminService.findAdminById(adminId);
+                if (adminOptional.isPresent()) {
+                    Admin admin = adminOptional.get();
+                    request.setAttribute("admin", admin);  // Pass the actual Admin object to the JSP
+                    request.getRequestDispatcher("/WEB-INF/views/admin/admin-profile.jsp").forward(request, response);
+                } else {
+                    // Admin not found, redirect to login with error
+                    request.setAttribute("errorMessage", "Admin not found. Please log in again.");
+                    request.getRequestDispatcher("/WEB-INF/views/admin/admin-login.jsp").forward(request, response);
+                }
+            } else {
+                // Invalid adminId, redirect to login with error
+                request.setAttribute("errorMessage", "Invalid Admin ID. Please log in again.");
+                request.getRequestDispatcher("/WEB-INF/views/admin/admin-login.jsp").forward(request, response);
+            }
+        }
      // 2. Find admin by email
      public Admin getAdminByEmail(String email) {
         return adminService.findAdminByEmail(email)

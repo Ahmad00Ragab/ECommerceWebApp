@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.util.Optional;
 import java.util.Set;
 
+import org.hibernate.annotations.DialectOverride.OverridesAnnotation;
 
 import gov.iti.jets.models.CartItem;
 import gov.iti.jets.models.User;
@@ -20,9 +21,15 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet("/GoToAdminLogin")
 public class GoToAdminLogin extends HttpServlet {
 
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Forward the request to the JSP page located in WEB-INF
         request.getRequestDispatcher("/WEB-INF/views/admin/admin-login.jsp").forward(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doGet(req, resp);
     }
 
 }
