@@ -42,6 +42,7 @@ public class CustomPersistenceUnit implements PersistenceUnitInfo {
              dataSource.setUsername("root");
 //            dataSource.setUsername("projectUser");
 //            dataSource.setPassword("user");
+            dataSource.setPassword("root");
             dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
             dataSource.setMaximumPoolSize(50);
             dataSource.setConnectionTimeout(30000);  // 30 seconds

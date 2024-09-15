@@ -198,7 +198,7 @@ public class ProductRepository extends GenericDaoImpl<Product> {
             List<Predicate> predicates = new ArrayList<>();
 
             // Apply category filter
-            if (category != null && !category.isEmpty() || "ALL".equals(category)) {
+            if (category != null && !category.isEmpty()) {
                 predicates.add(cb.equal(productRoot.get("category").get("name"), category));
             }
 
