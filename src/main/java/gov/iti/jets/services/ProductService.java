@@ -9,6 +9,7 @@ import gov.iti.jets.system.exceptions.ProductNotFoundException;
 import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import jakarta.transaction.Transactional;
 
@@ -89,26 +90,7 @@ public class ProductService {
         return productRepository.countWithNamedQuery(paramName, paramValue);
     }
 
-    public Product getProductByName(String name) {
-        Optional<Product> optProduct = productRepository.getProductByName(name);
-        Product product = null;
-        if (optProduct.isPresent()) {
-            product = optProduct.get();
-        } else {
-            throw new ProductNotFoundException();
-        }
-        return product;
-    }
 
-
-    public Set<Product> findProductsByCategory(String category) {
-        return productRepository.findProductsByCategory(category);
-    }
-
-
-    public Set<Product> findProductsByPrice(BigDecimal minPrice, BigDecimal maxPrice) {
-        return productRepository.findProductsByPrice(minPrice, maxPrice);
-    }
 
     public Set<Product> sortProductsByPrice() {
         return productRepository.sortProductsByPrice();
@@ -119,54 +101,19 @@ public class ProductService {
         return productRepository.sortProductsByCategoryAndPrice(category);
     }
 
-  /*
-
-    public Set<ProductDto> findProductByNameUsingProductDTO(String name, int pageNumber, int pageSize) {
-       return productRepository.findProductByNameUsingProductDTO(name, pageNumber,pageSize);
-    }
-
-
-    public int countByName(String name) {
-        return productRepository.countProductsByName(name);
-    }
-
-    public int countProductsByCategory(String category) {
-       return productRepository.countProductsByCategory(category);
-    }
-
-
-    public int countAllProducts(){
-        return productRepository.countAllProducts();
-    }
-
-    public Set<ProductDto> sortProductsByCategoryAndPriceUsingProductDTO(String category, int pageNumber, int pageSize) {
-        return productRepository.sortProductsByCategoryAndPriceUsingProductDTO(category,pageNumber,pageSize);
-    }*/
-
 
     public Set<ProductDto> filterProducts(String category, String size, String color,
                                           BigDecimal minPrice, BigDecimal maxPrice,
                                           String sortOrder, int pageNumber, int pageSize) {
+        Set<ProductDto> products = productRepository.filterProducts(category, size, color, minPrice, maxPrice, sortOrder, pageNumber, pageSize );
+        return products.stream().filter(p->p.getStock() >0).collect(Collectors.toSet());
 
-        // Validate the sortOrder to either be 'asc', 'desc', or default (no sorting)
-        if (sortOrder == null || (!sortOrder.equalsIgnoreCase("asc") && !sortOrder.equalsIgnoreCase("desc"))) {
-            sortOrder = "default";
-        }else {
-            if(sortOrder.equalsIgnoreCase("asc")) {
-                sortOrder = "asc";
-            }else if (sortOrder.equalsIgnoreCase("desc")) {
-                sortOrder = "desc";
-            }
-
-        }
-
-        // Call the repository method with the validated sortOrder
-        return productRepository.filterProducts(category, size, color, minPrice, maxPrice, sortOrder, pageNumber, pageSize);
     }
 
 
-    public Set<ProductDto> filterProductsByName(String name, int pageNumber, int pageSize) {
-        return productRepository.searchShoeByName(name, pageNumber, pageSize);
+    public Set<ProductDto> searchShoeByName(String name, int pageNumber, int pageSize) {
+        Set<ProductDto> products = productRepository.searchShoeByName(name,pageNumber, pageSize );
+        return products.stream().filter(p->p.getStock() >0).collect(Collectors.toSet());
     }
 
 

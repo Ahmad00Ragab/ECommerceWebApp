@@ -59,6 +59,9 @@ public class Product {
     @Column(name= "product_image")
     private String imageUrl;
 
+    @Column(name= "brand" , nullable = true)
+    private String brand;
+
     public Product(String name, BigDecimal price, String description, int stock, Category category, LocalDateTime dateCreated, LocalDateTime lastUpdated) {
         this.name = name;
         this.price = price;
@@ -119,4 +122,13 @@ public class Product {
         this.cart = new HashSet<>();
     }
 
+    public Product(String name, BigDecimal price, String description, int stock, String shoeColor, String shoeSize, String brand) {
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.stock = stock;
+        this.shoeColor = shoeColor;
+        this.shoeSize = shoeSize;
+        this.brand = brand;
+    }
 }
