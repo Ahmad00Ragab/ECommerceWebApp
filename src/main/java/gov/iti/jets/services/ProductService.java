@@ -37,6 +37,16 @@ public class ProductService {
         return optProduct;
     }
 
+    public Product findProductById2(Long id) {
+        Optional<Product> optProduct = productRepository.findById(id);
+        Product product = null;
+        if (optProduct.isPresent()) {
+            product = optProduct.get();
+        } else {
+            throw new ProductNotFoundException();
+        }
+        return product;
+    }
     public Product saveProduct(Product product) {
         productRepository.save(product);
         return product;

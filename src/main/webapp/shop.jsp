@@ -25,7 +25,6 @@
         <div class="col-xl-3 col-lg-4 col-md-5">
             <!-- Dynamic categories -->
 
-
             <!-- Product Filters -->
             <div class="sidebar-filter mt-50">
                 <div class="top-filter-head">Product Filters</div>
@@ -89,7 +88,9 @@
                     <c:forEach var="product" items="${homeProducts}">
                         <div class="col-lg-4 col-md-6">
                             <div class="single-product">
-                                <img class="img-fluid" src="${product.imageUrl}" alt="${product.name}">
+                                <a href="details?productId=${product.id}">
+                                    <img class="img-fluid" src="${product.imageUrl}" alt="${product.name}">
+                                </a>
                                 <div class="product-details">
                                     <h6>${product.name}</h6>
                                     <div class="price">
