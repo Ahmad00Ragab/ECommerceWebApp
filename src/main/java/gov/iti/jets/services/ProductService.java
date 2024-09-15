@@ -149,8 +149,15 @@ public class ProductService {
                                           String sortOrder, int pageNumber, int pageSize) {
 
         // Validate the sortOrder to either be 'asc', 'desc', or default (no sorting)
-        if (sortOrder == null || (!sortOrder.equalsIgnoreCase("ASC") && !sortOrder.equalsIgnoreCase("DESC"))) {
+        if (sortOrder == null || (!sortOrder.equalsIgnoreCase("asc") && !sortOrder.equalsIgnoreCase("desc"))) {
             sortOrder = "default";
+        }else {
+            if(sortOrder.equalsIgnoreCase("asc")) {
+                sortOrder = "asc";
+            }else if (sortOrder.equalsIgnoreCase("desc")) {
+                sortOrder = "desc";
+            }
+
         }
 
         // Call the repository method with the validated sortOrder

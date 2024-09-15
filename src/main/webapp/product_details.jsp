@@ -33,8 +33,8 @@
 </head>
 
 <body lang="en" class="no-js">
-<%@include file="common/header.jsp" %>
-<%@include file="common/banner.jsp"%>
+<%@ include file="common/header.jsp" %>
+<%@ include file="common/banner.jsp"%>
 <div class="row s_product_inner">
     <div class="col-lg-6">
         <!-- Product Image Carousel -->
@@ -105,4 +105,4 @@
     </div>
 </div>
 
-<%@include file="common/footer.jsp" %>
+<%@ include file="common/footer.jsp" %>

@@ -15,7 +15,7 @@
 </head>
 
 <body>
-<%@include file="common/header.jsp"%>
+<%@ include file="/common/header.jsp" %>
 
 <!-- Start Banner Area -->
 <section class="banner-area organic-breadcrumb">

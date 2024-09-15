@@ -29,8 +29,8 @@
 </head>
 
 <body lang="en" class="no-js">
-<%@include file="common/header.jsp" %>
-<%@include file="common/banner.jsp"%>
+<%@ include file="common/header.jsp" %>
+<%@ include file="common/banner.jsp"%>
 
 <div class="container">
     <div class="row">
