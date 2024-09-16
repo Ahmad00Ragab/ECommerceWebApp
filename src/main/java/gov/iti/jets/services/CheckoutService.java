@@ -101,7 +101,7 @@ public class CheckoutService {
 
         } catch (Exception e) {
             transaction.rollback();
-            errors.add("Error during checkout: " + e.getMessage());
+            //errors.add("Error during checkout: " + e.getMessage());
             throw new ValidationException(errors);
         }
         finally {

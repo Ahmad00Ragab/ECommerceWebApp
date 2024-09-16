@@ -1,6 +1,6 @@
-<!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <!-- Mobile Specific Meta -->
@@ -16,7 +16,9 @@
     <!-- meta character set -->
     <meta charset="UTF-8">
     <!-- Site Title -->
-    <title>Karma Shop</title>
+    <title>Shoesly Shop</title>
+
+    <!-- CSS Files -->
 
     <link rel="stylesheet" href="css/linearicons.css">
     <link rel="stylesheet" href="css/owl.carousel.css">
@@ -26,6 +28,8 @@
     <link rel="stylesheet" href="css/nouislider.min.css">
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/main.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </head>
 
 <body lang="en" class="no-js">
@@ -183,7 +187,7 @@
                 </form>
             </div>
 
-
+            <!-- Product Listing -->
             <section class="lattest-product-area pb-40 category-list">
                 <div class="row">
                     <c:forEach var="product" items="${homeProducts}">
@@ -199,11 +203,11 @@
                                     </div>
                                     <div class="prd-bottom">
 
-                                        <a href="cart" class="social-info">
-                                            <span class="ti-bag">
-                                            </span>
-                                            <p class="hover-text">add to bag</p>
+                                        <!-- Update the add-to-cart link -->
+                                        <a href="javascript:void(0);" class="social-info add-to-cart" data-product-id="${product.id}">
+                                            <span class="ti-bag"></span><p class="hover-text">add to bag</p>
                                         </a>
+
                                         <a href="cart" class="social-info">
                                             <span class="lnr lnr-heart"></span>
                                             <p class="hover-text">Wishlist</p>
@@ -233,4 +237,37 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function() {
+        $('.add-to-cart').click(function() {
+            var productId = $(this).data('product-id');
+
+            $.ajax({
+                url: 'cart', // Ensure this URL is correct
+                method: 'POST',
+                data: {
+                    action: 'add',
+                    productId: productId
+                },
+                success: function(response) {
+                    // Success message
+                    alert(response.message || "Item added to cart successfully!");
+                },
+                error: function(xhr, status, error) {
+                    if (xhr.status === 401) { // If status is 401 Unauthorized
+                        alert("Please log in to add items to the cart.");
+                        window.location.href = "login"; // Redirect to login page
+                    } else {
+                        // Other error
+                        alert("Error: " + (xhr.responseText || "Failed to add item to cart. Please try again."));
+                    }
+                }
+            });
+        });
+    });
+
+</script>
+
+
 <%@include file="common/footer.jsp" %>

@@ -180,6 +180,14 @@
       <version>2.13.3</version> <!-- or the latest version -->
     </dependency>
 
+    <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.17.2</version>
+    </dependency>
+
+
     <!-- HikariCP for Connection Pooling -->
     <dependency>
       <groupId>com.zaxxer</groupId>
