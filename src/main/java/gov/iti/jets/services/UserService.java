@@ -156,8 +156,9 @@ public class UserService {
         return userRepository.findInterestsByUserId(userId);
     }
 
-    public void addInterest(Long userId, Category category) {
-        userRepository.addInterestToUser(userId, category);
+    public void updateInterests(Long userId, Set<Category> categories) {
+        userRepository.addInterestsToUser(userId, categories);
+
     }
 
     public void removeInterest(Long userId, Category category) {

@@ -1,7 +1,11 @@
 package gov.iti.jets.controllers;
 
+import gov.iti.jets.models.Category;
 import gov.iti.jets.models.User;
+import gov.iti.jets.services.CategoryService;
 import gov.iti.jets.services.UserService;
+import gov.iti.jets.services.converters.CategoryToCategoryDtoConverter;
+import gov.iti.jets.services.dtos.CategoryDto;
 import gov.iti.jets.system.exceptions.ObjectNotFoundException;
 import gov.iti.jets.system.exceptions.ValidationException;
 import jakarta.servlet.ServletException;
@@ -13,12 +17,17 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @WebServlet(value = "/userAcc")
 public class UserAccount extends HttpServlet {
 
     UserService userService = new UserService();
+    CategoryService categoryService = new CategoryService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -36,7 +45,7 @@ public class UserAccount extends HttpServlet {
                     updateUser(req, resp);
                     break;
                 case "changePassword":
-                    chagePassword(req, resp);
+                    changePassword(req, resp);
                     break;
                 default:
                     req.setAttribute("error", "Invalid action");
@@ -62,6 +71,18 @@ public class UserAccount extends HttpServlet {
         Optional<User> userOpt = findUserById(req);
         if (userOpt != null) {
             req.setAttribute("user", userOpt.get());
+            // Fetch all categories (available interests)
+            Set<Category> categories = categoryService.findAllCategories();
+
+            // Fetch user's selected interests
+            Set<Category> userInterests = userService.getInterests(userOpt.get().getId());
+
+            List<CategoryDto> interests = userInterests.stream().
+                    map(foundUser -> CategoryToCategoryDtoConverter.convert(foundUser)).collect(Collectors.toList());
+
+            // Set both attributes in the request
+            req.setAttribute("categories", categories);
+            req.setAttribute("interests", interests);
             req.getRequestDispatcher("/My-Account.jsp").forward(req, resp);
         } else {
             req.setAttribute("error", "User not found.");
@@ -93,6 +114,19 @@ public class UserAccount extends HttpServlet {
         // Set the credit limit in the existingUser object
         existingUser.setCreditLimit(creditLimit);
 
+        // Get selected categories (interests) from the request
+        String[] selectedCategoryIds = req.getParameterValues("categories");
+
+        if (selectedCategoryIds != null) {
+            // Convert the array of category IDs (String) to a List of Longs
+            List<Long> categoryIds = Arrays.stream(selectedCategoryIds)
+                    .map(Long::parseLong)
+                    .collect(Collectors.toList());
+
+            // Update user's interests (categories) in the service
+            //userService.addInterestsToUser(userId, categoryIds);
+        }
+
         // Perform validation
         System.out.println("just before validation");
 
@@ -114,7 +148,7 @@ public class UserAccount extends HttpServlet {
         }
     }
 
-    private void chagePassword(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void changePassword(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Optional<User> existingUserOpt = findUserById(req);
         System.out.println("here in update Password");
         if (!existingUserOpt.isPresent()) {

@@ -87,7 +87,7 @@ public class User {
     )
     private Set<Product> wishlist = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_interest",
             joinColumns = @JoinColumn(name = "user_id"),

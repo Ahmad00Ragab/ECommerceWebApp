@@ -29,7 +29,7 @@
 							<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
 							   aria-expanded="false">Pages</a>
 							<ul class="dropdown-menu">
-<%--								<li class="nav-item"><a class="nav-link" href="login">Login</a></li>--%>
+								<%--								<li class="nav-item"><a class="nav-link" href="login">Login</a></li>--%>
 							</ul>
 						</li>
 						<li class="nav-item"><a class="nav-link" href="contact.jsp">Contact</a></li>
@@ -65,8 +65,8 @@
 	<div class="search_input" id="search_input_box">
 		<div class="container">
 			<form class="d-flex justify-content-between">
-				<input type="text" name="searchShoes" class="form-control" id="search_input" placeholder="Search Here">
-				<button type="submit" class="btn"></button>
+				<input type="text" name="searchShoes" class="form-control" id="searchShoes" placeholder="Search Here">
+				<button type="button" class="btn"></button>
 				<span class="lnr lnr-cross" id="close_search" title="Close Search"></span>
 			</form>
 		</div>

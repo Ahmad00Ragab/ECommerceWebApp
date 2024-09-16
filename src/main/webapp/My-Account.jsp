@@ -6,30 +6,60 @@
     // Get the user object from the request
     User user = (User) request.getAttribute("user");
 %>
-<%--<form  action="update" method="post" id="profileForm">--%>
-<%--    <input type="hidden" name="id" value="<%=user.getId()%>" />--%>
 
 <!DOCTYPE html>
 <html lang="en">
-
-<link rel="stylesheet" href="css/linearicons.css">
-<link rel="stylesheet" href="css/font-awesome.min.css">
-<link rel="stylesheet" href="css/themify-icons.css">
-<link rel="stylesheet" href="css/bootstrap.css">
-<link rel="stylesheet" href="css/owl.carousel.css">
-<link rel="stylesheet" href="css/nice-select.css">
-<link rel="stylesheet" href="css/nouislider.min.css">
-<link rel="stylesheet" href="css/ion.rangeSlider.css" />
-<link rel="stylesheet" href="css/ion.rangeSlider.skinFlat.css" />
-<link rel="stylesheet" href="css/magnific-popup.css">
-<link rel="stylesheet" href="css/main.css">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Account Settings</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- intl-tel-input CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css">
+
+    <link rel="stylesheet" href="css/linearicons.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/themify-icons.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/owl.carousel.css">
+    <link rel="stylesheet" href="css/nice-select.css">
+    <link rel="stylesheet" href="css/nouislider.min.css">
+    <link rel="stylesheet" href="css/ion.rangeSlider.css" />
+    <link rel="stylesheet" href="css/ion.rangeSlider.skinFlat.css" />
+    <link rel="stylesheet" href="css/magnific-popup.css">
+    <link rel="stylesheet" href="css/main.css">
+
     <style>
+
+        .interest-bubble {
+            display: inline-block;
+            margin: 5px;
+            position: relative;
+        }
+
+        .interest-bubble input[type="checkbox"] {
+            display: none;
+        }
+
+        .interest-bubble label {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 20px;
+            background-color: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .interest-bubble input[type="checkbox"]:checked + label {
+            background-color: #28a745;
+            border-color: #28a745;
+            color: white;
+        }
+
         body {
             margin: 0;
             padding-top: 40px;
@@ -78,11 +108,10 @@
         }
     </style>
 </head>
+
 <body>
 
 <%@ include file="/common/header.jsp" %>
-
-
 
 <div class="container">
     <div class="row gutters">
@@ -118,13 +147,13 @@
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="firstName">First Name</label>
-                                    <input type="text" class="form-control" id="firstName" name="firstname" value="<%=user.getFirstName() %>">
+                                    <input type="text" class="form-control" id="firstName" name="firstname" value="<%=user.getFirstName() %>" required>
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="lastName">Last Name</label>
-                                    <input type="text" class="form-control" id="lastName" name="lastname" value="<%=user.getLastName() %>">
+                                    <input type="text" class="form-control" id="lastName" name="lastname" value="<%=user.getLastName() %>" required>
                                 </div>
                             </div>
 
@@ -132,7 +161,7 @@
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="birthdate">Date of Birth</label>
-                                    <input type="date" class="form-control" id="birthdate" name="birthdate" value="<%=user.getBirthdate() %>">
+                                    <input type="date" class="form-control" id="birthdate" name="birthdate" value="<%=user.getBirthdate() %>" required>
                                 </div>
                             </div>
 
@@ -140,7 +169,7 @@
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="creditLimit">Credit Limit</label>
-                                    <input type="text" class="form-control" id="creditLimit" name="creditlimit" value="<%=user.getCreditLimit() %>">
+                                    <input type="number" class="form-control" id="creditLimit" name="creditlimit" value="<%=user.getCreditLimit() %>" min="0" step="0.01" required>
                                 </div>
                             </div>
 
@@ -148,27 +177,52 @@
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="country">Country</label>
-                                    <input type="text" class="form-control" id="country" name="country" value="<%=user.getCountry() %>">
+                                    <input type="text" class="form-control" id="country" name="country" value="<%=user.getCountry() %>" required>
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="city">City</label>
-                                    <input type="text" class="form-control" id="city" name="city" value="<%=user.getCity() %>">
+                                    <input type="text" class="form-control" id="city" name="city" value="<%=user.getCity() %>" required>
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="street">Street</label>
-                                    <input type="text" class="form-control" id="street" name="street" value="<%=user.getStreet() %>" >
+                                    <input type="text" class="form-control" id="street" name="street" value="<%=user.getStreet() %>" required>
                                 </div>
                             </div>
+
+                            <!-- Phone with Country Code Integration -->
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="phone">Phone</label>
-                                    <input type="text" class="form-control" id="phone" name="phone" value="<%=user.getPhone() %>">
+                                    <input type="tel" class="form-control" id="phone" name="phone" value="<%=user.getPhone() %>" required>
                                 </div>
                             </div>
+                        </div>
+                        <!-- Interests (Categories) -->
+                        <div class="form-group">
+                            <label><b>Select Your Interests</b></label>
+                            <div class="d-flex flex-wrap">
+                                <c:forEach items="${interests}" var="category">
+                                    <div class="interest-bubble">
+                                        <input type="checkbox"
+                                               id="category${category.getId()}"
+                                               name="categories"
+                                               value="${category.getId()}"
+                                        <c:if test="${interests.contains(category.getId())}">
+                                               checked
+                                        </c:if>
+                                        >
+                                        <label for="category${category.getId()}">${category.getName()}</label>
+                                    </div>
+                                </c:forEach>
+                            </div>
+                            <small id="categoriesHelp" class="form-text text-muted">
+                                Select your interests (categories).
+                            </small>
+                            <div id="categoriesError" class="error-message"></div>
                         </div>
 
                         <!-- Form Buttons -->
@@ -186,7 +240,6 @@
         </div>
 
         <!-- Separate Password Form Section -->
-        <!-- Separate Password Form Section -->
         <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12 mt-3">
             <div class="card h-100">
                 <div class="card-body">
@@ -200,7 +253,7 @@
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="oldPassword">Old Password</label>
-                                    <input type="password" class="form-control" id="oldPassword" name="oldPassword" placeholder="Enter old password">
+                                    <input type="password" class="form-control" id="oldPassword" name="oldPassword" placeholder="Enter old password" required>
                                 </div>
                             </div>
 
@@ -208,7 +261,7 @@
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="password">New Password</label>
-                                    <input type="password" class="form-control" id="password" name="newPassword" placeholder="Enter new password">
+                                    <input type="password" class="form-control" id="password" name="newPassword" placeholder="Enter new password" minlength="6" required>
                                 </div>
                             </div>
 
@@ -216,7 +269,7 @@
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="confirmPassword">Confirm New Password</label>
-                                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm new password">
+                                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm new password" minlength="6" required>
                                 </div>
                             </div>
                         </div>
@@ -240,6 +293,26 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
 <%@ include file="/common/footer.jsp" %>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
+
+<script>
+    // Initialize intl-tel-input for phone number input
+    const phoneInputField = document.querySelector("#phone");
+    const phoneInput = window.intlTelInput(phoneInputField, {
+        initialCountry: "auto",
+        geoIpLookup: function (success, failure) {
+            $.get("https://ipinfo.io", function () { }, "jsonp").always(function (resp) {
+                const countryCode = (resp && resp.country) ? resp.country : "us";
+                success(countryCode);
+            });
+        },
+        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"
+    });
+</script>
 
 </body>
 </html>

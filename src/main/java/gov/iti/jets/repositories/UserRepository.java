@@ -104,10 +104,10 @@ public class UserRepository extends GenericDaoImpl<User> {
 
 
     // Interests
-    public void addInterestToUser(Long userId, Category category) {
+    public void addInterestsToUser(Long userId, Set<Category> categories) {
         User user = findById(userId)
                 .orElseThrow(() -> new ObjectNotFoundException("User", userId));
-        user.getInterests().add(category);
+        user.setCategories(categories);
         update(user);
     }
 
