@@ -114,51 +114,7 @@ public class ProductRepository extends GenericDaoImpl<Product> {
             ));
 
             // List to hold the dynamic predicates
-            List<Predicate> predicates = new ArrayList<>();
-
-            // Apply category filter
-            if (category != null && !category.isEmpty()) {
-                predicates.add(cb.equal(productRoot.get("category").get("name"), category));
-            }
-
-            // Apply size filter
-            if (size != null && !size.isEmpty()) {
-                predicates.add(cb.equal(productRoot.get("shoeSize"), size));
-            }
-
-            // Apply color filter
-            if (color != null && !color.isEmpty()) {
-                predicates.add(cb.equal(productRoot.get("shoeColor"), color));
-            }
-
-            // Apply price filter
-            if (minPrice != null) {
-                predicates.add(cb.greaterThanOrEqualTo(productRoot.get("price"), minPrice));
-            }
-            if (maxPrice != null) {
-                predicates.add(cb.lessThanOrEqualTo(productRoot.get("price"), maxPrice));
-            }
-
-            // Apply all predicates if there are any
-            if (!predicates.isEmpty()) {
-                cq.where(predicates.toArray(new Predicate[0]));
-            }
-
-            // Apply sorting only if the user has requested it
-
-            if ("asc".equals(sortOrder)) {
-                cq.orderBy(cb.asc(productRoot.get("price")));  // Sort by price ascending
-            } else if ("desc".equals(sortOrder)) {
-                cq.orderBy(cb.desc(productRoot.get("price")));  // Sort by price descending
-            }
-
-
-            TypedQuery<ProductDto> query = em.createQuery(cq);
-
-            query.setFirstResult((pageNumber - 1) * pageSize);
-            query.setMaxResults(pageSize);
-
-            return new HashSet<>(query.getResultList());
+            return getProductDtos(category, size, color, minPrice, maxPrice, sortOrder, pageNumber, pageSize, cb, productRoot, cq, em);
 
         } finally {
             if (em != null) {
@@ -167,6 +123,60 @@ public class ProductRepository extends GenericDaoImpl<Product> {
         }
     }
 
+    private static HashSet<ProductDto> getProductDtos(String category, String size, String color, BigDecimal minPrice, BigDecimal maxPrice, String sortOrder, int pageNumber, int pageSize, CriteriaBuilder cb, Root<Product> productRoot, CriteriaQuery<ProductDto> cq, EntityManager em) {
+        List<Predicate> predicates = new ArrayList<>();
+
+        // Apply category filter
+        if (category != null && !category.isEmpty()) {
+            predicates.add(cb.equal(productRoot.get("category").get("name"), category));
+        }
+
+        // Apply size filter
+        if (size != null && !size.isEmpty()) {
+            predicates.add(cb.equal(productRoot.get("shoeSize"), size));
+        }
+
+        // Apply color filter
+        if (color != null && !color.isEmpty()) {
+            predicates.add(cb.equal(productRoot.get("shoeColor"), color));
+        }
+
+        // Apply price filter
+        if (minPrice != null) {
+            predicates.add(cb.greaterThanOrEqualTo(productRoot.get("price"), minPrice));
+        }
+        if (maxPrice != null) {
+            predicates.add(cb.lessThanOrEqualTo(productRoot.get("price"), maxPrice));
+        }
+
+        // Apply all predicates if there are any
+        if (!predicates.isEmpty()) {
+            cq.where(predicates.toArray(new Predicate[0]));
+        }
+
+        // Normalize sortOrder to handle case-insensitivity
+        if (sortOrder != null) {
+            sortOrder = sortOrder.toLowerCase();
+        }
+
+        // Apply sorting
+        if ("asc".equals(sortOrder)) {
+            cq.orderBy(cb.asc(productRoot.get("price")));  // Sort by price ascending
+        } else if ("desc".equals(sortOrder)) {
+            cq.orderBy(cb.desc(productRoot.get("price")));  // Sort by price descending
+        } else {
+            // Apply default sorting, e.g., by name or another column
+            cq.orderBy(cb.asc(productRoot.get("name")));
+        }
+
+        TypedQuery<ProductDto> query = em.createQuery(cq);
+
+        // Pagination
+        query.setFirstResult((pageNumber - 1) * pageSize);
+        query.setMaxResults(pageSize);
+
+        return new HashSet<>(query.getResultList());
+    }
 
 
     ///  counting products processes
