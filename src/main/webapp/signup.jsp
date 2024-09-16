@@ -21,6 +21,13 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
 
 	<style>
+		.form-holder input {
+			flex: 1;
+			border: #b3b1b1 solid 1px;
+			background-color: transparent;
+			font-size: 16px;
+			margin-left: 50px;
+		}
 		.interest-bubble {
 			display: inline-block;
 			margin: 5px;
