@@ -77,6 +77,12 @@
             outline: none;
         }
 
+        .button-container {
+            display: flex;
+            justify-content: space-between; /* Moves buttons to opposite sides */
+            align-items: center;
+        }
+
         button {
             background-color: #3498db;
             color: white;
@@ -90,6 +96,14 @@
 
         button:hover {
             background-color: #2980b9;
+        }
+
+        #cancelBtn {
+            background-color: #e74c3c;
+        }
+
+        #cancelBtn:hover {
+            background-color: #c0392b;
         }
     </style>
     
@@ -116,10 +130,8 @@
             <label for="quantity">Quantity:</label>
             <input type="number" id="quantity" name="quantity" value="${product.stock}" required>
 
-               
             <label for="description">Description:</label>
             <input type="text" id="description" name="description" value="${product.description}" required>
-
         
             <label for="category">Category:</label>
             <select id="category" name="category" required>
@@ -131,14 +143,20 @@
             <%-- New Field for Product Image URL --%>
             <label for="imageUrl">Product Image URL:</label>
             <input type="text" id="imageUrl" name="imageUrl" value="${product.imageUrl}" placeholder="Enter product image URL">
-            
-            <button type="submit" id="submitBtn">Save</button>
+
+            <%-- Button container to separate Save and Cancel buttons --%>
+            <div class="button-container">
+                <button type="submit" id="submitBtn">Save</button>
+                <!-- Cancel button -->
+                <button type="button" id="cancelBtn" onclick="window.location.href='${pageContext.request.contextPath}/ProductController';">Cancel</button>
+            </div>
         </form>
     </section>
 
     <footer>
-        <p>Admin Panel & 2024</p>
+        <p>Admin Panel  copyrights & 2024 for Shoesly</p>
     </footer>
 
 </body>
 </html>
+

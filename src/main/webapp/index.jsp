@@ -17,7 +17,7 @@
 	<!-- meta character set -->
 	<meta charset="UTF-8">
 	<!-- Site Title -->
-	<title>Karma Shop</title>
+	<title>Shoesly Shop</title>
 	<!--
 		CSS
 		============================================= -->
@@ -243,7 +243,7 @@
 							</div>
 						</div>
 					</div>
-					<a href="" class="primary-btn">Shop Now</a>
+					<a href="products" class="primary-btn">Shop Now</a>
 				</div>
 				<div class="col-lg-6 no-padding exclusive-right">
 					<div class="active-exclusive-product-slider">

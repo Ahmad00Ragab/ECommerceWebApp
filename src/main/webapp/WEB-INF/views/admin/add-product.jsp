@@ -76,6 +76,12 @@
             outline: none;
         }
 
+       .button-container {
+            display: flex;
+            justify-content: space-between; /* Moves buttons to opposite sides */
+            align-items: center;
+        }
+
         button {
             background-color: #3498db;
             color: white;
@@ -89,6 +95,14 @@
 
         button:hover {
             background-color: #2980b9;
+        }
+
+        #cancelBtn {
+            background-color: #e74c3c;
+        }
+
+        #cancelBtn:hover {
+            background-color: #c0392b;
         }
     </style>
     
@@ -128,7 +142,13 @@
             <label for="description">Product Description:</label>
             <textarea id="description" name="description" class="form-control" required></textarea>
 
+            <%-- Button container to separate Save and Cancel buttons --%>
+            <div class="button-container">
             <button type="submit" class="btn btn-success">Add Product</button>
+                <!-- Cancel button -->
+                <button type="button" id="cancelBtn" onclick="window.location.href='${pageContext.request.contextPath}/ProductController';">Cancel</button>
+            </div>
+
         </form>
     </section>
 
