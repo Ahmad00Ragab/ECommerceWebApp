@@ -1,7 +1,10 @@
+
+
 <%@ page import="java.time.LocalDate" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="gov.iti.jets.models.User" %>
+
 <%
     // Get the user object from the request
     User user = (User) request.getAttribute("user");
@@ -31,7 +34,6 @@
     <link rel="stylesheet" href="css/main.css">
 
     <style>
-
         .interest-bubble {
             display: inline-block;
             margin: 5px;
@@ -62,34 +64,40 @@
 
         body {
             margin: 0;
-            padding-top: 40px;
+            padding-top: 200px; /* Adjust this value as needed */
             color: #2e323c;
             background: #f5f6fa;
             position: relative;
             height: 100%;
         }
+
         .account-settings .user-profile {
             margin: 0 0 1rem 0;
             padding-bottom: 1rem;
             text-align: center;
         }
+
         .account-settings .user-profile .user-avatar {
             margin: 0 0 1rem 0;
         }
+
         .account-settings .user-profile .user-avatar img {
             width: 90px;
             height: 90px;
             border-radius: 100px;
         }
+
         .account-settings .user-profile h5.user-name {
             margin: 0 0 0.5rem 0;
         }
+
         .account-settings .user-profile h6.user-email {
             margin: 0;
             font-size: 0.8rem;
             font-weight: 400;
             color: #9fa8b9;
         }
+
         .form-control {
             border: 1px solid #cfd1d8;
             border-radius: 2px;
@@ -97,14 +105,12 @@
             background: #ffffff;
             color: #2e323c;
         }
+
         .card {
             background: #ffffff;
             border-radius: 5px;
             border: 0;
             margin-bottom: 1rem;
-        }
-        body {
-            padding-top: 200px; /* Adjust this value as needed */
         }
     </style>
 </head>
@@ -125,8 +131,8 @@
                                 <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="User Avatar">
                             </div>
                             <!-- Display Username and Email (Fetched from database) -->
-                            <h5 class="user-name">${user.getUsername()}</h5>
-                            <h6 class="user-email">${user.getEmail()}</h6>
+                            <h5 class="user-name">${user.username}</h5>
+                            <h6 class="user-email">${user.email}</h6>
                         </div>
                     </div>
                 </div>
@@ -147,13 +153,13 @@
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="firstName">First Name</label>
-                                    <input type="text" class="form-control" id="firstName" name="firstname" value="<%=user.getFirstName() %>" required>
+                                    <input type="text" class="form-control" id="firstName" name="firstname" value="${user.firstName}" required>
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="lastName">Last Name</label>
-                                    <input type="text" class="form-control" id="lastName" name="lastname" value="<%=user.getLastName() %>" required>
+                                    <input type="text" class="form-control" id="lastName" name="lastname" value="${user.lastName}" required>
                                 </div>
                             </div>
 
@@ -161,7 +167,7 @@
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="birthdate">Date of Birth</label>
-                                    <input type="date" class="form-control" id="birthdate" name="birthdate" value="<%=user.getBirthdate() %>" required>
+                                    <input type="date" class="form-control" id="birthdate" name="birthdate" value="${user.birthdate}" required>
                                 </div>
                             </div>
 
@@ -169,7 +175,7 @@
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="creditLimit">Credit Limit</label>
-                                    <input type="number" class="form-control" id="creditLimit" name="creditlimit" value="<%=user.getCreditLimit() %>" min="0" step="0.01" required>
+                                    <input type="number" class="form-control" id="creditLimit" name="creditlimit" value="${user.creditLimit}" min="0" step="0.01" required>
                                 </div>
                             </div>
 
@@ -177,19 +183,19 @@
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="country">Country</label>
-                                    <input type="text" class="form-control" id="country" name="country" value="<%=user.getCountry() %>" required>
+                                    <input type="text" class="form-control" id="country" name="country" value="${user.country}" required>
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="city">City</label>
-                                    <input type="text" class="form-control" id="city" name="city" value="<%=user.getCity() %>" required>
+                                    <input type="text" class="form-control" id="city" name="city" value="${user.city}" required>
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="street">Street</label>
-                                    <input type="text" class="form-control" id="street" name="street" value="<%=user.getStreet() %>" required>
+                                    <input type="text" class="form-control" id="street" name="street" value="${user.street}" required>
                                 </div>
                             </div>
 
@@ -197,7 +203,7 @@
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="phone">Phone</label>
-                                    <input type="tel" class="form-control" id="phone" name="phone" value="<%=user.getPhone() %>" required>
+                                    <input type="tel" class="form-control" id="phone" name="phone" value="${user.phone}" required>
                                 </div>
                             </div>
                         </div>
@@ -208,23 +214,20 @@
                                 <c:forEach items="${categories}" var="category">
                                     <div class="interest-bubble">
                                         <input type="checkbox"
-                                               id="category${category.getId()}"
+                                               id="category${category.id}"
                                                name="categories"
-                                               value="${category.getId()}"
-                                        <c:if test="${selectedInterestIds.contains(category.getId())}">
-                                               checked
-                                        </c:if>
-                                        >
-                                        <label for="category${category.getId()}">${category.getName()}</label>
+                                               value="${category.id}"
+                                               <c:if test="${selectedInterestIds.contains(category.id)}">
+                                                   checked
+                                               </c:if> />
+                                        <label for="category${category.id}">${category.name}</label>
                                     </div>
                                 </c:forEach>
                             </div>
-                            <small id="categoriesHelp" class="form-text text-muted">
-                                Select your interests (categories).
-                            </small>
-                            <div id="categoriesError" class="error-message"></div>
                         </div>
-
+                        
+                        
+                        
 
                         <!-- Form Buttons -->
                         <div class="row gutters">
@@ -240,7 +243,10 @@
             </div>
         </div>
 
-        <!-- Separate Password Form Section -->
+        
+		
+		
+		<!-- Separate Password Form Section -->
         <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12 mt-3">
             <div class="card h-100">
                 <div class="card-body">
@@ -291,29 +297,33 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
 <%@ include file="/common/footer.jsp" %>
 
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
 
+
+
 <script>
-    // Initialize intl-tel-input for phone number input
+
     const phoneInputField = document.querySelector("#phone");
     const phoneInput = window.intlTelInput(phoneInputField, {
+        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js", // for formatting/validation etc.
         initialCountry: "auto",
-        geoIpLookup: function (success, failure) {
-            $.get("https://ipinfo.io", function () { }, "jsonp").always(function (resp) {
-                const countryCode = (resp && resp.country) ? resp.country : "us";
-                success(countryCode);
-            });
-        },
-        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"
+        geoIpLookup: function (callback) {
+            fetch('https://ipinfo.io/json?token=c341c7c125c720') // Replace with your own IPinfo token
+                    .then((response) => response.json())
+                    .then((data) => {
+                        callback(data.country);
+                    })
+                    .catch(() => {
+                        callback('us');
+                    });
+        }
     });
 </script>
 
 </body>
 </html>
+
