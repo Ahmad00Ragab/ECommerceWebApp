@@ -170,10 +170,6 @@ public class App {
                                 LocalDateTime.now(), LocalDateTime.now());
                 Product product3 = new Product("Puma Sneakers", new BigDecimal("120"), 8, casualSneakers,
                                 LocalDateTime.now(), LocalDateTime.now());
-
-                productService.saveProduct(product1);
-                productService.saveProduct(product2);
-                productService.saveProduct(product3);
         
 
                 // Create Orders

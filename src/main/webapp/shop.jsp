@@ -35,6 +35,7 @@
 <body lang="en" class="no-js">
 <%@ include file="common/header.jsp" %>
 <%@ include file="common/banner.jsp"%>
+    <% String currentCategory = (String) request.getParameter("currentCategory"); %>
 
 <div class="container">
     <div class="row">
@@ -178,11 +179,6 @@
             <div class="filter-bar d-flex flex-wrap align-items-center">
                 <form action="products" method="get">
                     <div class="sorting">
-                        <select name="sortOrder">
-                            <option value="default">Default sorting</option>
-                            <option value="asc">ASC</option>
-                            <option value="desc">DESC</option>
-                        </select>
                     </div>
                 </form>
             </div>
@@ -221,15 +217,15 @@
                 <div class="filter-bar d-flex flex-wrap align-items-center">
                     <div class="pagination">
                         <c:if test="${currentPage > 1}">
-                            <a href="?pageNumber=${currentPage - 1}" class="prev-arrow"><i class="fa fa-long-arrow-left" aria-hidden="true"></i></a>
+                            <a href="?searchShoes=${searchShoes}&maxPrice=${maxPrice}&minPrice=${minPrice}&size=${shoeSize}&color=${shoeColor}&category=${currentCategory}&pageNumber=${currentPage - 1}" class="prev-arrow"><i class="fa fa-long-arrow-left" aria-hidden="true"></i></a>
                         </c:if>
 
                         <c:forEach var="i" begin="1" end="${totalPages}">
-                            <a href="?pageNumber=${i}" class="${currentPage == i ? 'active' : ''}">${i}</a>
+                            <a href="?searchShoes=${searchShoes}&maxPrice=${maxPrice}&minPrice=${minPrice}&size=${shoeSize}&color=${shoeColor}&category=${currentCategory}&pageNumber=${i}" class="${currentPage == i ? 'active' : ''}">${i}</a>
                         </c:forEach>
 
                         <c:if test="${currentPage < totalPages}">
-                            <a href="?pageNumber=${currentPage + 1}" class="next-arrow"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+                            <a href="?searchShoes=${searchShoes}&maxPrice=${maxPrice}&minPrice=${minPrice}&size=${shoeSize}&color=${shoeColor}&category=${currentCategory}&pageNumber=${currentPage + 1}" class="next-arrow"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
                         </c:if>
                     </div>
                 </div>
@@ -244,7 +240,7 @@
             var productId = $(this).data('product-id');
 
             $.ajax({
-                url: 'cart', // Ensure this URL is correct
+                url: 'cart',
                 method: 'POST',
                 data: {
                     action: 'add',
@@ -255,9 +251,9 @@
                     alert(response.message || "Item added to cart successfully!");
                 },
                 error: function(xhr, status, error) {
-                    if (xhr.status === 401) { // If status is 401 Unauthorized
+                    if (xhr.status === 401) {
                         alert("Please log in to add items to the cart.");
-                        window.location.href = "login"; // Redirect to login page
+                        window.location.href = "login";
                     } else {
                         // Other error
                         alert("Error: " + (xhr.responseText || "Failed to add item to cart. Please try again."));
@@ -270,4 +266,4 @@
 </script>
 
 
-<%@include file="common/footer.jsp" %>
+<%@ include file="common/footer.jsp" %>
