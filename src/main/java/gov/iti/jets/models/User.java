@@ -87,7 +87,7 @@ public class User {
     )
     private Set<Product> wishlist = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_interest",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -153,5 +153,14 @@ public class User {
 
     public Set<Category> getInterests() {
         return this.categories;
+    }
+
+    public void clearCategories() {
+        this.categories.clear();
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories.clear();
+        this.categories.addAll(categories);
     }
 }
