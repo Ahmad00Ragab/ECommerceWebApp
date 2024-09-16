@@ -1,6 +1,6 @@
 @font-face {
     font-family: "Muli-Regular";
-    src: url("../fonts/muli/Muli-Regular.ttf");
+    /*src: url("../fonts/muli/Muli-Regular.ttf");*/
     font-weight: 400;
     font-style: normal;
     font-display: swap;
@@ -8,7 +8,7 @@
 
 @font-face {
     font-family: "Muli-SemiBold";
-    src: url("../fonts/muli/Muli-SemiBold.ttf");
+    /*src: url("../fonts/muli/Muli-SemiBold.ttf");*/
     font-weight: 600;
     font-style: normal;
     font-display: swap;
@@ -16,7 +16,7 @@
 
 @font-face {
     font-family: "Muli-Bold";
-    src: url("../fonts/muli/Muli-Bold.ttf");
+    /*src: url("../fonts/muli/Muli-Bold.ttf");*/
     font-weight: 700;
     font-style: normal;
     font-display: swap;
@@ -24,7 +24,7 @@
 
 @font-face {
     font-family: "Abril_Fatface";
-    src: url("../fonts/Abril_Fatface/AbrilFatface-Regular.ttf");
+    /*src: url("../fonts/Abril_Fatface/AbrilFatface-Regular.ttf");*/
     font-weight: 400;
     font-style: normal;
     font-display: swap;
@@ -159,7 +159,7 @@ h3 {
 
 .form-control::placeholder {
     font-size: 17px;
-    transform: translateY(5px);
+    transform: translateX(5px);
     color: var(--input-placeholder-color);
 }
 
