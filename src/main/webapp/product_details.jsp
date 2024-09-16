@@ -86,9 +86,12 @@
                 <h2><fmt:formatNumber value="${product.price}" type="currency"/></h2>
                 <ul class="list">
                     <!-- Product Category -->
-                    <li><a class="active" href="#"><span>Category</span> : ${product.category.name}</a></li>
+                    <li><a class="active" href=""><span>Category</span> : ${product.category.name}</a></li>
+                    <li><a class="active" href=""><span>Brand</span> : ${product.brand}</a></li>
+                    <li><a class="active" href=""><span>Color</span> : ${product.shoeColor}</a></li>
+                    <li><a class="active" href=""><span>Size</span> : ${product.shoeSize}</a></li>
                     <!-- Product Availability -->
-                    <li><a href=""><span>Availability</span> :
+                    <li><a class="active" href=""><span>Availability</span> :
                         <c:choose>
                             <c:when test="${product.stock > 1}">
                                 In Stock

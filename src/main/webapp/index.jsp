@@ -38,7 +38,7 @@
 
 <body>
 	<!-- Start Header Area -->
-	<%@include file="common/header.jsp" %>
+	<%@ include file="common/header.jsp" %>
 	<!-- End Header Area -->
 
 	<!-- start banner Area -->
@@ -55,7 +55,7 @@
 									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
 										dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
 									<div class="add-bag d-flex align-items-center">
-										<a class="add-btn" href=""><span class="lnr lnr-cross"></span></a>
+										<a class="add-btn" href="cart?action=add&productId=${1}"><span class="lnr lnr-cross"></span></a>
 										<span class="add-text text-uppercase">Add to Bag</span>
 									</div>
 								</div>
@@ -74,7 +74,7 @@
 									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
 										dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
 									<div class="add-bag d-flex align-items-center">
-										<a class="add-btn" href=""><span class="lnr lnr-cross"></span></a>
+										<a class="add-btn" href="cart?action=add&productId=${1}"><span class="lnr lnr-cross"></span></a>
 										<span class="add-text text-uppercase">Add to Bag</span>
 									</div>
 								</div>
@@ -258,7 +258,7 @@
 								<h4>addidas New Hammer sole
 									for Sports person</h4>
 								<div class="add-bag d-flex align-items-center justify-content-center">
-									<a class="add-btn" href=""><span class="ti-bag"></span></a>
+									<a class="add-btn" href="cart?action=add&productId=${3}"><span class="ti-bag"></span></a>
 									<span class="add-text text-uppercase">Add to Bag</span>
 								</div>
 							</div>
@@ -274,7 +274,7 @@
 								<h4>addidas New Hammer sole
 									for Sports person</h4>
 								<div class="add-bag d-flex align-items-center justify-content-center">
-									<a class="add-btn" href=""><span class="ti-bag"></span></a>
+									<a class="add-btn" href="cart?action=add&productId=${3}"><span class="ti-bag"></span></a>
 									<span class="add-text text-uppercase">Add to Bag</span>
 								</div>
 							</div>
@@ -288,7 +288,7 @@
 
 	<!-- Start brand Area -->
 	<section class="brand-area section_gap">
-		<div class="container">
+		<div class="container"
 			<div class="row">
 				<a class="col single-img" href="#">
 					<img class="img-fluid d-block mx-auto" src="img/brand/1.png" alt="">
@@ -312,7 +312,7 @@
 
 	<!-- start footer Area -->
 
-	<%@include file="common/footer.jsp" %>
+	<%@ include file="common/footer.jsp" %>
 </body>
 
 </html>
