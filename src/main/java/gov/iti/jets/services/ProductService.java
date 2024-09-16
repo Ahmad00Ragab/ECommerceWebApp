@@ -91,17 +91,6 @@ public class ProductService {
     }
 
 
-
-    public Set<Product> sortProductsByPrice() {
-        return productRepository.sortProductsByPrice();
-    }
-
-
-    public Set<Product> sortProductsByCategoryAndPrice(String category) {
-        return productRepository.sortProductsByCategoryAndPrice(category);
-    }
-
-
     public Set<ProductDto> filterProducts(String category, String size, String color,
                                           BigDecimal minPrice, BigDecimal maxPrice,
                                           String sortOrder, int pageNumber, int pageSize) {
@@ -132,5 +121,5 @@ public class ProductService {
         } catch (NumberFormatException e) {
             return null;
         }
-    }
+}
 }

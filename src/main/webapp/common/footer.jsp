@@ -5,8 +5,12 @@
                 <div class="single-footer-widget">
                     <h6>About Us</h6>
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore dolore
-                        magna aliqua.
+                        At Shoesly, we believe shoes are more than just an accessory,
+                        they are the foundation of every step you take.
+                        From trendy kicks to timeless classics, we are here to bring you the best in comfort, style,
+                        and innovation. Our passion for footwear is matched only by our commitment to quality,
+                        ensuring that every pair we offer is crafted to elevate your look and keep you moving forward.
+                        Step into a world where fashion meets function, and walk your journey with confidence.
                     </p>
                 </div>
             </div>
