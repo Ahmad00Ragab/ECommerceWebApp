@@ -65,6 +65,12 @@ public class HomeController extends HttpServlet {
 
             request.setAttribute("currentPage", pageNumber);
             request.setAttribute("totalPages", totalPages);
+            request.setAttribute("currentCategory", request.getParameter("category"));
+            request.setAttribute("shoeSize", request.getParameter("shoeSize"));
+            request.setAttribute("shoeColor", request.getParameter("shoeColor"));
+            request.setAttribute("minPrice", request.getParameter("minPrice"));
+            request.setAttribute("maxPrice", request.getParameter("maxPrice"));
+
 
             request.getRequestDispatcher("/shop.jsp").forward(request, response);
         } catch (NumberFormatException e) {
@@ -91,6 +97,7 @@ public class HomeController extends HttpServlet {
 
             request.setAttribute("currentPage", pageNumber);
             request.setAttribute("totalPages", totalPages);
+            request.setAttribute("searchShoes", request.getParameter("searchShoes"));
 
             request.getRequestDispatcher("/shop.jsp").forward(request, response);
         } catch (NumberFormatException e) {
