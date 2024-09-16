@@ -98,40 +98,36 @@
                         <img class="img-fluid" src="img/login.jpg" alt="">
                         <div class="hover">
                             <h4>New to our website?</h4>
-                            <p>There are advances being made in science and technology everyday, and a good example of this is the</p>
+                            <p>There are advances being made in science and technology every day, and a good example of this is the</p>
                             <a class="primary-btn" href="register">Create an Account</a>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="login_form_inner">
-                        <h3>Log in to enter</h3>
+                        <h3>Login here</h3>
+
+                        <!-- Display Error Message if Exists -->
+                        <% if (request.getAttribute("errorMessage") != null) { %>
+                            <div class="alert alert-danger">
+                                <%= request.getAttribute("errorMessage") %>
+                            </div>
+                        <% } %>
+
                         <form class="row login_form" action="/ECommerceWebApp/login" method="POST" id="loginForm" novalidate="novalidate">
-
-                            <!-- Email Input Field with AJAX Validation -->
                             <div class="col-md-12 form-group">
-                                <input type="text" class="form-control" id="email" name="email" placeholder="Email" 
-                                onfocus="this.placeholder = ''" 
-                                onblur="this.placeholder = 'email@gmail.com'; checkLoginEmail(this.value);">
-                                <span id="emailStatus"></span> <!-- Status message will appear here -->
+                                <input type="text" class="form-control" id="email" name="email" placeholder="Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'email@gmail.com';">
+                                <span id="emailStatus"></span>
                             </div>
-
-                            <!-- Password Input Field -->
                             <div class="col-md-12 form-group">
-                                <input type="password" class="form-control" id="password" name="password" placeholder="Password" 
-                                onfocus="this.placeholder = ''" 
-                                onblur="this.placeholder = 'Password'">
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
                             </div>
-
-                            <!-- Keep me logged in -->
                             <div class="col-md-12 form-group">
                                 <div class="creat_account">
                                     <input type="checkbox" id="f-option2" name="rememberMe">
                                     <label for="f-option2">Keep me logged in</label>
                                 </div>
                             </div>
-
-                            <!-- Submit Button -->
                             <div class="col-md-12 form-group">
                                 <button type="submit" value="submit" class="primary-btn">Log In</button>
                                 <a href="#">Forgot Password?</a>
@@ -148,33 +144,6 @@
         </div>
     </section>
     <!--================End Login Box Area =================-->
-
-
-    <!--================Start of The Script Area =================-->
-    <script>
-        function checkLoginEmail(email) {
-            var emailStatus = document.getElementById("emailStatus");
-            if (email.length === 0) {
-                emailStatus.innerHTML = "";
-                return;
-            }
-
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "/ECommerceWebApp/EmailCheckLoginAjax", true);
-            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    emailStatus.innerHTML = xhr.responseText;  // Display response message
-                } else if (xhr.readyState == 4) {
-                    emailStatus.innerHTML = "invalid Email"; 
-                }
-            };
-
-            xhr.send("email=" + encodeURIComponent(email));  // Send email with proper encoding
-        }
-    </script>
-    <!--================ End of The Script =================-->
 
     <!-- start footer Area -->
     <%@ include file="/common/footer.jsp" %>

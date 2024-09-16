@@ -8,8 +8,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="shortcut icon" href="img/fav.png">
     <meta charset="UTF-8">
-    <title>Karma Shop</title>
+    <title>Shoesly Shop</title>
+    <link rel="stylesheet" href="css/linearicons.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/themify-icons.css">
     <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/owl.carousel.css">
+    <link rel="stylesheet" href="css/nice-select.css">
+    <link rel="stylesheet" href="css/nouislider.min.css">
+    <link rel="stylesheet" href="css/ion.rangeSlider.css" />
+    <link rel="stylesheet" href="css/ion.rangeSlider.skinFlat.css" />
+    <link rel="stylesheet" href="css/magnific-popup.css">
     <link rel="stylesheet" href="css/main.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
@@ -17,6 +26,7 @@
 <body>
 <%@ include file="/common/header.jsp" %>
 
+<%@ include file="/common/notifications.jsp" %>
 <!-- Start Banner Area -->
 <section class="banner-area organic-breadcrumb">
     <div class="container">
@@ -32,6 +42,15 @@
     </div>
 </section>
 <!-- End Banner Area -->
+
+<%--<div id="error-container" style="${not empty errors ? 'display:block;' : 'display:none;'}">--%>
+<%--    <h4>Errors:</h4>--%>
+<%--    <ul id="error-list">--%>
+<%--        <c:forEach var="error" items="${errors}">--%>
+<%--            <li>${error}</li>--%>
+<%--        </c:forEach>--%>
+<%--    </ul>--%>
+<%--</div>--%>
 
 <!--================Cart Area =================-->
 <section class="cart_area">
@@ -162,6 +181,39 @@
                 },
                 error: function () {
                     alert('Error deleting item. Please try again.');
+                }
+            });
+        });
+
+        // Handle checkout form submission
+        $('#checkout-form').on('submit', function(e) {
+            e.preventDefault(); // Prevent default form submission
+
+            $.ajax({
+                url: 'checkout',
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function(response) {
+                    // Redirect or update page on success
+                    window.location.href = 'confirmation.jsp'; // Example redirect
+                },
+                error: function(xhr) {
+                    // Display errors
+                    if (xhr.status === 400) {
+                        let response = JSON.parse(xhr.responseText);
+                        let errors = response.errors;
+                        let errorList = $('#error-list');
+                        errorList.empty(); // Clear previous errors
+
+                        errors.forEach(function(error) {
+                            errorList.append('<li>' + error + '</li>');
+                        });
+
+                        // Show the error list
+                        $('#error-container').show();
+                    } else {
+                        alert('An unexpected error occurred. Please try again.');
+                    }
                 }
             });
         });

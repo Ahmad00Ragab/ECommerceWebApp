@@ -3,13 +3,13 @@ package gov.iti.jets.controllers;
 import java.io.IOException;
 import java.util.Optional;
 
-import gov.iti.jets.services.*;
+import gov.iti.jets.services.UserService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.persistence.*;
+import jakarta.persistence.EntityManager;
 
 
 @WebServlet("/CheckUsernameEmailAjax")
@@ -32,10 +32,12 @@ public class CheckUsernameEmailAjax extends HttpServlet {
         }
 
         response.setContentType("text/plain");
+        response.setCharacterEncoding("UTF-8");
+
         if (isUnique) {
-            response.getWriter().println("valid " + field);
+            response.getWriter().println("");
         } else {
-            response.getWriter().println("invalid " + field);
+            response.getWriter().println(field + " already exists");
         }
     }
 }

@@ -61,7 +61,16 @@ public class ProductController extends HttpServlet {
             } else {
                 resp.sendRedirect("ProductController");
             }
-        } else {
+        }
+        else if("create".equals(action)){
+             // Fetch and set categories
+             CategoryService categoryService = new CategoryService();
+             Set<Category> categories = categoryService.findAllCategories();
+             req.setAttribute("categories", categories);
+             
+             req.getRequestDispatcher("WEB-INF/views/admin/add-product.jsp").forward(req, resp);
+        } 
+        else {
             // Default action: show product list
             Set<Product> products = productService.findAllProducts();
             req.setAttribute("productList", products);
@@ -74,6 +83,7 @@ public class ProductController extends HttpServlet {
             req.getRequestDispatcher("WEB-INF/views/admin/admin-panel.jsp").forward(req, resp);
         }
     }
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -97,6 +107,37 @@ public class ProductController extends HttpServlet {
             handleCreateOrUpdate(req, resp);
         }
     }
+
+//     @Override
+//     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//     // Validate session
+//     HttpSession session = req.getSession(false);
+//     if (session == null || session.getAttribute("id") == null) {
+//         // Redirect to login if no session
+//         req.setAttribute("errorMessage", "Please log in to access this page.");
+//         req.getRequestDispatcher("/WEB-INF/views/admin/admin-login.jsp").forward(req, resp);
+//         return;
+//     }
+
+//     String action = req.getParameter("action");
+
+//     if ("delete".equals(action)) {
+//         long id = Long.parseLong(req.getParameter("id"));
+//         productService.deleteProduct(id);
+//         resp.sendRedirect("ProductController");
+//     } else if ("create".equals(action)) {
+//         // Handle product creation
+//         handleCreateOrUpdate(req, resp);
+//     } else {
+//         // Handle other actions (e.g., update)
+//         handleCreateOrUpdate(req, resp);
+//     }
+// }
+
+
+
+
+
 
     private void handleCreateOrUpdate(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {

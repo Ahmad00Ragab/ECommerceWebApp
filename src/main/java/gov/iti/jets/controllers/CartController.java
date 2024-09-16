@@ -44,7 +44,7 @@ public class CartController extends HttpServlet {
         }
 
         String action = request.getParameter("action");
-        if (action == null) action = "list";
+        if (action == null) action = "listByUser";
         switch (action) {
             case "listByUser":
                 listCartItemsByUser(request, response);
@@ -83,13 +83,10 @@ public class CartController extends HttpServlet {
             return;
         }
 
-        // Logic for adding product to cart
-        String productId = request.getParameter("productId");
         // Add product to cart logic...
+        saveCartItem(request, response);
 
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        response.getWriter().write("{\"message\":\"Item added to cart successfully!\"}");
+
     }
 
     private void checkCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
