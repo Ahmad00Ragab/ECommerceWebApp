@@ -56,7 +56,6 @@
 								<li class="nav-item"><a class="nav-link" href="userAcc">My Account</a></li>
 							</ul>
 						</li>
-
 					</ul>
 				</div>
 			</div>
