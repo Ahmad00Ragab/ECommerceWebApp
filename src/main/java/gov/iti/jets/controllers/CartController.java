@@ -110,12 +110,19 @@ public class CartController extends HttpServlet {
         request.getRequestDispatcher("/cart.jsp").forward(request, response);
     }
 
-    private void saveCartItem(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void saveCartItem(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         Long productId = Long.parseLong(request.getParameter("productId"));
         Long userId = (Long) request.getSession().getAttribute("userId");
         int quantity = 1; // Default to 1, you can allow dynamic quantities if needed
 
-        cartService.addProductToCart(userId, productId, quantity);
+        // Add the product to the cart try and catch
+        try {
+            cartService.addProductToCart(userId, productId, quantity);
+        } catch (Exception e) {
+            request.setAttribute("error", e.getMessage());
+            request.getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+            return;
+        }
 
         // Check if it's an AJAX request
         String requestedWith = request.getHeader("X-Requested-With");
