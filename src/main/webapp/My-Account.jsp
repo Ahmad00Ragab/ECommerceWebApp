@@ -205,13 +205,13 @@
                         <div class="form-group">
                             <label><b>Select Your Interests</b></label>
                             <div class="d-flex flex-wrap">
-                                <c:forEach items="${interests}" var="category">
+                                <c:forEach items="${categories}" var="category">
                                     <div class="interest-bubble">
                                         <input type="checkbox"
                                                id="category${category.getId()}"
                                                name="categories"
                                                value="${category.getId()}"
-                                        <c:if test="${interests.contains(category.getId())}">
+                                        <c:if test="${selectedInterestIds.contains(category.getId())}">
                                                checked
                                         </c:if>
                                         >
@@ -224,6 +224,7 @@
                             </small>
                             <div id="categoriesError" class="error-message"></div>
                         </div>
+
 
                         <!-- Form Buttons -->
                         <div class="row gutters">

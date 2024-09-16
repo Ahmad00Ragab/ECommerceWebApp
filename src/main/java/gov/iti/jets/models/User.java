@@ -154,4 +154,13 @@ public class User {
     public Set<Category> getInterests() {
         return this.categories;
     }
+
+    public void clearCategories() {
+        this.categories.clear();
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories.clear();
+        this.categories.addAll(categories);
+    }
 }

@@ -71,24 +71,28 @@ public class UserAccount extends HttpServlet {
         Optional<User> userOpt = findUserById(req);
         if (userOpt != null) {
             req.setAttribute("user", userOpt.get());
+
             // Fetch all categories (available interests)
             Set<Category> categories = categoryService.findAllCategories();
 
             // Fetch user's selected interests
             Set<Category> userInterests = userService.getInterests(userOpt.get().getId());
 
-            List<CategoryDto> interests = userInterests.stream().
-                    map(foundUser -> CategoryToCategoryDtoConverter.convert(foundUser)).collect(Collectors.toList());
+            // Get only the IDs of the user's selected interests
+            Set<Long> selectedInterestIds = userInterests.stream()
+                    .map(Category::getId)
+                    .collect(Collectors.toSet());
 
             // Set both attributes in the request
             req.setAttribute("categories", categories);
-            req.setAttribute("interests", interests);
+            req.setAttribute("selectedInterestIds", selectedInterestIds);  // Pass only IDs
             req.getRequestDispatcher("/My-Account.jsp").forward(req, resp);
         } else {
             req.setAttribute("error", "User not found.");
             req.getRequestDispatcher("/login").include(req, resp);
         }
     }
+
 
     private void updateUser(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         Long userId = Long.parseLong(req.getSession().getAttribute("userId").toString());
@@ -117,25 +121,25 @@ public class UserAccount extends HttpServlet {
         // Get selected categories (interests) from the request
         String[] selectedCategoryIds = req.getParameterValues("categories");
 
-        if (selectedCategoryIds != null) {
-            // Convert the array of category IDs (String) to a List of Longs
-            List<Long> categoryIds = Arrays.stream(selectedCategoryIds)
-                    .map(Long::parseLong)
-                    .collect(Collectors.toList());
+        //find categories by Id
+        Set<Category> categories = categoryService.findAllCategories();
 
-            // Update user's interests (categories) in the service
-            //userService.addInterestsToUser(userId, categoryIds);
-        }
+        // get categories that has the same id as selectedCategoryIds
+        Set<Category> selectedCategories = categories.stream()
+                .filter(category -> Arrays.asList(selectedCategoryIds).contains(String.valueOf(category.getId())))
+                .collect(Collectors.toSet());
+
+        existingUser.setCategories(selectedCategories);
 
         // Perform validation
         System.out.println("just before validation");
 
         try {
             // Call the service to update the user
-            userService.update(userId, existingUser);
+            User updatedUser =  userService.update(userId, existingUser);
 
             req.setAttribute("successMessage", "User updated successfully.");
-            req.getRequestDispatcher("My-Account.jsp").forward(req, resp);
+            showUpdateForm(req, resp);
         } catch (ValidationException e) {
             // Set validation errors and user data in request
             req.setAttribute("errors", e.getValidationErrors());

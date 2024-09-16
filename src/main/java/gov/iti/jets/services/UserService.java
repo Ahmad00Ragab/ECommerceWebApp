@@ -89,7 +89,8 @@ public class UserService {
         /* update Rest of Attributes : Haroun */
         foundUser.setUsername(user.getUsername());
         foundUser.setEmail(user.getEmail());
-
+        foundUser.clearCategories();
+        foundUser.setCategories(user.getInterests());
 
 
 
