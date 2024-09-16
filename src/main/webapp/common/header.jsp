@@ -81,4 +81,5 @@
 			</form>
 		</div>
 	</div>
+	<%@ include file="/common/notifications.jsp" %>
 </header>
