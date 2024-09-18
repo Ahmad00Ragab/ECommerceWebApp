@@ -130,9 +130,6 @@
             <label for="quantity">Quantity:</label>
             <input type="number" id="quantity" name="quantity" value="${product.stock}" required>
 
-            <label for="description">Description:</label>
-            <input type="text" id="description" name="description" value="${product.description}" required>
-        
             <label for="category">Category:</label>
             <select id="category" name="category" required>
                 <c:forEach var="category" items="${categories}">
@@ -140,6 +137,18 @@
                 </c:forEach>
             </select>
 
+            <label for="size">Size:</label>
+            <input type="number" id="size" name="size" class="form-control" required>
+            
+            <label for="brand">Brand:</label>
+            <input type="text" id="brand" name="brand" class="form-control" required>
+
+            <label for="color">Color:</label>
+            <input type="color" id="color" name="color" class="form-control" required>
+            
+            <label for="description">Description:</label>
+            <input type="text" id="description" name="description" value="${product.description}" required>
+        
             <%-- New Field for Product Image URL --%>
             <label for="imageUrl">Product Image URL:</label>
             <input type="text" id="imageUrl" name="imageUrl" value="${product.imageUrl}" placeholder="Enter product image URL">

@@ -136,11 +136,23 @@
                 </c:forEach>
             </select>
 
-            <label for="imageUrl">Product Image URL:</label>
-            <input type="text" id="imageUrl" name="imageUrl" class="form-control" required>
+    
+            <label for="size">Size:</label>
+            <input type="number" id="size" name="size" class="form-control" required>
+            
+            <label for="brand">Brand:</label>
+            <input type="text" id="brand" name="brand" class="form-control" required>
+
+            <label for="color">Color:</label>
+            <input type="color" id="color" name="color" class="form-control" required>
+
 
             <label for="description">Product Description:</label>
-            <textarea id="description" name="description" class="form-control" required></textarea>
+            <textarea id="description" name="description" class="form-control" required></textarea> 
+
+
+            <label for="imageUrl">Product Image URL:</label>
+            <input type="text" id="imageUrl" name="imageUrl" class="form-control" required>
 
             <%-- Button container to separate Save and Cancel buttons --%>
             <div class="button-container">
