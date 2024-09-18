@@ -151,20 +151,7 @@
                             </ul>
                         </div>
 
-                        <!-- Sorting Option -->
-                        <div class="common-filter" style="margin-top: 20px;">
-                            <div class="top-filter-head">Sorting</div>
-                            <ul>
-                                <li class="filter-list">
-                                    <label for="sortOrder">Sort By</label>
-                                    <select id="sortOrder" name="sortOrder" class="form-control">
-                                        <option value="default">Default sorting</option>
-                                        <option value="asc">ASC</option>
-                                        <option value="desc">DESC</option>
-                                    </select>
-                                </li>
-                            </ul>
-                        </div>
+
                     </div>
 
                     <!-- Apply Filter Button -->
