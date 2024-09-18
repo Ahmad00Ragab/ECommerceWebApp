@@ -7,6 +7,7 @@ import gov.iti.jets.models.Product;
 import gov.iti.jets.models.User;
 import gov.iti.jets.system.exceptions.ObjectNotFoundException;
 import gov.iti.jets.system.persistence.CreateEntityManagerFactory;
+import gov.iti.jets.system.persistence.EntityManagerUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -24,9 +25,8 @@ public class UserRepository extends GenericDaoImpl<User> {
         super(User.class);
     }
     public Optional<User> findByUsername(String username) {
-        EntityManager em = null;
+        EntityManager em = EntityManagerUtil.getEntityManager();
         try {
-            em = emf.createEntityManager();
             CriteriaBuilder cb = em.getCriteriaBuilder();
             CriteriaQuery<User> q = cb.createQuery(User.class);
             Root<User> user = q.from(User.class);
@@ -42,9 +42,8 @@ public class UserRepository extends GenericDaoImpl<User> {
         }
     }
     public boolean existsByEmail(String email) {
-        EntityManager em = null;
+        EntityManager em = EntityManagerUtil.getEntityManager();
         try {
-            em = emf.createEntityManager();
             return em.createQuery("SELECT COUNT(u) FROM User u WHERE u.email = :email", Long.class).setParameter("email", email).getSingleResult() > 0;
         }
         catch (Exception e) {
@@ -53,9 +52,8 @@ public class UserRepository extends GenericDaoImpl<User> {
     }
 
     public boolean existsByPhoneNumber(String phone) {
-        EntityManager em = null;
+        EntityManager em = EntityManagerUtil.getEntityManager();
         try {
-            em = emf.createEntityManager();
             return em.createQuery("SELECT COUNT(u) FROM User u WHERE u.phone = :phone", Long.class).setParameter("phone", phone).getSingleResult() > 0;
         }
         catch (Exception e) {
@@ -64,9 +62,8 @@ public class UserRepository extends GenericDaoImpl<User> {
     }
 
     public boolean existsByUsername(String username) {
-        EntityManager em = null;
+        EntityManager em = EntityManagerUtil.getEntityManager();
         try {
-            em = emf.createEntityManager();
             return em.createQuery("SELECT COUNT(u) FROM User u WHERE u.username = :username", Long.class).setParameter("username", username).getSingleResult() > 0;
         }
         catch (Exception e) {
@@ -76,9 +73,8 @@ public class UserRepository extends GenericDaoImpl<User> {
 
 
     public Optional<User> findByEmail(String email) {
-        EntityManager em = null;
+        EntityManager em = EntityManagerUtil.getEntityManager();
         try {
-            em = emf.createEntityManager();
             CriteriaBuilder cb = em.getCriteriaBuilder();
             CriteriaQuery<User> q = cb.createQuery(User.class);
             Root<User> user = q.from(User.class);
@@ -88,8 +84,6 @@ public class UserRepository extends GenericDaoImpl<User> {
             return Optional.ofNullable(em.createQuery(q).getSingleResult());
         } catch (Exception e) {
             throw new RuntimeException("Error occurred while fetching " + email, e);
-        } finally {
-            em.close();
         }
     }
 

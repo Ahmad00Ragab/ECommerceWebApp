@@ -20,7 +20,7 @@ public class CartCountServlet extends HttpServlet {
         if (session != null) {
             User user = (User) session.getAttribute("user");
             if (user != null) {
-                int cartNumber = user.getCartItems().size(); // Assuming cart has a method to get item count
+                int cartNumber = user.getCartItems().size();
             }
         }
 
