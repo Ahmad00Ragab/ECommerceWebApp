@@ -3,6 +3,7 @@ package gov.iti.jets.services;
 import gov.iti.jets.models.*;
 import gov.iti.jets.system.exceptions.ValidationException;
 import gov.iti.jets.system.persistence.CreateEntityManagerFactory;
+import gov.iti.jets.system.persistence.EntityManagerUtil;
 import gov.iti.jets.system.utils.validators.CheckoutValidator;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -46,18 +47,14 @@ public class CheckoutService {
     //    transaction end
 
     public Order checkout(User user, Set<CartItem> cartItems) {
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = EntityManagerUtil.getEntityManager();
 
         // Begin transaction for checkout process
-        EntityTransaction transaction = em.getTransaction();
         List<String> errors = new ArrayList<>();
         try {
-            transaction.begin();
             errors = checkoutValidator.validateCheckout(user, cartItems);
 
             if(errors.size() > 0) {
-                transaction.rollback();
-                em.close();
                 throw new ValidationException(errors);
             }
             // Update stock for each product
@@ -85,7 +82,6 @@ public class CheckoutService {
             user.setCreditLimit(user.getCreditLimit().subtract(totalCost));
             userService.update(user);
 
-            transaction.commit();
 
             order.setTotalPrice(totalCost);
             // set order items
@@ -100,12 +96,8 @@ public class CheckoutService {
             return order;
 
         } catch (Exception e) {
-            transaction.rollback();
             //errors.add("Error during checkout: " + e.getMessage());
             throw new ValidationException(errors);
-        }
-        finally {
-            em.close();
         }
     }
 

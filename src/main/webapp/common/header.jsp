@@ -18,9 +18,9 @@
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse offset" id="navbarSupportedContent">
 					<ul class="nav navbar-nav menu_nav ml-auto">
-						
+
 						<li class="nav-item"><a class="nav-link" href="/ECommerceWebApp/">Home</a></li>
-												
+
 						<li class="nav-item"><a class="nav-link" href="products">Shop</a></li>
 
 						<li class="nav-item"><a class="nav-link" href="contact.jsp">Contact</a></li>
@@ -43,19 +43,19 @@
 						<li class="nav-item dropdown">
 							<a href="userAcc" class="profile"><span class="lnr lnr-user"></span></a>
 							<ul class="dropdown-menu">
-								<% 
+								<%
 									// Check if user is logged in
 									Long userId = (Long) session.getAttribute("userId");
-									if (userId != null) { 
+									if (userId != null) {
 								%>
 									<li class="nav-item"><a class="nav-link" href="userAcc">My Account</a></li>
 									<li class="nav-item"><a class="nav-link" href="logout">Logout</a></li>
-								<% 
-									} else { 
+								<%
+									} else {
 								%>
 									<li class="nav-item"><a class="nav-link" href="/ECommerceWebApp/login">Login</a></li>
-								<% 
-									} 
+								<%
+									}
 								%>
 							</ul>
 						</li>

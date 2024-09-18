@@ -1,5 +1,6 @@
 package gov.iti.jets.repositories;
 
+import gov.iti.jets.system.persistence.EntityManagerUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
@@ -26,10 +27,8 @@ public class OrderRepository extends GenericDaoImpl<Order> {
 
     // Find Order by total price method
     public Optional<Order> findByTotalPrice(BigDecimal totalPrice) {
-        EntityManager em = null;
+        EntityManager em = EntityManagerUtil.getEntityManager();
         try {
-            em = emf.createEntityManager();
-
             CriteriaBuilder cb = em.getCriteriaBuilder();
             CriteriaQuery<Order> cq = cb.createQuery(Order.class);
             Root<Order> orderRoot = cq.from(Order.class);
@@ -41,10 +40,6 @@ public class OrderRepository extends GenericDaoImpl<Order> {
             return Optional.ofNullable(query.getSingleResult());
         } catch (NoResultException e) {
             return Optional.empty();
-        } finally {
-            if (em != null && em.isOpen()) {
-                em.close();
-            }
         }
     }
     
@@ -54,20 +49,18 @@ public class OrderRepository extends GenericDaoImpl<Order> {
 
     // Find Orders by user ID method
     public List<Order> findOrdersByUserId(Long userId) {
-        EntityManager em = null;
+        EntityManager em = EntityManagerUtil.getEntityManager();
         try {
-            em = emf.createEntityManager();
             CriteriaBuilder cb = em.getCriteriaBuilder();
+
             CriteriaQuery<Order> cq = cb.createQuery(Order.class);
             Root<Order> orderRoot = cq.from(Order.class);
             Predicate userPredicate = cb.equal(orderRoot.get("user").get("id"), userId);
             cq.where(userPredicate);
             TypedQuery<Order> query = em.createQuery(cq);
             return query.getResultList();
-        } finally {
-            if (em != null && em.isOpen()) {
-                em.close();
-            }
+        } catch (NoResultException e) {
+            return Collections.emptyList();
         }
     }
 

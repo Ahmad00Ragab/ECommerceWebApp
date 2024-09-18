@@ -136,7 +136,6 @@
                 </c:forEach>
             </select>
 
-            
             <label for="size">Size:</label>
             <input type="number" id="size" name="size" class="form-control" required>
             
@@ -149,8 +148,9 @@
 
             <label for="imageUrl">Product Image URL:</label>
             <input type="text" id="imageUrl" name="imageUrl" class="form-control" required>
+            
             <label for="description">Product Description:</label>
-            <textarea id="description" name="description" class="form-control" required></textarea>
+            <textarea id="description" name="description" class="form-control" required></textarea> 
 
             <%-- Button container to separate Save and Cancel buttons --%>
             <div class="button-container">

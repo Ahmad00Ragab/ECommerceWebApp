@@ -3,6 +3,7 @@ package gov.iti.jets.repositories;
 import gov.iti.jets.repositories.genericDao.GenericDaoImpl;
 import gov.iti.jets.models.Category;
 import gov.iti.jets.models.Product;
+import gov.iti.jets.system.persistence.EntityManagerUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -18,7 +19,6 @@ import java.util.Set;
 
 public class CategoryRepository extends GenericDaoImpl<Category> {
 
-    EntityManager em = emf.createEntityManager();
 
     public CategoryRepository() {
         super(Category.class);
@@ -26,9 +26,8 @@ public class CategoryRepository extends GenericDaoImpl<Category> {
 
 
     public Set<Category> findAll() {
-        EntityManager em = null;
+        EntityManager em = EntityManagerUtil.getEntityManager();
         try {
-            em = emf.createEntityManager();
             CriteriaBuilder cb = em.getCriteriaBuilder();
             CriteriaQuery<Category> cq = cb.createQuery(Category.class);
             Root<Category> categoryRoot = cq.from(Category.class);
@@ -41,15 +40,13 @@ public class CategoryRepository extends GenericDaoImpl<Category> {
         } catch (Exception e) {
           //  e.printStackTrace();  // Log exception for debugging
             return Collections.emptySet();  // Return empty set in case of an exception
-        } finally {
-            if (em != null) {
-                em.close();
-            }
         }
     }
 
 
     public List<Product> getProductsByCategory(String category) {
+        EntityManager em = EntityManagerUtil.getEntityManager();
+
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Product> q = cb.createQuery(Product.class);
 

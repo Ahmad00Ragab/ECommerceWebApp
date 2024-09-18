@@ -93,7 +93,6 @@ public class UserService {
         foundUser.setCategories(user.getInterests());
 
 
-
         // Save the updated user
         return userRepository.update(foundUser);
     }
@@ -132,7 +131,6 @@ public class UserService {
             return Optional.of(user);  // Password matches, return the user
         }
     }
-
 
 
     // Exists
@@ -191,8 +189,6 @@ public class UserService {
     // Fetch user and orders and map to UserOrderDto
     public Optional<UserOrderDto> getUserOrderDto(Long userId) {
         Optional<User> userOpt = userRepository.findById(userId);
-        
-                
 
         if (userOpt.isPresent()) {
             User user = userOpt.get();

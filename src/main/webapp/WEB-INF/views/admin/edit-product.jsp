@@ -146,7 +146,6 @@
 
             <label for="color">Color:</label>
             <input type="color" id="color" name="color" class="form-control" required>
-
             <%-- New Field for Product Image URL --%>
             <label for="imageUrl">Product Image URL:</label>
             <input type="text" id="imageUrl" name="imageUrl" value="${product.imageUrl}" placeholder="Enter product image URL">

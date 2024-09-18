@@ -11,8 +11,8 @@ public class EmailSender {
 
     private static final String SMTP_HOST =  "smtp.office365.com";
     private static final int SMTP_PORT = 587;
-    private static final String SMTP_AUTH_USER = "aaa.iti2024@outlook.com";
-    private static final String SMTP_AUTH_PASSWORD ="ITI2024aaa";
+    private static final String SMTP_AUTH_USER = "";
+    private static final String SMTP_AUTH_PASSWORD ="";
 
 
     public static String getRandom(){

@@ -5,14 +5,10 @@ import org.hibernate.jpa.HibernatePersistenceProvider;
 
 public class CreateEntityManagerFactory {
 
-    // Volatile keyword ensures the visibility of changes across threads
     private static volatile EntityManagerFactory entityManagerFactory;
 
-    private CreateEntityManagerFactory() {
-        // Private constructor to prevent instantiation
-    }
+    private CreateEntityManagerFactory() {}
 
-    // Thread-safe singleton creation
     public static EntityManagerFactory getInstance() {
         if (entityManagerFactory == null) {
             synchronized (CreateEntityManagerFactory.class) {
@@ -39,7 +35,6 @@ public class CreateEntityManagerFactory {
         }
     }
 
-    // Add this shutdown hook to ensure the factory is closed when the app shuts down
     static {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             close();

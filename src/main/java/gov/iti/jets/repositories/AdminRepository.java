@@ -1,6 +1,7 @@
 package gov.iti.jets.repositories;
 
 
+import gov.iti.jets.system.persistence.EntityManagerUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
@@ -16,8 +17,6 @@ public class AdminRepository extends GenericDaoImpl<Admin> {
     // Remove EntityManager Instantiation: The AdminRepository class no longer directly
     // creates an EntityManager instance. Instead,it uses the EntityManager provided by the GenericDaoImpl methods.
 
-    EntityManager em = emf.createEntityManager();
-
     // Constructor to call the superclass constructor
     public AdminRepository() {
         super(Admin.class);
@@ -25,10 +24,9 @@ public class AdminRepository extends GenericDaoImpl<Admin> {
 
 
     public Optional<Admin> findByEmail(String email) {
-        EntityManager em = null;
+        EntityManager em = EntityManagerUtil.getEntityManager();
         try {
-            em = emf.createEntityManager();
-            
+
             CriteriaBuilder cb = em.getCriteriaBuilder();
             CriteriaQuery<Admin> cq = cb.createQuery(Admin.class);
             Root<Admin> adminRoot = cq.from(Admin.class);
@@ -40,10 +38,6 @@ public class AdminRepository extends GenericDaoImpl<Admin> {
             return Optional.ofNullable(query.getSingleResult());
         } catch (NoResultException e) {
             return Optional.empty();
-        } finally {
-            if (em != null && em.isOpen()) {
-                em.close();
-            }
         }
     }
 
@@ -51,12 +45,11 @@ public class AdminRepository extends GenericDaoImpl<Admin> {
     
     /* find Admin by Email and Passowrd  */
     public Optional<Admin> findByEmailAndPassword(String email, String password) {
-        
-        EntityManager em = null;
+
+        EntityManager em = EntityManagerUtil.getEntityManager();
         
         try {
-            em = emf.createEntityManager();
-            
+
             CriteriaBuilder cb = em.getCriteriaBuilder();
             CriteriaQuery<Admin> cq = cb.createQuery(Admin.class);
             Root<Admin> adminRoot = cq.from(Admin.class);
@@ -70,10 +63,6 @@ public class AdminRepository extends GenericDaoImpl<Admin> {
             return Optional.ofNullable(query.getSingleResult());
         } catch (NoResultException e) {
             return Optional.empty();
-        } finally {
-            if (em != null && em.isOpen()) {
-                em.close();
-            }
         }
     }
     
