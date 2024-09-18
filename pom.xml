@@ -5,7 +5,7 @@
 
   <!-- ========================================= App info =============================================== -->
   <groupId>gov.iti.jets</groupId>
-  <artifactId>ECommerceWebApp</artifactId>
+  <artifactId>Shoesly</artifactId>
   <packaging>war</packaging>
   <version>1.0-SNAPSHOT</version>
 

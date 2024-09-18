@@ -54,7 +54,7 @@ public class ProductRepository extends GenericDaoImpl<Product> {
             CriteriaQuery<ProductDto> cq = cb.createQuery(ProductDto.class);
             Root<Product> productRoot = cq.from(Product.class);
 
-            // Construct the ProductDto
+
             cq.select(cb.construct(ProductDto.class,
                     productRoot.get("id"),
                     productRoot.get("name"),
@@ -143,16 +143,16 @@ public class ProductRepository extends GenericDaoImpl<Product> {
             cq.where(predicates.toArray(new Predicate[0]));
         }
 
-        // Normalize sortOrder to handle case-insensitivity
+
         if (sortOrder != null) {
             sortOrder = sortOrder.toLowerCase();
         }
 
    
         if ("asc".equals(sortOrder)) {
-            cq.orderBy(cb.asc(productRoot.get("price")));  // Sort by price ascending
+            cq.orderBy(cb.asc(productRoot.get("price")));
         } else if ("desc".equals(sortOrder)) {
-            cq.orderBy(cb.desc(productRoot.get("price")));  // Sort by price descending
+            cq.orderBy(cb.desc(productRoot.get("price")));
         } else {
          
             cq.orderBy(cb.asc(productRoot.get("name")));
