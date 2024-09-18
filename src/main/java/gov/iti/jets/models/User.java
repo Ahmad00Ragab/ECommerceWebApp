@@ -87,7 +87,7 @@ public class User {
     )
     private Set<Product> wishlist = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_interest",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -96,7 +96,7 @@ public class User {
     private Set<Category> categories = new HashSet<>();
 
     // @OneToMany(mappedBy = "user", fetch = FetchType.LAZY) // Gives Error in code 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Order> orders;
 
     @Column(name = "email_status")
