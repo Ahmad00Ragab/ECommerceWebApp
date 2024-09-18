@@ -20,9 +20,11 @@ import java.util.Optional;
 import java.util.Set;
 import java.time.LocalDateTime;
 
-// /* ======================================================================================== */
-// /*    This is Servlet Enables the Admin to View, Add, Edit and Delete Products              */
-// /* ======================================================================================== */
+
+
+/* ======================================================================================== */
+/*    This is Servlet Enables the Admin to View, Add, Edit and Delete Products              */
+/* ======================================================================================== */
 @WebServlet("/ProductController")
 public class ProductController extends HttpServlet {
 
@@ -108,43 +110,15 @@ public class ProductController extends HttpServlet {
         }
     }
 
-//     @Override
-//     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//     // Validate session
-//     HttpSession session = req.getSession(false);
-//     if (session == null || session.getAttribute("id") == null) {
-//         // Redirect to login if no session
-//         req.setAttribute("errorMessage", "Please log in to access this page.");
-//         req.getRequestDispatcher("/WEB-INF/views/admin/admin-login.jsp").forward(req, resp);
-//         return;
-//     }
-
-//     String action = req.getParameter("action");
-
-//     if ("delete".equals(action)) {
-//         long id = Long.parseLong(req.getParameter("id"));
-//         productService.deleteProduct(id);
-//         resp.sendRedirect("ProductController");
-//     } else if ("create".equals(action)) {
-//         // Handle product creation
-//         handleCreateOrUpdate(req, resp);
-//     } else {
-//         // Handle other actions (e.g., update)
-//         handleCreateOrUpdate(req, resp);
-//     }
-// }
-
-
-
-
-
-
     private void handleCreateOrUpdate(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         String productId = req.getParameter("productId");
         String name = req.getParameter("name");
         String imageUrl = req.getParameter("imageUrl"); // Capture the image URL
         String description = req.getParameter("description"); // Capture the image URL
+        String shoeSize = req.getParameter("size"); // Capture the size
+        String shoeColor = req.getParameter("color"); // Capture the color 
+        String brand = req.getParameter("brand"); // Capture the brand
         BigDecimal price;
         int quantity;
 
@@ -156,6 +130,7 @@ public class ProductController extends HttpServlet {
             req.getRequestDispatcher("WEB-INF/views/admin/admin-panel.jsp").forward(req, resp);
             return;
         }
+
 
         String categoryId = req.getParameter("category");
         if (categoryId == null || categoryId.isEmpty()) {
@@ -172,6 +147,9 @@ public class ProductController extends HttpServlet {
         Product product = new Product(name, price, description, quantity, category, LocalDateTime.now(),
                 LocalDateTime.now());
         product.setImageUrl(imageUrl); // Set the image URL
+        product.setShoeSize(shoeSize); // Set the shoeSize
+        product.setShoeColor(shoeColor); // Set the shoeColor
+        product.setBrand(brand); // Set the Brand
 
         if (productId == null || productId.isEmpty()) {
             productService.createProduct(product);
