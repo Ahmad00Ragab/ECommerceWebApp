@@ -95,7 +95,7 @@ public class ProductRepository extends GenericDaoImpl<Product> {
             CriteriaQuery<ProductDto> cq = cb.createQuery(ProductDto.class);
             Root<Product> productRoot = cq.from(Product.class);
 
-            // Construct the ProductDto
+      
             cq.select(cb.construct(ProductDto.class,
                     productRoot.get("id"),
                     productRoot.get("name"),
