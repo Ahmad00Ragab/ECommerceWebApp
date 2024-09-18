@@ -95,7 +95,7 @@ public class ProductRepository extends GenericDaoImpl<Product> {
             CriteriaQuery<ProductDto> cq = cb.createQuery(ProductDto.class);
             Root<Product> productRoot = cq.from(Product.class);
 
-            // Construct the ProductDto
+        
             cq.select(cb.construct(ProductDto.class,
                     productRoot.get("id"),
                     productRoot.get("name"),
@@ -105,7 +105,7 @@ public class ProductRepository extends GenericDaoImpl<Product> {
                     productRoot.get("stock")
             ));
 
-            // List to hold the dynamic predicates
+           
             return getProductDtos(category, size, color, minPrice, maxPrice, sortOrder, pageNumber, pageSize, cb, productRoot, cq, em);
 
         } catch (Exception e) {
@@ -116,22 +116,21 @@ public class ProductRepository extends GenericDaoImpl<Product> {
     private static HashSet<ProductDto> getProductDtos(String category, String size, String color, BigDecimal minPrice, BigDecimal maxPrice, String sortOrder, int pageNumber, int pageSize, CriteriaBuilder cb, Root<Product> productRoot, CriteriaQuery<ProductDto> cq, EntityManager em) {
         List<Predicate> predicates = new ArrayList<>();
 
-        // Apply category filter
         if (category != null && !category.isEmpty()) {
             predicates.add(cb.equal(productRoot.get("category").get("name"), category));
         }
 
-        // Apply size filter
+   
         if (size != null && !size.isEmpty()) {
             predicates.add(cb.equal(productRoot.get("shoeSize"), size));
         }
 
-        // Apply color filter
+       
         if (color != null && !color.isEmpty()) {
             predicates.add(cb.equal(productRoot.get("shoeColor"), color));
         }
 
-        // Apply price filter
+      
         if (minPrice != null) {
             predicates.add(cb.greaterThanOrEqualTo(productRoot.get("price"), minPrice));
         }
@@ -139,7 +138,7 @@ public class ProductRepository extends GenericDaoImpl<Product> {
             predicates.add(cb.lessThanOrEqualTo(productRoot.get("price"), maxPrice));
         }
 
-        // Apply all predicates if there are any
+       
         if (!predicates.isEmpty()) {
             cq.where(predicates.toArray(new Predicate[0]));
         }
@@ -149,19 +148,19 @@ public class ProductRepository extends GenericDaoImpl<Product> {
             sortOrder = sortOrder.toLowerCase();
         }
 
-        // Apply sorting
+   
         if ("asc".equals(sortOrder)) {
             cq.orderBy(cb.asc(productRoot.get("price")));  // Sort by price ascending
         } else if ("desc".equals(sortOrder)) {
             cq.orderBy(cb.desc(productRoot.get("price")));  // Sort by price descending
         } else {
-            // Apply default sorting, e.g., by name or another column
+         
             cq.orderBy(cb.asc(productRoot.get("name")));
         }
 
         TypedQuery<ProductDto> query = em.createQuery(cq);
 
-        // Pagination
+    
         query.setFirstResult((pageNumber - 1) * pageSize);
         query.setMaxResults(pageSize);
 
@@ -200,28 +199,28 @@ public class ProductRepository extends GenericDaoImpl<Product> {
             CriteriaQuery<Long> cq = cb.createQuery(Long.class);
             Root<Product> productRoot = cq.from(Product.class);
 
-            // Select count of products
+           
             cq.select(cb.count(productRoot));
 
-            // List to hold dynamic predicates
+            
             List<Predicate> predicates = new ArrayList<>();
 
-            // Apply category filter
+          
             if (category != null && !category.isEmpty()) {
                 predicates.add(cb.equal(productRoot.get("category").get("name"), category));
             }
 
-            // Apply size filter
+         
             if (size != null && !size.isEmpty()) {
                 predicates.add(cb.equal(productRoot.get("shoeSize"), size));
             }
 
-            // Apply color filter
+           
             if (color != null && !color.isEmpty()) {
                 predicates.add(cb.equal(productRoot.get("shoeColor"), color));
             }
 
-            // Apply price filter
+        
             if (minPrice != null) {
                 predicates.add(cb.greaterThanOrEqualTo(productRoot.get("price"), minPrice));
             }
@@ -229,12 +228,12 @@ public class ProductRepository extends GenericDaoImpl<Product> {
                 predicates.add(cb.lessThanOrEqualTo(productRoot.get("price"), maxPrice));
             }
 
-            // Apply all predicates if any exist
+         
             if (!predicates.isEmpty()) {
                 cq.where(predicates.toArray(new Predicate[0]));
             }
 
-            // Execute the query and return the result
+           
             TypedQuery<Long> query = em.createQuery(cq);
             return query.getSingleResult().intValue();
 
