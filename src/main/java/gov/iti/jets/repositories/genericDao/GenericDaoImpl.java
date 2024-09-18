@@ -3,6 +3,7 @@ package gov.iti.jets.repositories.genericDao;
 import gov.iti.jets.system.persistence.CustomPersistenceUnit;
 import gov.iti.jets.system.persistence.CreateEntityManagerFactory;
 
+import gov.iti.jets.system.persistence.EntityManagerUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
@@ -24,10 +25,7 @@ import java.util.Set;
 public abstract class GenericDaoImpl<T> implements GenericDAO<T> {
 
     private final Class<T> entityClass;
-    protected EntityManagerFactory emf = CreateEntityManagerFactory.getInstance();
 
-    protected EntityManager em;
-    protected EntityTransaction transaction;
 
     public GenericDaoImpl(Class<T> entityClass) {
         this.entityClass = entityClass;
@@ -35,19 +33,14 @@ public abstract class GenericDaoImpl<T> implements GenericDAO<T> {
 
     @Override
     public Set<T> findAll() {
-        EntityManager em = null;
+        EntityManager em = EntityManagerUtil.getEntityManager();
         try {
-            em = emf.createEntityManager();
-            CriteriaBuilder cb = emf.getCriteriaBuilder();
+            CriteriaBuilder cb = em.getCriteriaBuilder();
             CriteriaQuery<T> query = cb.createQuery(entityClass);
             query.from(entityClass);
             return new HashSet<>(em.createQuery(query).getResultList());
         } catch (Exception e) {
             throw new RuntimeException("Failed to fetch all records of " + entityClass.getSimpleName(), e);
-        } finally {
-            if (em != null) {
-                em.close();
-            }
         }
     }
 
@@ -55,60 +48,37 @@ public abstract class GenericDaoImpl<T> implements GenericDAO<T> {
     
     @Override
     public Optional<T> findById(Long id) {
-        EntityManager em = null;
+        EntityManager em = EntityManagerUtil.getEntityManager();
         try {
-            em = emf.createEntityManager();
             T entity = em.find(entityClass, id);
             return Optional.ofNullable(entity);
         } catch (Exception e) {
             throw new RuntimeException("Error occurred while fetching " + entityClass.getSimpleName() + " with ID: " + id, e);
-        } finally {
-            if (em != null) {
-                em.close();
-            }
         }
     }
 
     @Override
     public T save(T entity) {
-        EntityManager em = null;
+        EntityManager em = EntityManagerUtil.getEntityManager();
         try {
-            em = emf.createEntityManager();
-            transaction = em.getTransaction();
-            transaction.begin();
+
             em.persist(entity);
-            transaction.commit();
             return entity;
         } catch (Exception e) {
-            if (transaction != null && transaction.isActive()) {
-                transaction.rollback();
-            }
             throw new RuntimeException("Error saving entity: " + entityClass.getSimpleName(), e);
-        } finally {
-            if (em != null) {
-                em.close();
-            }
         }
+
     }
 
     public T update(T entity) {
-        EntityManager em = null;
+        EntityManager em = EntityManagerUtil.getEntityManager();
         try {
-            em = emf.createEntityManager();
-            transaction = em.getTransaction();
-            transaction.begin();
+
             T updatedEntity = em.merge(entity);
-            transaction.commit();
             return updatedEntity;
+
         } catch (Exception e) {
-            if (transaction != null && transaction.isActive()) {
-                transaction.rollback();
-            }
             throw new RuntimeException("Error updating entity: " + entityClass.getSimpleName(), e);
-        } finally {
-            if (em != null) {
-                em.close();
-            }
         }
     }
 
@@ -116,93 +86,64 @@ public abstract class GenericDaoImpl<T> implements GenericDAO<T> {
     public boolean delete(Long id) {
 
         System.out.println("inside GenericDaoImp!");
-        
-        EntityManager em = null;
+
+        EntityManager em = EntityManagerUtil.getEntityManager();
         try {
-            em = emf.createEntityManager();
-            transaction = em.getTransaction();
-            transaction.begin();
+
             T entity = em.find(entityClass, id);
             if (entity == null) {
                 throw new ObjectNotFoundException(entityClass.getSimpleName(), id);
             }
             em.remove(entity);
-            transaction.commit();
+
             return true;
         } catch (ObjectNotFoundException e) {
-            throw e;  // Explicit rethrow of custom exception
-        } catch (Exception e) {
-            if (transaction != null && transaction.isActive()) {
-                transaction.rollback();
-            }
-            throw new RuntimeException("Error deleting entity: " + entityClass.getSimpleName(), e);
-        } finally {
-            if (em != null) {
-                em.close();
-            }
+            throw new RuntimeException("Error deleting entity: " + entityClass.getSimpleName(), e);  // Explicit rethrow of custom exception
         }
     }
 
 
     @Override
     public boolean delete(T entity) {
-        EntityManager em = null;
+        EntityManager em = EntityManagerUtil.getEntityManager();
         try {
-            em = emf.createEntityManager();
-            transaction = em.getTransaction();
-            transaction.begin();
             em.remove(entity);
-            transaction.commit();
+
             return true;
         } catch (Exception e) {
-            if (transaction != null && transaction.isActive()) {
-                transaction.rollback();
-            }
             throw new RuntimeException("Error deleting entity: " + entityClass.getSimpleName(), e);
-        } finally {
-            if (em != null) {
-                em.close();
-            }
         }
     }
 
     @Override
     public boolean existsById(Long id) {
-        EntityManager em = null;
+        EntityManager em = EntityManagerUtil.getEntityManager();
         try {
-            em = emf.createEntityManager();
             T entity = em.find(entityClass, id);
             return entity != null;
-        } finally {
-            if (em != null) {
-                em.close();
-            }
+        } catch (Exception e) {
+            throw new RuntimeException("Error checking if entity exists: " + entityClass.getSimpleName(), e);
         }
     }
 
     public long countWithNamedQuery() {
-        EntityManager em = null;
+        EntityManager em = EntityManagerUtil.getEntityManager();
         try {
-            em = emf.createEntityManager();
-            CriteriaBuilder cb = emf.getCriteriaBuilder();
+
+            CriteriaBuilder cb = em.getCriteriaBuilder();
             CriteriaQuery<Long> query = cb.createQuery(Long.class);
             Root<T> root = query.from(entityClass);
             query.select(cb.count(root));
             return em.createQuery(query).getSingleResult();
         } catch (Exception e) {
             throw new RuntimeException("Error counting entities: " + entityClass.getSimpleName(), e);
-        } finally {
-            if (em != null) {
-                em.close();
-            }
         }
     }
 
     public long countWithNamedQuery(String paramName, Object paramValue) {
-        EntityManager em = null;
+        EntityManager em = EntityManagerUtil.getEntityManager();
         try {
-            em = emf.createEntityManager();
-            CriteriaBuilder cb = emf.getCriteriaBuilder();
+            CriteriaBuilder cb = em.getCriteriaBuilder();
             CriteriaQuery<Long> query = cb.createQuery(Long.class);
             Root<T> root = query.from(entityClass);
             query.where(cb.equal(root.get(paramName), paramValue));
@@ -210,10 +151,7 @@ public abstract class GenericDaoImpl<T> implements GenericDAO<T> {
             return em.createQuery(query).getSingleResult();
         } catch (Exception e) {
             throw new RuntimeException("Error counting entities with parameter: " + entityClass.getSimpleName(), e);
-        } finally {
-            if (em != null) {
-                em.close();
-            }
+
         }
     }
     // TODO Implement more methods here

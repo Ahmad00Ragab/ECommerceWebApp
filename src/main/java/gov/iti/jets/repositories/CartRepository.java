@@ -5,6 +5,7 @@ import gov.iti.jets.models.CartItem;
 import gov.iti.jets.models.CartKey;
 import gov.iti.jets.models.Product;
 import gov.iti.jets.models.User;
+import gov.iti.jets.system.persistence.EntityManagerUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.*;
 
@@ -23,27 +24,23 @@ public class CartRepository extends GenericDaoImpl<CartItem> {
 
 
     public Set<CartItem> findByUser(User user) {
-        EntityManager em = null;
+        EntityManager em = EntityManagerUtil.getEntityManager();
         try {
-            em = emf.createEntityManager();
             CriteriaBuilder cb = em.getCriteriaBuilder();
             CriteriaQuery<CartItem> q = cb.createQuery(CartItem.class);
             Root<CartItem> cart = q.from(CartItem.class);
             q.where(cb.equal(cart.get("user"), user));
             return em.createQuery(q).getResultStream().collect(Collectors.toSet());
-        } finally {
-            if (em != null) {
-                em.close();
-            }
+        }catch (Exception e){
+            throw new RuntimeException("Error occurred while fetching cart for user: " + user, e);
         }
     }
 
     
 
     public Set<CartItem> findCartByUserId(Long userId) {
-        EntityManager em = null;
+        EntityManager em = EntityManagerUtil.getEntityManager();
         try {
-            em = emf.createEntityManager();
             CriteriaBuilder cb = em.getCriteriaBuilder();
             CriteriaQuery<CartItem> q = cb.createQuery(CartItem.class);
             Root<CartItem> cartItemRoot = q.from(CartItem.class);
@@ -51,38 +48,27 @@ public class CartRepository extends GenericDaoImpl<CartItem> {
             q.select(cartItemRoot)
                     .where(cb.equal(cartKeyPath.get("userId"), userId));
             return new HashSet<>(em.createQuery(q).getResultList());
-        } finally {
-            if (em != null) {
-                em.close();
-            }
+        } catch (Exception e) {
+            throw new RuntimeException("Error occurred while fetching cart for userId: " + userId, e);
         }
     }
 
     public boolean delete(CartKey key) {
-        EntityManager em = null;
+        EntityManager em = EntityManagerUtil.getEntityManager();
+
         try {
-            em = emf.createEntityManager();
-            transaction = em.getTransaction();
-            transaction.begin();
             em.remove(em.find(CartItem.class, key));
-            transaction.commit();
         } catch (Exception e) {
-            if (transaction != null) transaction.rollback();
             e.printStackTrace();
             return false;
-        } finally {
-            if (em != null) {
-                em.close();
-            }
         }
         return true;
     }
 
     //not working...........
     public Optional<CartItem> findById(CartKey cartId) {
-        EntityManager em = null;
+        EntityManager em = EntityManagerUtil.getEntityManager();
         try {
-            em = emf.createEntityManager();
 
             // Simply use `find()` method with the composite key (CartKey)
             CartItem cartItem = em.find(CartItem.class, cartId);
@@ -91,19 +77,13 @@ public class CartRepository extends GenericDaoImpl<CartItem> {
             return Optional.ofNullable(cartItem);
         } catch (Exception e) {
             throw new RuntimeException("Error occurred while fetching cart item with cartId: " + cartId, e);
-        } finally {
-            if (em != null) {
-                em.close();
-            }
         }
     }
 
 
     public void addCartItem(Long userId, Long productId, int quantity) {
-        EntityManager em = null;
+        EntityManager em = EntityManagerUtil.getEntityManager();
         try {
-            em = emf.createEntityManager();
-            em.getTransaction().begin();
             User user = em.find(User.class, userId);
             Product product = em.find(Product.class, productId);
 
@@ -113,54 +93,40 @@ public class CartRepository extends GenericDaoImpl<CartItem> {
             cartItem.setProduct(product);
             cartItem.setQuantity(quantity);
 
-            em.persist(cartItem);
-            em.getTransaction().commit();
+            em.merge(cartItem);
         } catch (Exception e) {
             throw new RuntimeException("Error occurred while adding cart item: " + e);
-        } finally {
-            if (em != null) {
-                em.close();
-            }
         }
     }
 
     public void deleteCartItem(CartKey cartId) {
-        EntityManager em = null;
+        EntityManager em = EntityManagerUtil.getEntityManager();
         try {
-            em = emf.createEntityManager();
-            em.getTransaction().begin();
             CartItem cartItem = em.find(CartItem.class, cartId);
             if (cartItem != null) {
                 em.remove(cartItem);
             }
-            em.getTransaction().commit();
         } catch (Exception e) {
             throw new RuntimeException("Error occurred while deleting cart item with cartId: " + cartId, e);
-        } finally {
-            if (em != null) {
-                em.close();
-            }
         }
     }
 
     public void clearCartByUserId(Long userId) {
-        EntityManager em = null;
+        EntityManager em = EntityManagerUtil.getEntityManager();
         try {
-            em = emf.createEntityManager();
-            em.getTransaction().begin();
             CriteriaBuilder cb = em.getCriteriaBuilder();
+
             CriteriaDelete<CartItem> delete = cb.createCriteriaDelete(CartItem.class);
+
             Root<CartItem> cartItem = delete.from(CartItem.class);
+
             Path<CartKey> cartKey = cartItem.get("cartId");
+
             delete.where(cb.equal(cartKey.get("userId"), userId));
+
             em.createQuery(delete).executeUpdate();
-            em.getTransaction().commit();
         } catch (Exception e) {
             throw new RuntimeException("Error occurred while clearing cart for userId: " + userId, e);
-        } finally {
-            if (em != null) {
-                em.close();
-            }
         }
     }
 
