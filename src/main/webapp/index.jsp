@@ -63,8 +63,9 @@ cursor: pointer; /* Show pointer on hover */
 						<div class="col-lg-5 col-md-6">
 							<div class="banner-content">
 								<h1>Nike New <br>Collection!</h1>
-								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-									dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
+								<p>Discover the latest Nike collection at Shoesly, your go-to e-commerce platform for high-quality shoes. Whether you are an athlete, fitness enthusiast, or just love stylish footwear, 
+									we have something for everyone. From iconic Air Jordans to the latest running shoes, each pair is designed for maximum performance and comfort. Our user-friendly site makes shopping easy, 
+									and our dedicated customer service team is here to help. Step up your shoe game with Shoesly exclusive Nike collection today!</p>
 								<div class="add-bag d-flex align-items-center">
 									<a href="javascript:void(0);" class="add-btn add-to-cart" data-product-id="1"><span class="lnr lnr-cross"></span></a>
 									<span class="add-text text-uppercase">Add to Bag</span>
@@ -82,8 +83,9 @@ cursor: pointer; /* Show pointer on hover */
 						<div class="col-lg-5">
 							<div class="banner-content">
 								<h1>Nike New <br>Collection!</h1>
-								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-									dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
+								<p>Discover the latest Nike collection at Shoesly, your go-to e-commerce platform for high-quality shoes. Whether you are an athlete, fitness enthusiast, or just love stylish footwear, 
+									we have something for everyone. From iconic Air Jordans to the latest running shoes, each pair is designed for maximum performance and comfort. Our user-friendly site makes shopping easy, 
+									and our dedicated customer service team is here to help. Step up your shoe game with Shoesly exclusive Nike collection today!</p>
 								<div class="add-bag d-flex align-items-center">
 									<a href="javascript:void(0);" class="add-btn add-to-cart" data-product-id="1"><span class="lnr lnr-cross"></span></a>
 									<span class="add-text text-uppercase">Add to Bag</span>
