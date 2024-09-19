@@ -128,6 +128,37 @@
     </div>
 </div>
 
+<script>
+    $(document).ready(function() {
+        $('.add-to-cart').click(function() {
+            var productId = $(this).data('product-id');
+
+            $.ajax({
+                url: 'cart',
+                method: 'POST',
+                data: {
+                    action: 'add',
+                    productId: productId
+                },
+                success: function(response) {
+                    // Success message
+                    alert(response.message || "Item added to cart successfully!");
+                },
+                error: function(xhr, status, error) {
+                    if (xhr.status === 401) {
+                        alert("Please log in to add items to the cart.");
+                        window.location.href = "login";
+                    } else {
+                        // Other error
+                        alert("Error: " + (xhr.responseText || "Failed to add item to cart. Please try again."));
+                    }
+                }
+            });
+        });
+    });
+
+</script>
+
 <%@ include file="common/footer.jsp" %>
 </body>
 

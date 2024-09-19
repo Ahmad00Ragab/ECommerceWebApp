@@ -142,7 +142,7 @@ public class CartController extends HttpServlet {
     private void updateCartItem(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int quantity = Integer.parseInt(request.getParameter("quantity"));
         Long productId = Long.parseLong(request.getParameter("productId"));
-        Long userId = (Long) request.getSession().getAttribute("userId");
+        Long userId = Long.parseLong( request.getSession().getAttribute("userId").toString());
 
         // Update the quantity in the cart
         cartService.updateQuantity(userId, productId, quantity);
@@ -169,7 +169,7 @@ public class CartController extends HttpServlet {
     }
 
     private void deleteCartItem(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Long userId = (Long) request.getSession().getAttribute("userId");
+        Long userId = Long.parseLong( request.getSession().getAttribute("userId").toString());
         Long productId = Long.parseLong(request.getParameter("productId"));
 
         // Remove the item from the cart
@@ -194,7 +194,7 @@ public class CartController extends HttpServlet {
     }
 
     private void clearCart(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Long userId = (Long) request.getSession().getAttribute("userId");
+        Long userId = Long.parseLong(request.getSession().getAttribute("userId").toString());
         cartService.clearCart(userId);
         response.sendRedirect("cart?action=listByUser");
     }
