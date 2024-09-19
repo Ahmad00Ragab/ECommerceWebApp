@@ -51,7 +51,7 @@
                     <h4>Order Info</h4>
                     <ul class="list">
                         <li><a href="#"><span>Order number</span> : ${order.id}</a></li>
-                        <li><a href="#"><span>Date</span> : ${order.dateCreated}</a></li>
+                        <li><a href="#"><span>Date</span> : <span id="orderDate">${order.dateCreated}</span></a></li>
                         <li><a href="#"><span>Total</span> : $${order.totalPrice}</a></li>
                     </ul>
                 </div>
@@ -104,6 +104,20 @@
     </div>
 </section>
 <!--================End Order Details Area =================-->
+
+<script>
+    let dateElement = document.getElementById("orderDate");
+    let rawDate = new Date(dateElement.textContent);
+    let formattedDate = rawDate.toLocaleString("en-US", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true
+    });
+    dateElement.textContent = formattedDate;
+</script>
 
 <!-- Include Footer -->
 <%@ include file="/common/footer.jsp" %>

@@ -44,17 +44,29 @@
 							<a href="userAcc" class="profile"><span class="lnr lnr-user"></span></a>
 							<ul class="dropdown-menu">
 								<%
-									// Check if user is logged in
-									Long userId = (Long) session.getAttribute("userId");
-									if (userId != null) {
+									try {
+										// Check if user is logged in
+										Object userIdObj = session.getAttribute("userId");
+
+										// Check if userId is present and of the correct type
+										if (userIdObj != null && userIdObj instanceof String) {
+											// Convert userId to Long
+											Long userId = Long.parseLong((String) userIdObj);
+
+											// User is logged in
 								%>
-									<li class="nav-item"><a class="nav-link" href="userAcc">My Account</a></li>
-									<li class="nav-item"><a class="nav-link" href="logout">Logout</a></li>
+								<li class="nav-item"><a class="nav-link" href="userAcc">My Account</a></li>
+								<li class="nav-item"><a class="nav-link" href="logout">Logout</a></li>
 								<%
-									} else {
+								} else {
+									// User not logged in
 								%>
-									<li class="nav-item"><a class="nav-link" href="/ECommerceWebApp/login">Login</a></li>
+								<li class="nav-item"><a class="nav-link" href="/ECommerceWebApp/login">Login</a></li>
 								<%
+										}
+									} catch (Exception e) {
+										// Log the error and fallback to login option
+										out.println("<li class='nav-item'><a class='nav-link' href='/ECommerceWebApp/login'>Login</a></li>");
 									}
 								%>
 							</ul>
