@@ -93,7 +93,9 @@ public class RegisterProcess extends HttpServlet {
 
         userService.save(user);
         req.getSession().setAttribute("userId", user.getId());
-        resp.sendRedirect("/ECommerceWebApp/index.jsp");
+        // resp.sendRedirect("/ECommerceWebApp/index.jsp");
+        resp.sendRedirect(req.getContextPath() + "/index.jsp");
+
     }
 
     private boolean isAjaxRequest(HttpServletRequest request) {

@@ -48,6 +48,11 @@
 		color: white;
 
 	}
+
+	.main-content {
+            margin-top: 500px; /* Adjust the size of the margin as needed */
+        }
+
 	</style>
 
 		

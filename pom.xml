@@ -18,6 +18,7 @@
 
   <!-- ========================================== Build =============================================== -->
   <build>
+    <finalName>Shoesly</finalName>
     <plugins>
       <!-- Maven WAR Plugin -->
       <plugin>
@@ -59,7 +60,7 @@
           <username>admin</username>
           <password>admin</password>
           <url>http://localhost:8080/manager/text</url>
-          <path>/ECommerceWebApp</path>
+          <path>/Shoesly</path>
         </configuration>
       </plugin>
     </plugins>

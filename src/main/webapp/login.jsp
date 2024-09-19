@@ -136,7 +136,9 @@
 
                         <!-- Add "Login As Admin" Button -->
                         <div class="col-md-12 form-group admin-login-container">
-                            <a href="/ECommerceWebApp/GoToAdminLogin" class="admin-login-btn">Login As Admin</a>
+                            <%-- <a href="/ECommerceWebApp/GoToAdminLogin" class="admin-login-btn">Login As Admin</a> --%>
+                            <a href="${pageContext.request.contextPath}/GoToAdminLogin" class="admin-login-btn">Login As Admin</a>
+
                         </div>
                     </div>
                 </div>
