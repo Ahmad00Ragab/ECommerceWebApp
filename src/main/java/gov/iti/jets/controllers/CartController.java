@@ -35,9 +35,10 @@ public class CartController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Long userId = Long.parseLong(request.getSession().getAttribute("userId").toString());
 
-        if (userId == null) {
+        if(request.getSession().getAttribute("userId") == null
+                || request.getSession().getAttribute("userId").toString().isEmpty())
+        {
             request.setAttribute("error", "User not logged in");
             request.getRequestDispatcher("/login").include(request, response);
             return;
@@ -71,15 +72,16 @@ public class CartController extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession(false); // Get session without creating a new one
-        Long userId = Long.parseLong(request.getSession().getAttribute("userId").toString());
-
-        if (userId == null) {
+        if(request.getSession().getAttribute("userId") == null
+                || request.getSession().getAttribute("userId").toString().isEmpty())
+        {
             // Return 401 Unauthorized if the user is not logged in
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.getWriter().write("{\"message\":\"Please log in to add items to the cart.\"}");
+
+            request.getRequestDispatcher("/login").include(request, response);
             return;
         }
 

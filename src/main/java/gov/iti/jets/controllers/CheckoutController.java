@@ -8,6 +8,7 @@ import gov.iti.jets.system.utils.validators.CheckoutValidator;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Set;
 
@@ -30,13 +31,15 @@ public class CheckoutController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Long userId = (Long)req.getSession().getAttribute("userId");
 
-        if (userId == null) {
+        if(req.getSession().getAttribute("userId") == null
+                || req.getSession().getAttribute("userId").toString().isEmpty())
+        {
             req.setAttribute("error", "User not logged in");
             req.getRequestDispatcher("/login").include(req, resp);
             return;
         }
+
         checkout(req,resp);
     }
 
