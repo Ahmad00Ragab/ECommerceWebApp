@@ -23,9 +23,10 @@ Shoesly is an e-commerce web application designed for seamless shopping of shoes
 - **Maven** for project dependency management and builds.
 
 ## Developers
-- **Antony Boutros**
-- **Abdulmajeed Mohamed**
-- **Ahmed Haroun**
+| Developers |
+|------------|
+| Antony Boutros, Abdulmajeed Mohamed, Ahmed Haroun |
+
 
 ## Installation and Setup
 
