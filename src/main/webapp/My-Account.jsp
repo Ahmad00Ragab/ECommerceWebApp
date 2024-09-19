@@ -1,6 +1,3 @@
-
-
-<%@ page import="java.time.LocalDate" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="gov.iti.jets.models.User" %>
@@ -135,6 +132,13 @@
                             <h6 class="user-email">${user.email}</h6>
                         </div>
                     </div>
+                    <!-- Button to View Past Orders -->
+                    <div class="mt-3 text-center">
+                        <form action="/ECommerceWebApp/userAcc?action=viewOrders" method="POST">
+                            <button type="submit" class="btn btn-primary">View Orders</button>
+                        </form>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -243,9 +247,7 @@
             </div>
         </div>
 
-        
-		
-		
+
 		<!-- Separate Password Form Section -->
         <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12 mt-3">
             <div class="card h-100">

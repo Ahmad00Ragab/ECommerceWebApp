@@ -1,8 +1,10 @@
 package gov.iti.jets.controllers;
 
 import gov.iti.jets.models.Category;
+import gov.iti.jets.models.Order;
 import gov.iti.jets.models.User;
 import gov.iti.jets.services.CategoryService;
+import gov.iti.jets.services.OrderService;
 import gov.iti.jets.services.UserService;
 import gov.iti.jets.services.converters.CategoryToCategoryDtoConverter;
 import gov.iti.jets.services.dtos.CategoryDto;
@@ -28,9 +30,19 @@ public class UserAccount extends HttpServlet {
 
     UserService userService = new UserService();
     CategoryService categoryService = new CategoryService();
+    OrderController orderController = new OrderController(new OrderService());
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+
+        if(req.getSession().getAttribute("userId") == null
+                || req.getSession().getAttribute("userId").toString().isEmpty())
+        {
+            req.setAttribute("error", "User not logged in");
+            req.getRequestDispatcher("/login").include(req, resp);
+            return;
+        }
         showUpdateForm(req, resp);
     }
 
@@ -47,12 +59,33 @@ public class UserAccount extends HttpServlet {
                 case "changePassword":
                     changePassword(req, resp);
                     break;
+                case "viewOrders":
+                    viewOrders(req, resp);
+                    break;
                 default:
                     req.setAttribute("error", "Invalid action");
                     req.getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
             }
         } catch (Exception e) {
             req.setAttribute("error", "An error occurred: " + e.getMessage());
+            req.getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
+        }
+    }
+
+    private void viewOrders(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        Long userId = Long.parseLong(req.getSession().getAttribute("userId").toString());
+        Optional<User> userOpt = userService.findById(userId);
+
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            List<Order> orders = user.getOrders(); // Retrieve the user's orders
+            req.setAttribute("orders", orders);
+            req.setAttribute("user", user);
+            req.getRequestDispatcher("/userOrders.jsp").forward(req, resp); // Forward to order
+            // history page
+        } else {
+            req.setAttribute("error", "User not found.");
             req.getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
         }
     }

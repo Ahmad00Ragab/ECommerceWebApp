@@ -35,7 +35,7 @@ public class CartController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Long userId = (Long)request.getSession().getAttribute("userId");
+        Long userId = Long.parseLong(request.getSession().getAttribute("userId").toString());
 
         if (userId == null) {
             request.setAttribute("error", "User not logged in");
@@ -72,7 +72,7 @@ public class CartController extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false); // Get session without creating a new one
-        Long userId = (Long)request.getSession().getAttribute("userId");
+        Long userId = Long.parseLong(request.getSession().getAttribute("userId").toString());
 
         if (userId == null) {
             // Return 401 Unauthorized if the user is not logged in
@@ -94,7 +94,7 @@ public class CartController extends HttpServlet {
     }
 
     private void listCartItemsByUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Long userId = (Long) request.getSession().getAttribute("userId");
+        Long userId = Long.parseLong(request.getSession().getAttribute("userId").toString());
 
         // Get cart items
         Set<CartItem> cartItems = cartService.findCartByUserId(userId);
@@ -112,7 +112,7 @@ public class CartController extends HttpServlet {
 
     private void saveCartItem(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         Long productId = Long.parseLong(request.getParameter("productId"));
-        Long userId = (Long) request.getSession().getAttribute("userId");
+        Long userId = Long.parseLong(request.getSession().getAttribute("userId").toString());
         int quantity = 1; // Default to 1, you can allow dynamic quantities if needed
 
         // Add the product to the cart try and catch

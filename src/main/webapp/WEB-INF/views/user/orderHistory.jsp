@@ -106,7 +106,7 @@
                                 <tr>
                                     <td>${order.id}</td>
                                     <td>$${order.totalPrice}</td>
-                                    <td>${order.dateCreated}</td>
+                                    <td class="orderDate">${order.dateCreated}</td>
                                     <td>
                                         <c:forEach var="item" items="${order.orderItems}">
                                             ${item.product.name} (x${item.quantity}) - $${item.price}<br/>
@@ -127,5 +127,22 @@
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Date formatting for all order dates
+        document.querySelectorAll('.orderDate').forEach(function(dateElement) {
+            let rawDate = new Date(dateElement.textContent.trim());
+            let formattedDate = rawDate.toLocaleString("en-US", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+                hour12: true
+            });
+            dateElement.textContent = formattedDate;
+        });
+    </script>
 </body>
 </html>

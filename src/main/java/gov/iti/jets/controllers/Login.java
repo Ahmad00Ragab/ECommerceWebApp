@@ -12,6 +12,7 @@ import gov.iti.jets.services.CartService;
 import gov.iti.jets.services.UserService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -32,6 +33,8 @@ public class Login extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
+        String rememberMe = request.getParameter("rememberMe"); // Get the checkbox value
+
 
         try {
             Optional<User> user = userService.login(email, password);
@@ -39,9 +42,22 @@ public class Login extends HttpServlet {
             log(user.get().getUsername());
             request.getSession().setAttribute("userId", user.get().getId());
 
-//            // Load cart items for the user bgrb yro7 3al cart 3ashan kont bgrbha bel marra
-//            Set<CartItem> cartItems = cartService.findCartByUserId(user.get().getId());
-//            request.getSession().setAttribute("cartItems", cartItems);
+            // Set cookie with user id
+            String cookieValue = String.valueOf(user.get().getId());
+            Cookie cookie = new Cookie("userId", cookieValue);
+
+            // Set cookie lifespan
+            if ("on".equals(rememberMe)) {
+                cookie.setMaxAge(60 * 60 * 24 * 7);
+            } else {
+                cookie.setMaxAge(-1);
+            }
+
+            cookie.setPath("/");
+            cookie.setHttpOnly(true);
+            cookie.setSecure(true);
+
+            response.addCookie(cookie);
 
             response.sendRedirect(request.getContextPath() + "/index.jsp");
         } catch (Exception e) {
