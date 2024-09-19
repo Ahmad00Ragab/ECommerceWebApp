@@ -20,15 +20,15 @@ public class UserLogoutServlet extends HttpServlet {
              session.invalidate(); // Ends the session
          }
 
-        // delete cookies
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                cookie.setMaxAge(0);
-                cookie.setPath("/");
-                response.addCookie(cookie);
-            }
-        }
+//        // delete cookies
+//        Cookie[] cookies = request.getCookies();
+//        if (cookies != null) {
+//            for (Cookie cookie : cookies) {
+//                cookie.setMaxAge(0);
+//                cookie.setPath("/");
+//                response.addCookie(cookie);
+//            }
+//        }
 
         // Redirect to the login page or home page
         response.sendRedirect(request.getContextPath() + "/login.jsp");

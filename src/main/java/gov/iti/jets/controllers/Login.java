@@ -42,22 +42,22 @@ public class Login extends HttpServlet {
             log(user.get().getUsername());
             request.getSession().setAttribute("userId", user.get().getId());
 
-            // Set cookie with user id
-            String cookieValue = String.valueOf(user.get().getId());
-            Cookie cookie = new Cookie("userId", cookieValue);
-
-            // Set cookie lifespan
-            if ("on".equals(rememberMe)) {
-                cookie.setMaxAge(60 * 60 * 24 * 7);
-            } else {
-                cookie.setMaxAge(-1);
-            }
-
-            cookie.setPath("/");
-            cookie.setHttpOnly(true);
-            cookie.setSecure(true);
-
-            response.addCookie(cookie);
+//            // Set cookie with user id
+//            String cookieValue = String.valueOf(user.get().getId());
+//            Cookie cookie = new Cookie("userId", cookieValue);
+//
+//            // Set cookie lifespan
+//            if ("on".equals(rememberMe)) {
+//                cookie.setMaxAge(60 * 60 * 24 * 7);
+//            } else {
+//                cookie.setMaxAge(-1);
+//            }
+//
+//            cookie.setPath("/");
+//            cookie.setHttpOnly(true);
+//            cookie.setSecure(true);
+//
+//            response.addCookie(cookie);
 
             response.sendRedirect(request.getContextPath() + "/index.jsp");
         } catch (Exception e) {
