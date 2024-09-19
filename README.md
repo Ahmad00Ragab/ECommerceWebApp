@@ -21,9 +21,10 @@ Shoesly is an e-commerce web application designed for seamless shopping of shoes
 - **JSTL** (JSP Standard Tag Library) for cleaner JSP code.
 - **Bootstrap** for responsive design and front-end styling.
 - **Maven** for project dependency management and builds.
-
+- 
 ## Developers
-- **Antony Boutros**   - **Abdulmajeed Mohamed** - **Ahmed Haroun**
+- **Antony Boutros**&nbsp;&nbsp;&nbsp;&nbsp;**Abdulmajeed Mohamed**&nbsp;&nbsp;&nbsp;&nbsp;**Ahmed Haroun**
+
 
 
 
