@@ -33,7 +33,7 @@
     <link rel="stylesheet" href="css/ion.rangeSlider.skinFlat.css" />
     <link rel="stylesheet" href="css/main.css">
 
-    <style>
+    <%-- <style>
         /* Add padding/margin to the image */
         .single-prd-item img {
             margin-top: 30px;
@@ -45,8 +45,35 @@
         /* Move product details slightly to the right */
         .s_product_text {
             padding-left: 30px;
-        }
-    </style>
+        } --%>
+
+        <style>
+            /* Add padding/margin to the image */
+            .single-prd-item img {
+                margin-top: 30px;
+                margin-bottom: 30px;
+                padding: 20px;
+                max-width: 100%;
+            }
+
+            /* Move product details slightly to the right */
+            .s_product_text {
+                padding-left: 30px;
+            }
+
+            /* Add space below the add-to-cart button */
+            .card_area {
+                margin-bottom: 40px; /* Adjust this value as needed */
+            }
+
+            /* Optional: Add more space to the success message */
+            #successMessage {
+                margin-top: 10px; /* Space between the button and the success message */
+            }
+        </style>
+
+<%-- 
+    </style> --%>
 </head>
 
 <body lang="en" class="no-js">
@@ -118,15 +145,59 @@
                 </div>
 
                 <!-- Add to Cart Button -->
-                <div class="card_area d-flex align-items-center">
+                <%-- <div class="card_area d-flex align-items-center">
                     <a class="primary-btn" href="cart?action=add&productId=${product.id}">Add to Cart</a>
                     <a class="icon_btn" href="#"><i class="lnr lnr-diamond"></i></a>
                     <a class="icon_btn" href="#"><i class="lnr lnr-heart"></i></a>
+                </div> --%>
+                <!-- Add to Cart Button -->
+                <div class="card_area d-flex align-items-center">
+                    <a href="javascript:void(0);" class="primary-btn add-to-cart" data-product-id="${product.id}">Add to Cart</a>
+                    <a class="icon_btn" href="#"><i class="lnr lnr-diamond"></i></a>
+                    <a class="icon_btn" href="#"><i class="lnr lnr-heart"></i></a>
                 </div>
+
+                <!-- Success Message -->
+                <div id="successMessage" style="display:none; color: green; font-weight: bold;">
+                    Item added to cart successfully!
+                </div>
+
             </div>
         </div>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.add-to-cart').click(function() {
+            var productId = $(this).data('product-id');
+            
+            $.ajax({
+                url: 'cart',
+                method: 'POST',
+                data: {
+                    action: 'add',
+                    productId: productId
+                },
+                success: function(response) {
+                    // Show success message
+                    $('#successMessage').show().delay(2000).fadeOut();
+                },
+                error: function(xhr, status, error) {
+                    if (xhr.status === 401) {
+                        alert("Please log in to add items to the cart.");
+                        window.location.href = "login";
+                    } else {
+                        // Handle other errors
+                        alert("Error: " + (xhr.responseText || "Failed to add item to cart. Please try again."));
+                    }
+                }
+            });
+        });
+    });
+</script>
+
 
 <%@ include file="common/footer.jsp" %>
 </body>
