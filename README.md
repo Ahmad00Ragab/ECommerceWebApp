@@ -62,7 +62,7 @@ Shoesly is an e-commerce web application designed for seamless shopping of shoes
    - The application automatically generates the necessary database schema based on the Hibernate configuration.
 
 ## Usage
-
+- Simulation Video for the application (https://www.linkedin.com/posts/ahmad-haroun-422125124_java-jsp-hibernate-activity-7244470237943742465-Q4Ai?utm_source=share&utm_medium=member_desktop)
 - Navigate to the homepage and browse available products.
 - Register or log in to add items to your cart.
 - Proceed to checkout when ready to place your order.
